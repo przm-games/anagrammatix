@@ -18,6 +18,8 @@ exports.initGame = function(sio, socket){
     gameSocket.on('hostCountdownFinished', hostStartGame);
     gameSocket.on('hostNextRound', hostNextRound);
 
+    gameSocket.on('gameInstantiated', generateSessionData);
+
     // Player Events
     gameSocket.on('playerJoinGame', playerJoinGame);
     gameSocket.on('playerAnswer', playerAnswer);
@@ -29,6 +31,18 @@ exports.initGame = function(sio, socket){
    *       HOST FUNCTIONS        *
    *                             *
    ******************************* */
+function generateSessionData(gameId) {
+
+    console.log('generateSessionData');
+    //TODO generate game data
+    //terrain, count positions, players
+    //then send to current Game instance to render 
+
+    var sessionData = {};
+
+    this.emit('sessionDataGenerated',sessionData);
+    //io.sockets.in(gameId).emit('sessionDataGenerated',sessionData);
+}
 
 /**
  * The 'START' button was clicked and 'hostCreateNewGame' event occurred.
@@ -64,6 +78,9 @@ function hostPrepareGame(gameId) {
  */
 function hostStartGame(gameId) {
     console.log('Game Started.');
+
+    io.sockets.in(gameId).emit('presentScreen',gameId);
+
     sendWord(0,gameId);
 };
 

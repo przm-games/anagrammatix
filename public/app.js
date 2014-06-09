@@ -31,6 +31,9 @@ jQuery(function($){
             IO.socket.on('hostCheckAnswer', IO.hostCheckAnswer);
             IO.socket.on('gameOver', IO.gameOver);
             IO.socket.on('error', IO.error );
+
+            //IO.socket.on('presentScreen', IO.createGameView );
+            IO.socket.on('sessionDataGenerated', IO.renderGameView );
         },
 
         /**
@@ -48,6 +51,10 @@ jQuery(function($){
          */
         onNewGameCreated : function(data) {
             App.Host.gameInit(data);
+
+
+            // OVERRIDE to debug gameboard screen
+            IO.createGameView(data);
         },
 
         /**
@@ -68,9 +75,54 @@ jQuery(function($){
          * Both players have joined the game.
          * @param data
          */
+        createGameView: function(data) {
+
+            if(App.myRole === 'Host') {
+                //App.Host.checkAnswer(data);
+
+                ig.main( '#canvas', MyGame, 60, 1080, 1080 /*scale, loaderClass*/ );
+
+                // Wait until a game has been established before
+                // requesting game data to render.
+
+            var interval = setInterval(function() {
+                console.log('intstantiating game');
+                if (ig.game) {
+                    //ig.client = new (clientClass)();
+                    console.log('gameIntstantiated');
+                    console.log(App.gameId);
+                    IO.socket.emit("gameInstantiated",App.gameId);
+                    clearInterval(interval);
+                }
+            }, 100);
+
+                //TODO server should generate game data 
+                //terrain, count positions, players
+
+                //then send to current Game instance to render 
+
+                //ig.game.render();
+            } else {
+
+                // present user actions screen
+
+            }
+
+        }, 
+
+        renderGameView: function(sessionData) {
+            console.log('renderGameView');
+            ig.game.render();
+
+        },
+
+
+
         beginNewGame : function(data) {
             App[App.myRole].gameCountdown(data);
         },
+
+
 
         /**
          * A new set of words for the round is returned from the server.
@@ -250,6 +302,10 @@ jQuery(function($){
              * Show the Host screen containing the game URL and unique game ID
              */
             displayNewGameScreen : function() {
+
+
+                //ig.main( '#canvas', MyGame, 60, 1080, 1080, 1 );
+
                 // Fill the game screen with the appropriate HTML
                 App.$gameArea.html(App.$templateNewGame);
 

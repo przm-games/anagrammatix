@@ -17,6 +17,12 @@ ig.module('game.entities.location')
             this.addAnim('only', 0.3, [0]);
             this.currentAnim = this.anims.only;
 
+        },
+        highlightSelection: function() {
+
+        },
+        restoreSelection: function() {
+            
         }
     });
 });

@@ -114,6 +114,7 @@ MyGame = ig.Game.extend({
 
 	locations: [],
 	terrain: [],
+    numberTokens: [],
 	
 	init: function() {
 		// Initialize your game here; bind keys etc.
@@ -123,11 +124,12 @@ MyGame = ig.Game.extend({
 
 	render: function() {
 		this.setupTerrain();
-		
 
 		this.placeTerrain(this.origins);
 
-        this.placeResourceCounters();
+        this.setupNumberTokens();
+
+        this.placeNumberTokens(this.origins);
 
 		this.setupLocations(this.origins);
 
@@ -145,17 +147,41 @@ MyGame = ig.Game.extend({
 
 	},
 
-    placeResourceCounters: function() {
+    setupNumberTokens: function() {
         //4 player
-        var tokenOrder = [5,2,3,8,10,9,12,11,4,8,10,9,4,5,6,3,11];
+        var numberOrder = [5,2,6,3,8,10,9,12,11,4,8,10,9,4,5,6,3,11];
+        
         //5-6 player
         //var tokenOrder = [2,5,4,6,3,9,8,11,11,10,6,3,8,4,8,10,11,12,10,5,4,9,5,9,12,3,2,6];
 
-        for (var i=0;i<tokenOrder.length;i++) {
-            ig.game.spawnEntity(EntityResourceCounter, 100+40*i, 200, {number:tokenOrder[i]});
+        // generate numberToken entities
+        for (var i=0;i<numberOrder.length;i++) {
+            var numberToken = ig.game.spawnEntity(EntityResourceCounter, 100+40*i, 200, {number:numberOrder[i]});
+            //this.numberTokens.push(numberToken);
         }
-        
 
+    },
+
+    placeNumberTokens: function(origins) {
+        var self = this;
+
+        var placementOrder = [0,3,7,12,16,17,18,15,11,6,2,1,4,8,13,14,10,5,9];
+        var numberTokens = ig.game.getEntitiesByType(EntityResourceCounter);
+
+            placementOrder.forEach(function(terrainIndex,orderIndex){
+
+                var targetOrigin = origins[terrainIndex];
+                var numberToken = numberTokens[orderIndex];
+
+                // TODO 
+                // check for desert tile 
+                // and skip number token
+
+                // place terrain at origin
+                numberToken.pos.x = targetOrigin.x;
+                numberToken.pos.y = targetOrigin.y;
+                // TODO animate terrain with predetermined type to origin
+            });
     },
 	
 	update: function() {

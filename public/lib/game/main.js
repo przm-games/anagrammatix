@@ -38,18 +38,23 @@ ig.module(
     var rows = [3, 4, 5, 4, 3];
 
 
-    var Terrain = function(id,type){
+    var Terrain = function(id,type,entity){
 
     	var _id=id;
     	var _type=type;
+        var _entity = entity;
+
     	var _locations=[];
     	var _origin = null;
+
 
     	return {
     		id: _id,
     		type: _type,
-    		setOrigin: function(x,y){
-    			_origin = {x:x,y:y};
+            entity: _entity,
+
+    		setOrigin: function(x,y,index){
+    			_origin = {x:x,y:y,index:index};
     		},
     		getOrigin: function(){
     			return _origin;
@@ -115,6 +120,8 @@ MyGame = ig.Game.extend({
 	locations: [],
 	terrain: [],
     numberTokens: [],
+
+    desert: null,
 	
 	init: function() {
 		// Initialize your game here; bind keys etc.
@@ -168,20 +175,26 @@ MyGame = ig.Game.extend({
         var placementOrder = [0,3,7,12,16,17,18,15,11,6,2,1,4,8,13,14,10,5,9];
         var numberTokens = ig.game.getEntitiesByType(EntityResourceCounter);
 
-            placementOrder.forEach(function(terrainIndex,orderIndex){
+        // check for desert tile 
+        // and skip number token
+        var desertIndex = this.desert.getOrigin().index;
+        placementOrder = _.without(placementOrder,desertIndex);
 
-                var targetOrigin = origins[terrainIndex];
-                var numberToken = numberTokens[orderIndex];
+        console.log('desert tile at:');
+        console.log(this.desert.getOrigin());
 
-                // TODO 
-                // check for desert tile 
-                // and skip number token
+        
+        placementOrder.forEach(function(terrainIndex,orderIndex){
 
-                // place terrain at origin
-                numberToken.pos.x = targetOrigin.x;
-                numberToken.pos.y = targetOrigin.y;
-                // TODO animate terrain with predetermined type to origin
-            });
+            var targetOrigin = origins[terrainIndex];
+            var numberToken = numberTokens[orderIndex];
+
+
+            // place terrain at origin
+            numberToken.pos.x = targetOrigin.x;
+            numberToken.pos.y = targetOrigin.y;
+            // TODO animate terrain with predetermined type to origin
+        });
     },
 	
 	update: function() {
@@ -406,10 +419,18 @@ MyGame = ig.Game.extend({
                 }
                 
 
-                ig.game.spawnEntity(terrainClass, defaultOrigin.x, defaultOrigin.y);
+                var entity = ig.game.spawnEntity(terrainClass, defaultOrigin.x, defaultOrigin.y);
 
                 // new Terrain model
-                var terrain = new Terrain(i,type);
+                var terrain = new Terrain(i,type,entity);
+
+                // cache desert tile for other setup
+                if (type=="desert") {
+                    self.desert = terrain;
+                    console.log('desert tile!');
+                    console.log(terrain);
+                }
+
                 self.terrain.push(terrain);
             }
         }
@@ -430,18 +451,29 @@ MyGame = ig.Game.extend({
     placeTerrain: function(origins) {
     	var self = this;
 
-    	var terrain = ig.game.getEntitiesByType(EntityTerrain);
-            terrain = Utils.shuffle(terrain);
-            //var terrain = ig.game.getEntitiesBy(EntityTerrain);
+    	// var terrain = ig.game.getEntitiesByType(EntityTerrain);
+        //terrain = Utils.shuffle(terrain);
+        
+        self.terrain = _.shuffle(self.terrain);
 
             origins.forEach(function(origin,originIndex){
 
-            	self.terrain[originIndex].setOrigin(origin.x,origin.y);
-            	console.log(self.terrain[originIndex].getOrigin());
+                var terrain = self.terrain[originIndex];
+
+                console.log(origin);
+                console.log(terrain);
+
+                if (terrain.type=="desert") {
+                    console.log('desert tile!');
+                    
+                }
+
+            	terrain.setOrigin(origin.x,origin.y,originIndex);
+            	console.log(terrain.getOrigin());
 
                 // place terrain at origin
-                terrain[originIndex].pos.x = origin.x;
-                terrain[originIndex].pos.y = origin.y;
+                terrain.entity.pos.x = origin.x;
+                terrain.entity.pos.y = origin.y;
                 // TODO animate terrain with predetermined type to origin
             });
     }

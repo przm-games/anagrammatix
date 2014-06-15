@@ -1,13 +1,13 @@
-ig.module('game.entities.developmentCard')
+ig.module('game.entities.resourceCard')
 .requires(
     'impact.game',
     'impact.entity',
     'game.atlas'
 )
 .defines(function() {
-    var config = Atlas.entities.developmentCard;
+    var config = Atlas.entities.resource;
 
-    EntityDevelopmentCard = ig.Entity.extend({
+    EntityResourceCard = ig.Entity.extend({
         size: config.size,
         offset: { x: config.size.x/2,y: config.size.y/2 },
         animSheet: new ig.AnimationSheet(config.sprite, config.size.x, config.size.y),
@@ -16,6 +16,7 @@ ig.module('game.entities.developmentCard')
 
             this.addAnim('only', 0.3, [0]);
             this.currentAnim = this.anims.only;
+
         }
     });
 });

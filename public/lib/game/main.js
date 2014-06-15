@@ -5,18 +5,27 @@ ig.module(
 	'impact.game',
 	'impact.font',
 
-	'game.entities.location',
+    'game.atlas',
+    'game.utils',
 
-	'game.entities.terrain',
+    'game.entities.terrain',
+    'game.entities.port',
+    'game.entities.road',
+    'game.entities.city',
+    'game.entities.settlement',
+    'game.entities.robber',
+	'game.entities.location',
+    'game.entities.resourceCard',
+    'game.entities.resourceCounter',
+    'game.entities.developmentCard',
+
     'game.entities.terrainDesert',
     'game.entities.terrainFields',
     'game.entities.terrainForest',
     'game.entities.terrainHills',
     'game.entities.terrainMountains',
-    'game.entities.terrainPasture',
+    'game.entities.terrainPasture'
     //'impact.debug.debug',
-    'game.atlas',
-    'game.utils'
 )
 .defines(function(){
 
@@ -118,8 +127,36 @@ MyGame = ig.Game.extend({
 
 		this.placeTerrain(this.origins);
 
-		this.setupLocations();
+        this.placeResourceCounters();
+
+		this.setupLocations(this.origins);
+
+        // OVERRIDE
+        // test all other entities
+        // ig.game.spawnEntity(EntityPort, 200, 200);
+        // ig.game.spawnEntity(EntityRoad, 200, 200);
+        // ig.game.spawnEntity(EntityCity, 200, 200);
+        // ig.game.spawnEntity(EntitySettlement, 200, 200);
+        // ig.game.spawnEntity(EntityRobber, 200, 200);
+        // ig.game.spawnEntity(EntityLocation, 200, 200);
+        // ig.game.spawnEntity(EntityResourceCounter, 200, 200);
+        // ig.game.spawnEntity(EntityResourceCard, 200, 200);
+        // ig.game.spawnEntity(EntityDevelopmentCard, 200, 200);
+
 	},
+
+    placeResourceCounters: function() {
+        //4 player
+        var tokenOrder = [5,2,3,8,10,9,12,11,4,8,10,9,4,5,6,3,11];
+        //5-6 player
+        //var tokenOrder = [2,5,4,6,3,9,8,11,11,10,6,3,8,4,8,10,11,12,10,5,4,9,5,9,12,3,2,6];
+
+        for (var i=0;i<tokenOrder.length;i++) {
+            ig.game.spawnEntity(EntityResourceCounter, 100+40*i, 200, {number:tokenOrder[i]});
+        }
+        
+
+    },
 	
 	update: function() {
 		// Update all entities and backgroundMaps

@@ -161,7 +161,7 @@ ig.module(
             },
             getLocation: function(location) {
                 return _location;
-            },
+            }
         };
     }
 
@@ -246,6 +246,7 @@ MyGame = ig.Game.extend({
 	locations: [],
 	terrain: [],
     numberTokens: [],
+    ports: [],
 
     desert: null,
 	
@@ -267,6 +268,7 @@ MyGame = ig.Game.extend({
 		this.setupLocations(this.origins);
 
         this.setupPorts();
+        this.placePorts();
 
         // OVERRIDE
         // test all other entities
@@ -284,6 +286,33 @@ MyGame = ig.Game.extend({
 
     setupPorts: function() {
         var self = this;
+
+        spawnPort('brick');
+        spawnPort('sheep');
+        spawnPort('ore');
+        spawnPort('wheat');
+        spawnPort('wood');
+        spawnPort('any');
+        spawnPort('any');
+        spawnPort('any');
+
+        function spawnPort(type) {
+            var entity = ig.game.spawnEntity(EntityPort, defaultOrigin.x, defaultOrigin.y);
+            var pieceId = 0;
+            var port = new Piece("port",pieceId,entity);
+            port.entity.setResourceType(type);
+
+            self.ports.push(port);
+        }
+    },
+
+    placePorts: function() {
+        var self = this;
+
+
+
+
+
         //create ordered list of outer edges
 
         //4 player
@@ -329,8 +358,11 @@ MyGame = ig.Game.extend({
 
         console.log('port edges:');
         console.log(portEdges);
+
+        //shuffle ports
+        self.ports = _.shuffle(self.ports);
     
-        _.each(portEdges,function(location){
+        _.each(portEdges,function(location,index){
             location.show();
 
             //rotate port entity to line up with edge
@@ -339,37 +371,10 @@ MyGame = ig.Game.extend({
             console.log('location index:');
             console.log(egdePosition);
 
-            var angle, xOffset, yOffset;
-            switch (egdePosition) {
-                case 1:
-                    angle = Math.PI/6;
-                break;
-                case 3:
-                    angle = Math.PI/2;
-                break;
-                case 5:
-                    angle = Math.PI/6*5;
-                break;
-                case 7:
-                    angle = -Math.PI/6*5;
-                break;
-                case 9:
-                    angle = -Math.PI/2;
-                break;
-                case 11:
-                    angle = -Math.PI/6;
-                break;
-            }
+            var port = self.ports[index];
 
-
-            //TODO
-            //calculate port origin offset
-
-            var entity = ig.game.spawnEntity(EntityPort, location.position.x, location.position.y);
-            var pieceId = 0;
-            var port = new Piece("port",pieceId,entity);
-
-            port.entity.rotateToAngle(angle);
+            port.entity.pos.x = location.position.x;
+            port.entity.pos.y = location.position.y;
             port.entity.alignToEdge(egdePosition);
 
             var neighbors = location.getNeighbors();

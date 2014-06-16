@@ -14,17 +14,26 @@ ig.module('game.entities.port')
         init: function(x, y, settings) {
             this.parent(x, y, settings);
 
-            this.addAnim('only', 0.3, [0]);
-            this.currentAnim = this.anims.only;
+            this.addAnim('brick', 0.3, [0]);
+            this.addAnim('sheep', 0.3, [1]);
+            this.addAnim('ore', 0.3, [2]);
+            this.addAnim('wheat', 0.3, [3]);
+            this.addAnim('wood', 0.3, [4]);
+            this.addAnim('any', 0.3, [5]);
+            this.currentAnim = this.anims.brick;
 
         },
         rotateToAngle: function(angle) {
             this.currentAnim.angle = angle;
-
-
+        },
+        setResourceType: function(type) {
+            this.currentAnim = this.anims[type];
         },
         alignToEdge: function(edgeIndex) {
             var  angle, xOffset, yOffset;
+
+            //TODO 
+            //calculate proper offsets
 
             switch (edgeIndex) {
                 case 1:
@@ -59,9 +68,10 @@ ig.module('game.entities.port')
                 break;
             }
 
-            console.log(xOffset);
+            // console.log(xOffset);
+            // console.log(yOffset);
 
-            console.log(yOffset);
+            this.rotateToAngle(angle);
 
             this.pos.x +=xOffset;
             this.pos.y +=yOffset;

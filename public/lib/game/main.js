@@ -62,7 +62,9 @@ ig.module(
     		addLocation:function(location){
     			//if location is unique
     			//if locations.length<12
-    			_locations.push(location);
+    			location.setIndex(_locations.length);
+                _locations.push(location);
+
     		},
     		getLocations: function(){
     			return _locations;
@@ -173,6 +175,7 @@ ig.module(
 		var _neighbors = []; //PieceLocation
 		var _pieces = []; //Piece
         var _entity = entity;
+        var _index = null;
 
     	return {
     		id: _id,
@@ -199,6 +202,13 @@ ig.module(
             removePiece: function(piece){
                 //TODO
                 //remove piece
+            },
+
+            setIndex: function(index) {
+                _index = index;
+            },
+            getIndex: function(index) {
+                return _index;
             },
 
     		addOwner: function(owner){
@@ -322,6 +332,50 @@ MyGame = ig.Game.extend({
     
         _.each(portEdges,function(location){
             location.show();
+
+            //rotate port entity to line up with edge
+            var egdePosition = location.getIndex();
+
+            console.log('location index:');
+            console.log(egdePosition);
+
+            var angle, xOffset, yOffset;
+            switch (egdePosition) {
+                case 1:
+                    angle = Math.PI/6;
+                break;
+                case 3:
+                    angle = Math.PI/2;
+                break;
+                case 5:
+                    angle = Math.PI/6*5;
+                break;
+                case 7:
+                    angle = -Math.PI/6*5;
+                break;
+                case 9:
+                    angle = -Math.PI/2;
+                break;
+                case 11:
+                    angle = -Math.PI/6;
+                break;
+            }
+
+
+            //TODO
+            //calculate port origin offset
+
+            var entity = ig.game.spawnEntity(EntityPort, location.position.x, location.position.y);
+            var pieceId = 0;
+            var port = new Piece("port",pieceId,entity);
+
+            port.entity.rotateToAngle(angle);
+            port.entity.alignToEdge(egdePosition);
+
+            var neighbors = location.getNeighbors();
+            _.each(neighbors,function(neighbor){
+                neighbor.show();
+            });
         });
     },
 

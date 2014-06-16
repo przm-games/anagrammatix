@@ -18,11 +18,53 @@ ig.module('game.entities.port')
             this.currentAnim = this.anims.only;
 
         },
-        setOwner: function(playerId) {
-            
-        },
-        addPiece: function(piece){
+        rotateToAngle: function(angle) {
+            this.currentAnim.angle = angle;
 
+
+        },
+        alignToEdge: function(edgeIndex) {
+            var  angle, xOffset, yOffset;
+
+            switch (edgeIndex) {
+                case 1:
+                    angle = Math.PI/6;
+                    xOffset = config.size.x/4;
+                    yOffset = -config.size.y/3;
+                break;
+                case 3:
+                    angle = Math.PI/2;
+                    xOffset = config.size.x/2;
+                    yOffset = 0;
+                break;
+                case 5:
+                    angle = Math.PI/6*5;
+                    xOffset = config.size.x/4;
+                    yOffset = config.size.y/3;
+                break;
+                case 7:
+                    angle = -Math.PI/6*5;
+                    xOffset = -config.size.x/4;
+                    yOffset = config.size.y/3;
+                break;
+                case 9:
+                    angle = -Math.PI/2;
+                    xOffset = -config.size.x/2;;
+                    yOffset = 0;
+                break;
+                case 11:
+                    angle = -Math.PI/6;
+                    xOffset = -config.size.x/4;
+                    yOffset = -config.size.y/3;
+                break;
+            }
+
+            console.log(xOffset);
+
+            console.log(yOffset);
+
+            this.pos.x +=xOffset;
+            this.pos.y +=yOffset;
         }
     });
 });

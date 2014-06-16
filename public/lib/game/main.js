@@ -295,6 +295,7 @@ MyGame = ig.Game.extend({
         spawnPort('any');
         spawnPort('any');
         spawnPort('any');
+        spawnPort('any');
 
         function spawnPort(type) {
             var entity = ig.game.spawnEntity(EntityPort, defaultOrigin.x, defaultOrigin.y);
@@ -308,10 +309,6 @@ MyGame = ig.Game.extend({
 
     placePorts: function() {
         var self = this;
-
-
-
-
 
         //create ordered list of outer edges
 

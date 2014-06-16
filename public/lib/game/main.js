@@ -66,16 +66,101 @@ ig.module(
     		},
     		getLocations: function(){
     			return _locations;
-    		}
+    		},
+
+            hideLocations: function() {
+                _.each(_locations,function(location){
+                    //location.entity.zIndex=-1;
+                    //console.log(location.entity);
+                    location.hide();
+                });
+                //ig.game.sortEntitiesDeferred();
+            },
+
+            showLocations: function(locations) {
+                _.each(locations,function(locationIndex){
+                    _locations[locationIndex].show();
+                });
+            },
+
+            buildSettlement: function(position) {
+
+                //get vertex locations
+                var location = _locations[position*2];
+
+                var entity = ig.game.spawnEntity(EntitySettlement, location.position.x, location.position.y);
+                var pieceId = 0;
+                var settlement = new Piece("settlement",pieceId,entity);
+
+                location.addPiece(settlement);
+                settlement.setLocation(location);
+            },
+
+            buildRoad: function(position) {
+
+                //get vertex locations
+                var location = _locations[1+position*2];
+
+                var entity = ig.game.spawnEntity(EntityRoad, location.position.x, location.position.y);
+                var pieceId = 0;
+                var road = new Piece("road",pieceId,entity);
+
+                var angle;
+                switch (position) {
+                    case 0:
+                    case 3:
+                        angle = Math.PI*2/3;
+                    break;
+                    case 1:
+                    case 4:
+                        angle = 0;
+                    break;
+                    case 2:
+                    case 5:
+                        angle = Math.PI*1/3;
+                    break;
+                }
+
+                road.entity.rotateToAngle(angle);
+
+                location.addPiece(road);
+                road.setLocation(location);
+            },
+
+            moveRobber: function(location) {
+
+
+            }
     		
     	};
     };
 
-    var Piece = function(){
-    	return {};
+    var Piece = function(type,id,entity){
+    	
+        var _id = id;
+        var _type = type;
+        var _entity = entity;
+
+        var _location = null; //PieceLocation
+
+        return {
+            entity: _entity,
+
+            setLocation: function(location) {
+                console.log(location);
+                _location = location;
+
+                _entity.pos.x = _location.position.x;
+                _entity.pos.y = _location.position.y;
+            },
+            getLocation: function(location) {
+                return _location;
+            },
+        };
     }
 
-	var PieceLocation = function(x,y,type,id) {
+	var PieceLocation = function(x,y,type,id,entity) {
+        var self = this;
 
 		var _id = id;
 		var _owners = []; //Terrain
@@ -83,12 +168,37 @@ ig.module(
 		var _position = {x:x,y:y};
 		var _neighbors = []; //PieceLocation
 		var _pieces = []; //Piece
+        var _entity = entity;
 
     	return {
     		id: _id,
     		type: _type,
     		position: _position,
+            entity: _entity,
+
+            hide: function() {
+
+                entity.pos.x = -1;
+                entity.pos.y = -1;
+            },
+            show: function() {
+
+                entity.pos.x = _position.x;
+                entity.pos.y = _position.y;
+
+            },
+
+            addPiece: function(piece){
+                _pieces.push(piece);
+                //piece.setLocation(self);
+            },
+            removePiece: function(piece){
+                //TODO
+                //remove piece
+            },
+
     		addOwner: function(owner){
+                //TODO
     			//if owner unique 
     			//if owners.length <3
     			_owners.push(owner);
@@ -96,7 +206,9 @@ ig.module(
     		getOwners: function(){
     			return _owners;
     		},
+
     		addNeighbor: function(neighbor){
+                //TODO
     			//if neighbots.length<=3
     			//if neightbor unique
     			_neighbors.push(neighbor);
@@ -217,34 +329,21 @@ MyGame = ig.Game.extend({
 	},
 
 	setupLocations: function() {
-
-		//ig.game.spawnEntity(EntityLocation, defaultOrigin.x, defaultOrigin.y);
-
 		var self = this;
 
         var origin = {x:boardCenterOffsetX+2*xSpacing,y:boardCenterOffsetY};
 
-        console.log('terrain models:');
-        console.log(self.terrain);
 
         self.terrain.forEach(function(terrain, index){
-
-        	//if (index>1) return;
-
-        	// console.log('terrain '+index);
-        	// console.log('-----------');
-
-            generateLocationOrigins(terrain);
-
-			console.log(terrain.getLocations());        
+            generateLocationOrigins(terrain);       
         });
-
-        console.log(self.locations);
 
 
         _.each(self.locations,function(location){
         	var potentialNeighbors = findNeighbors(location);
         	var currentNeighbors = location.getNeighbors();
+
+            console.log('location.entity.zIndex: '+location.entity.zIndex);
 
         	if (currentNeighbors<potentialNeighbors) {
         		var newNeighbors = _.difference(potentialNeighbors,currentNeighbors);
@@ -256,6 +355,18 @@ MyGame = ig.Game.extend({
         	}
         });
                
+
+        self.terrain.forEach(function(terrain, index){
+            terrain.hideLocations();
+            //terrain.showLocations([0,2,4,6,8,10]);
+        });
+
+        self.terrain[5].showLocations([0,2,4,6,8,10]);
+        self.terrain[5].buildSettlement(0);
+        self.terrain[5].buildRoad(0);
+        self.terrain[5].buildRoad(1);
+        self.terrain[5].buildRoad(2);
+
 
         function findNeighbors(location){
 
@@ -326,8 +437,9 @@ MyGame = ig.Game.extend({
             		var locationType = (index%2==0) ? "edge" : "vertex";
             		var locationId = self.locations.length;
 
+                    var entity = ig.game.spawnEntity(EntityLocation, origin.x, origin.y);
             		// new Piece location model
-            		var pieceLocation = new PieceLocation(origin.x,origin.y,locationType,locationId);
+            		var pieceLocation = new PieceLocation(origin.x,origin.y,locationType,locationId,entity);
 
             		self.locationOrigins.push({
             			x:origin.x,
@@ -341,11 +453,6 @@ MyGame = ig.Game.extend({
             		pieceLocation.addOwner(terrain);
 
             		self.locations.push(pieceLocation);
-
-            		// OVERRIDE
-            		ig.game.spawnEntity(EntityLocation, origin.x, origin.y);
-
-
             	}
 
             });

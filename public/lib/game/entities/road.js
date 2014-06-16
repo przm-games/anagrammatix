@@ -18,11 +18,8 @@ ig.module('game.entities.road')
             this.currentAnim = this.anims.only;
 
         },
-        setOwner: function(playerId) {
-            
-        },
-        setLocation: function(location) {
-
+        rotateToAngle: function(angle) {
+            this.currentAnim.angle = angle;
         }
     });
 });

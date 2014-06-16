@@ -83,6 +83,10 @@ ig.module(
                 });
             },
 
+            getEdge: function(position) {
+                return _locations[1+position*2];
+            },
+
             buildSettlement: function(position) {
 
                 //get vertex locations
@@ -252,6 +256,8 @@ MyGame = ig.Game.extend({
 
 		this.setupLocations(this.origins);
 
+        this.setupPorts();
+
         // OVERRIDE
         // test all other entities
         // ig.game.spawnEntity(EntityPort, 200, 200);
@@ -265,6 +271,59 @@ MyGame = ig.Game.extend({
         // ig.game.spawnEntity(EntityDevelopmentCard, 200, 200);
 
 	},
+
+    setupPorts: function() {
+        var self = this;
+        //create ordered list of outer edges
+
+        //4 player
+        //i = terrainIndex, e = outer edges
+        var allEdges = [
+            {i:0,e:[4,5,0]},
+            {i:1,e:[5,0]},
+            {i:2,e:[5,0,1]},
+            {i:6,e:[0,1]},
+            {i:11,e:[0,1,2]},
+            {i:15,e:[1,2]},
+            {i:18,e:[1,2,3]},
+            {i:17,e:[2,3]},
+            {i:16,e:[2,3,4]},
+            {i:12,e:[3,4]},
+            {i:7,e:[3,4,5]},
+            {i:3,e:[4,5]}
+        ];
+
+        var outerEdges = [];
+
+        _.each(allEdges,function(edgeList){
+            var terrain = self.terrain[edgeList.i];
+
+            _.each(edgeList.e,function(edgeIndex){
+                outerEdges.push(terrain.getEdge(edgeIndex));
+            });
+        });
+
+        console.log('outer edges:');
+        console.log(outerEdges);
+
+        //9 ports
+        //# of edges between ports
+        //2,2,3,2,2,3,2,2,3
+        var portEdgeIndex = [0,3,6,10,13,16,20,23,26];
+
+        var portEdges = [];
+
+        _.each(portEdgeIndex,function(edgeIndex){
+            portEdges.push(outerEdges[edgeIndex]);
+        });
+
+        console.log('port edges:');
+        console.log(portEdges);
+    
+        _.each(portEdges,function(location){
+            location.show();
+        });
+    },
 
     setupNumberTokens: function() {
         //4 player

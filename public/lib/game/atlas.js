@@ -45,6 +45,10 @@ ig.module('game.atlas')
             developmentCard: {
                 size: { x:90, y:133 },
                 sprite: 'media/sprites/development-sprite.png'
+            },
+            playerMarker: {
+                size: { x:96, y:96 },
+                sprite: 'media/sprites/player-marker.png'
             }
         }
     };

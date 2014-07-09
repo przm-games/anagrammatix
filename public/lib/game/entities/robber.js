@@ -16,7 +16,6 @@ ig.module('game.entities.robber')
 
             this.addAnim('only', 0.3, [0]);
             this.currentAnim = this.anims.only;
-
         },
         setOwner: function(playerId) {
             

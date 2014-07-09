@@ -8,6 +8,8 @@ ig.module(
     'game.atlas',
     'game.utils',
 
+    'game.entities.playerMarker',
+
     'game.entities.terrain',
     'game.entities.port',
     'game.entities.road',
@@ -34,7 +36,7 @@ ig.module(
 	var boardWidth = 1080;
 	var xSpacing = Atlas.global.gridSpacing.x;
     var ySpacing = Atlas.global.gridSpacing.y;
-    var boardCenterOffsetX = (1080-(10*xSpacing))/2, boardCenterOffsetY = (1080-(8*ySpacing))/2;
+    var boardCenterOffsetX = (boardWidth-(10*xSpacing))/2, boardCenterOffsetY = (boardWidth-(8*ySpacing))/2;
     var rows = [3, 4, 5, 4, 3];
 
 
@@ -204,10 +206,10 @@ ig.module(
                 //remove piece
             },
 
-            setIndex: function(index) {
+            setIndex: function(index){
                 _index = index;
             },
-            getIndex: function(index) {
+            getIndex: function(index){
                 return _index;
             },
 
@@ -234,6 +236,41 @@ ig.module(
     	};
     };
 
+    var Player = function(id) {
+
+        var _id = id;
+        var _color = null;
+        var _hand = [];
+        var pieces = [];
+
+        return {
+            setColor: function(color){
+                _color = color;
+            },
+            addPiece: function(piece){
+                
+            },
+            removePiece: function(piece){
+
+            },
+            initiateTrade: function(player){
+
+            },
+            makeTrade: function(){
+
+            },
+            purchase: function(item){
+                //development card
+                //building
+            }
+        };
+
+    };
+
+    var items = [
+
+    ]; 
+
 
 MyGame = ig.Game.extend({
 	
@@ -249,12 +286,48 @@ MyGame = ig.Game.extend({
     ports: [],
 
     desert: null,
+
+    players: [
+        { name:'Mike', color:'red'},
+        { name:'dogoodjonathan', color:'blue'},
+        { name:'jimmy chen', color:'white'},
+        { name:'Kailing Chan To', color:'green' }
+    ],
 	
 	init: function() {
 		// Initialize your game here; bind keys etc.
 
 		
 	},
+
+    setupPlayers: function(playerCount) {
+        var self = this;
+
+        console.log(playerCount);
+        //establish player positions on/around board
+
+        //1 position at each of 4 corners
+        var cornerOffset = 100;
+        var positions = [];
+
+        if (playerCount<=4) {
+            positions.push({x:cornerOffset,y:cornerOffset});
+            positions.push({x:cornerOffset,y:boardWidth-cornerOffset});
+            positions.push({x:boardWidth-cornerOffset,y:boardWidth-cornerOffset});
+            positions.push({x:boardWidth-cornerOffset,y:cornerOffset});
+        }
+        
+
+        _.each(positions,function(position,n){
+
+            if (n<playerCount) {
+                var entity = ig.game.spawnEntity(PlayerMarker, position.x, position.y);
+                entity.setIdentifier(self.players[n].color);
+            }            
+        });
+        
+
+    },
 
 	render: function() {
 		this.setupTerrain();
@@ -269,6 +342,9 @@ MyGame = ig.Game.extend({
 
         this.setupPorts();
         this.placePorts();
+
+
+        this.setupPlayers(4);
 
         // OVERRIDE
         // test all other entities

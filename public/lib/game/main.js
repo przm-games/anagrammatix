@@ -31,33 +31,75 @@ ig.module(
 )
 .defines(function(){
 
+    // var catalog = [
+    //     { 
+    //         name: "road",
+    //         cost: [ 
+    //             { type: "wood", quantity: 1 },
+    //             { type: "brick", quantity: 1 }
+    //         ],
+    //         name: "settlement",
+    //         cost: [
+    //             { type: "wood", quantity: 1 },
+    //             { type: "brick", quantity: 1 },
+    //             { type: "wheat", quantity: 1 },
+    //             { type: "sheep", quantity: 1 }
+    //         ],
+    //         name: "city",
+    //         cost: [
+    //             { type: "wheat", quantity: 2 },
+    //             { type: "ore", quantity: 3 }
+    //         ],
+    //         name: "developmentCard",
+    //         cost: [
+    //             { type: "wheat", quantity: 1 },
+    //             { type: "ore", quantity: 1 },
+    //             { type: "sheep", quantity: 1 }
+    //         ]
+    //     }   
+    // ]; 
+
     var catalog = [
         { 
             name: "road",
-            cost: [ 
-                { type: "wood", quantity: 1 },
-                { type: "brick", quantity: 1 }
-            ],
+            cost: {
+                wood: 1,
+                brick: 1
+            } 
+        },
+        {
             name: "settlement",
-            cost: [
-                { type: "wood", quantity: 1 },
-                { type: "brick", quantity: 1 },
-                { type: "wheat", quantity: 1 },
-                { type: "sheep", quantity: 1 }
-            ],
+            cost: {
+                wood: 1,
+                brick: 1,
+                wheat: 1,
+                sheep: 1
+            }
+        },
+        {
             name: "city",
-            cost: [
-                { type: "wheat", quantity: 2 },
-                { type: "ore", quantity: 3 }
-            ],
+            cost: {
+                wheat: 2,
+                ore: 3
+            }
+        },
+        {
             name: "developmentCard",
-            cost: [
-                { type: "wheat", quantity: 1 },
-                { type: "ore", quantity: 1 },
-                { type: "sheep", quantity: 1 }
-            ]
-        }   
+            cost: {
+                wheat: 1,
+                ore: 1,
+                sheep: 1
+            }
+        }
     ]; 
+
+    var conversions = {
+        hills:"brick",
+        mountains: "ore",
+        fields: "wheat",
+        pasture: "sheep",
+        forest: "wood"
+    };
 
     var cardTypes = [
         {
@@ -224,6 +266,10 @@ ig.module(
             generateResources: function() {
                 var self = this;
 
+                if (this.type == "desert") {
+                    return false;
+                }
+
                 var pieces = this.getPieces();
                 console.log(pieces);
 
@@ -269,7 +315,7 @@ ig.module(
 
                 // move cards to recipients
                 _.each(payouts,function(payout){
-                    payout.player.addInventory("resource",resourceCard);
+                    payout.player.addInventory(conversions[self.type],resourceCard);
 
                     console.log("player inventory:");
                     console.log(payout.player.getInventory());
@@ -500,8 +546,38 @@ ig.module(
             },
 
             getEligiblePurchases: function() {
+                var self = this;
 
-                //check player inventory against catalog
+                // check player inventory against catalog
+                var report = {};
+                // cache totals for each type of inventory
+                var totals = {};
+
+                _.each(_inventory,function(inventoryType,key){
+                    console.log(inventoryType);
+                    totals[key] = inventoryType.length;
+                });
+
+                console.log('inventory totals:');
+                console.log(totals);
+
+                _.each(catalog, function(item,name){
+
+                    console.log(item.name);
+                    report[item.name] = true;
+
+                    _.each(item.cost, function(cost,key){
+
+                        if (typeof totals[key]=="undefined" || totals[key]<cost) {
+                            report[item.name] = false;
+                        }
+
+                    });
+
+                });
+
+                console.log("eligible purchases:");
+                console.log(report);
 
             },
             purchase: function( item ){
@@ -627,8 +703,8 @@ MyGame = ig.Game.extend({
         var player = this.players[1];
 
         player.buildSettlement(this.terrain[5],0);
+        player.buildRoad(this.terrain[5],0);
         player.buildRoad(this.terrain[5],1);
-        player.buildRoad(this.terrain[5],2);
         player.buildSettlement(this.terrain[5],2);
 
         this.terrain[1].generateResources();
@@ -636,6 +712,7 @@ MyGame = ig.Game.extend({
         this.terrain[5].generateResources();
         this.terrain[6].generateResources();
 
+        player.getEligiblePurchases();
 
         // self.terrain[5].showLocations([0,2,4,6,8,10]);
         // self.terrain[5].buildSettlement(0);

@@ -133,6 +133,7 @@ ig.module(
     		getOrigin: function(){
     			return _origin;
     		},
+
     		addLocation:function(location){
     			//if location is unique
     			//if locations.length<12
@@ -143,6 +144,10 @@ ig.module(
     		getLocations: function(){
     			return _locations;
     		},
+            
+            addPiece: function(piece){
+                _pieces.push(piece);   
+            },
             getPieces: function(){
                 return _pieces;
             },
@@ -155,7 +160,6 @@ ig.module(
                 });
                 //ig.game.sortEntitiesDeferred();
             },
-
             showLocations: function(locations) {
                 _.each(locations,function(locationIndex){
                     _locations[locationIndex].show();
@@ -199,64 +203,81 @@ ig.module(
                     break;
                 }
 
-
+                
                 location.addPiece(piece);
                 piece.setLocation(location);
 
+                // add piece ownership to all terrain sharing that location
+                // every vertex should have 3 owners
+                // every edge should have 2 owners
+               
+                //console.log("location owners:");
+                //console.log(location.getOwners());
+
+                var sharedTerrain = location.getOwners();
+
+                _.each(sharedTerrain,function(terrain){
+                    terrain.addPiece(piece);
+                });
             },
-/*
-            buildSettlement: function(position,owner) {
 
-                //get vertex locations
-                var location = _locations[position*2];
+            generateResources: function() {
+                var self = this;
 
-                var entity = ig.game.spawnEntity(EntitySettlement, location.position.x, location.position.y);
+                var pieces = this.getPieces();
+                console.log(pieces);
+
+                var resourceTotal = 0;
+                var resourceType = null;
+                var payouts = [];
+
+                // determine quantity & recipients from bulidings on terrain
+                _.each(pieces, function(piece) {
+                    console.log(piece.type);
+
+                    var resourceCount ;
+
+                    if (piece.type=="road") {
+                        resourceCount = 0;
+                    } else if (piece.type=="settlement") {
+                        resourceCount = 1;
+                    } else if (piece.type=="city") {
+                        resourceCount = 2;
+                    }
+
+                    resourceTotal+=resourceCount;
+
+                    if (resourceCount>0) {
+                        payouts.push({player:piece.getOwner(),count:resourceCount});
+                    }
+                });
+
+                console.log("total resources generated:");
+                console.log(resourceTotal);
+                console.log("resource recipients:");
+                console.log(payouts);
+                // spawn resource cards
+
+                var location = this.getOrigin();
                 var pieceId = 0;
-                var settlement = new Piece("settlement",pieceId,entity);
+                var entity = ig.game.spawnEntity(EntityResourceCard, location.x, location.y);
+                
 
-                settlement.setOwner(owner);
+                var resourceCard = new ResourceCard("resource",pieceId,entity);
+                console.log(resourceCard);
+                //var settlement = new Piece("settlement",pieceId,entity);
 
-                _pieces.push(settlement);
+                // move cards to recipients
+                _.each(payouts,function(payout){
+                    payout.player.addInventory("resource",resourceCard);
 
-                location.addPiece(settlement);
-                settlement.setLocation(location);
+                    console.log("player inventory:");
+                    console.log(payout.player.getInventory());
+                });
+
+
             },
 
-            buildRoad: function(position,owner) {
-
-                //get vertex locations
-                var location = _locations[1+position*2];
-
-                var entity = ig.game.spawnEntity(EntityRoad, location.position.x, location.position.y);
-                var pieceId = 0;
-                var road = new Piece("road",pieceId,entity);
-
-                road.setOwner(owner);
-
-                var angle;
-                switch (position) {
-                    case 0:
-                    case 3:
-                        angle = Math.PI*2/3;
-                    break;
-                    case 1:
-                    case 4:
-                        angle = 0;
-                    break;
-                    case 2:
-                    case 5:
-                        angle = Math.PI*1/3;
-                    break;
-                }
-
-                road.entity.rotateToAngle(angle);
-
-                _pieces.push(road);
-
-                location.addPiece(road);
-                road.setLocation(location);
-            },
-*/
             placeRobber: function(location) {
 
 
@@ -381,6 +402,7 @@ ig.module(
         var _pieces = [];
         var _locations = {};
         var _inventory = {};
+        var _entities = {};
 
         return {
             setName: function(name) {
@@ -393,9 +415,15 @@ ig.module(
             addInventory: function(key, object) {
                 //developmentCards
                 //resourceCards
+
+                if (typeof _inventory[key] == "undefined") {
+                    _inventory[key] = [];
+                }
+
+                _inventory[key].push(object);
             },
             getInventory: function() {
-
+                return _inventory;
             },
 
             setLocation: function(key,x,y) {
@@ -412,6 +440,13 @@ ig.module(
                 return _color;
             },
 
+            setEntity: function( key, entity ) {
+                _entities[key] = entity;
+            },
+            getEntity: function( key ) {
+                return _entities[key];
+            },
+
             addPiece: function(piece){
                 _pieces.push(piece);
             },
@@ -422,20 +457,20 @@ ig.module(
                 return _pieces;
             },
 
-            buildRoad: function( terrrain, position ) {
+            buildRoad: function( terrain, position ) {
 
                 var location = _locations.origin;
 
-                var entity = ig.game.spawnEntity(EntityRoad, location.x, location..y);
+                var entity = ig.game.spawnEntity(EntityRoad, location.x, location.y);
                 var pieceId = 0;
                 var road = new Piece("road",pieceId,entity);
 
-                road.setOwner(owner);
+                road.setOwner(this);
                 this.addPiece(road);
 
                 terrain.placePiece(road,position);
             },
-            buildSettlement: function( terrrain, position ) {
+            buildSettlement: function( terrain, position ) {
 
                 var location = _locations.origin;
 
@@ -477,14 +512,28 @@ ig.module(
 
     };
 
-    var DevelopmentCard = _.extend(Piece, {
+    var Card = _.extend(Piece, {
         cardType: null,
-        reveal: function() {
+        generate: function() {
+
+        },
+        reveal: function(){
+
+        },
+        hide: function(){
 
         },
         activate: function(){
 
         }
+    });
+
+    var ResourceCard = _.extend(Piece, {
+        cardType: 'resource'
+    });
+
+    var DevelopmentCard = _.extend(Piece, {
+        cardType: 'development'
     });
 
     var playerConfig = [
@@ -521,66 +570,38 @@ MyGame = ig.Game.extend({
     setupPlayers: function(playerConfig) {
         var self = this;
 
-        console.log(playerConfig);
+        console.log(playerConfig.length);
         //establish player positions on/around board
 
         //1 position at each of 4 corners
         var cornerOffset = 100;
         var positions = [];
 
-        if (playerConfig.count<=4) {
+        if (playerConfig.length<=4) {
+            //starting top right, placing clockwise
             positions.push({x:cornerOffset,y:cornerOffset});
-            positions.push({x:cornerOffset,y:boardWidth-cornerOffset});
-            positions.push({x:boardWidth-cornerOffset,y:boardWidth-cornerOffset});
             positions.push({x:boardWidth-cornerOffset,y:cornerOffset});
+            positions.push({x:boardWidth-cornerOffset,y:boardWidth-cornerOffset});
+            positions.push({x:cornerOffset,y:boardWidth-cornerOffset});
         }
         
 
-        _.each(playerConfig,function(player,n){
+        _.each(playerConfig,function(playerData,n){
 
-            if (n<playerConfig.count) {
+            var player = new Player(n);
+            var position = positions[n];
 
-                var player = new Player(n);
-                var positions = position[n];
+            var entity = ig.game.spawnEntity(PlayerMarker, position.x, position.y);
+            entity.setIdentifier(playerData.color);
 
-                var entity = ig.game.spawnEntity(PlayerMarker, position.x, position.y);
-                entity.setIdentifier(self.players[n].color);
-            }            
+            player.setLocation('origin',position.x,position.y);
+            player.setEntity('base',entity);
+            player.setColor(playerData.color);
+            player.setName(playerData.name);
+
+            self.players.push(player);           
         });
         
-
-    },
-
-    generateResources: function(terrainIndex) {
-        var self = this;
-
-        var pieces = self.terrain[terrainIndex].getPieces();
-        console.log(pieces);
-
-        var resourceTotal = 0;
-        var resourceType = null;
-        var recipients = [];
-
-        // determine quantity & recipients from bulidings on terrain
-        _.each(pieces, function(piece) {
-            console.log(piece.type);
-
-            var resourceCount = 0;
-
-            if (piece.type=="road") {
-                continue;
-            } else if (piece.type=="settlement") {
-                resourceCount = 1;
-            } else if (piece.type=="city") {
-                resourceCount = 2;
-            }
-
-            recipients.push({player:piece.owner,count:resourceCount});
-        });
-
-        // spawn resource cards
-
-        // move cards to recipients
 
     },
 
@@ -601,7 +622,19 @@ MyGame = ig.Game.extend({
 
         this.setupPlayers(playerConfig);
 
-        this.generateResources(5);
+        console.log(this.players);
+
+        var player = this.players[1];
+
+        player.buildSettlement(this.terrain[5],0);
+        player.buildRoad(this.terrain[5],1);
+        player.buildRoad(this.terrain[5],2);
+        player.buildSettlement(this.terrain[5],2);
+
+        this.terrain[1].generateResources();
+        this.terrain[2].generateResources();
+        this.terrain[5].generateResources();
+        this.terrain[6].generateResources();
 
 
         // self.terrain[5].showLocations([0,2,4,6,8,10]);
@@ -842,7 +875,7 @@ MyGame = ig.Game.extend({
 
             var o = terrain.getOrigin();
 
-            //location type
+            // location type
             // edge or vertex
             var potentialOrigins = [
             	{x:o.x, y:o.y-ySpacing},

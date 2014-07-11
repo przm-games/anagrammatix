@@ -23,11 +23,11 @@ ig.module('game.entities.road')
 
             this.currentAnim = this.anims.red;
         },
+
         setIdentifier: function(identifier) {
-
             this.currentAnim = this.anims[identifier];
-
-        }
+        },
+        
         rotateToAngle: function(angle) {
             this.currentAnim.angle = angle;
         }

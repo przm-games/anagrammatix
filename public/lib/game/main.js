@@ -93,7 +93,7 @@ ig.module(
         }
     ]; 
 
-    var conversions = {
+    var cardConversions = {
         hills:"brick",
         mountains: "ore",
         fields: "wheat",
@@ -307,15 +307,18 @@ ig.module(
                 var location = this.getOrigin();
                 var pieceId = 0;
                 var entity = ig.game.spawnEntity(EntityResourceCard, location.x, location.y);
-                
+                var resourceType = cardConversions[self.type];
 
-                var resourceCard = new ResourceCard("resource",pieceId,entity);
+                var resourceCard = new ResourceCard(pieceId,entity,resourceType);
+
+                resourceCard.reveal();
+
                 console.log(resourceCard);
                 //var settlement = new Piece("settlement",pieceId,entity);
 
                 // move cards to recipients
                 _.each(payouts,function(payout){
-                    payout.player.addInventory(conversions[self.type],resourceCard);
+                    payout.player.addInventory(resourceType,resourceCard);
 
                     console.log("player inventory:");
                     console.log(payout.player.getInventory());
@@ -588,29 +591,99 @@ ig.module(
 
     };
 
-    var Card = _.extend(Piece, {
-        cardType: null,
-        generate: function() {
+    var Card = function(id,entity,subtype){
 
-        },
-        reveal: function(){
+        //type,id,entity
+        var piece = new Piece("card",id,entity);
 
-        },
-        hide: function(){
+        piece.subtype = subtype;
 
-        },
-        activate: function(){
+        piece.reveal = function(){
+            //show front of card
+            piece.entity.reveal();
+        };
 
-        }
-    });
+        piece.hide = function(){
+            //show back of card
+            piece.entity.hide();
+        };
 
-    var ResourceCard = _.extend(Piece, {
-        cardType: 'resource'
-    });
+        return piece;
+    };
 
-    var DevelopmentCard = _.extend(Piece, {
-        cardType: 'development'
-    });
+    var Deck = function(){
+
+        var _cards = [];
+
+        //set card types
+
+        //set quantity of card type 
+
+        //shuffle
+
+        //draw X cards
+
+        return {
+            addCard: function( cardGenerator, quantity ) {
+                for (var i=0; i<quantity; i++) {
+                    var card = new cardGenerator();
+                    _cards.push(card);
+                }
+            },
+            shuffle: function() {
+
+            },
+            draw: function( quantity ) {
+                var drawnCards = [];
+
+                for (var i=0; i<quantity; i++) {
+                    var card = _cards.pop();
+                    drawnCards.push(card);
+                }
+
+                return drawnCards;
+            },
+            getCards: function( quantity ) {
+                if (typeof quantity == "undefined") {
+                    return _cards;
+                } else {
+                    return _cards.slice(quantity);
+                }
+            }
+        };
+    };
+
+    var ResourceCard = function( id, entity, resourceType ) {
+        
+        var card = new Card(id,entity,"resource");
+        card.resourceType = resourceType;
+        card.entity.setType(resourceType);
+
+        return card;
+    };
+
+    var DevelopmentCard = function( id, entity, deck ) {
+        
+        var card = new Card(id,entity,"development");
+
+        card.deck = deck;
+        card.action = null;
+
+        card.generate = function() {
+            //pull a unique card from deck
+
+        };
+
+        card.setActivation = function( action ) {
+            card.action = action;
+        };
+
+        card.activate = function(){
+            card.action();
+        };
+
+        return card;
+    };
 
     var playerConfig = [
         { name:'Mike', color:'red'},

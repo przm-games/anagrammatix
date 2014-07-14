@@ -176,26 +176,49 @@ MyGame = ig.Game.extend({
 
     dealCard: function( card, player ) {
 
+        //payout.player.addInventory(card.,resourceCard);
 
-
+        console.log("player inventory:");
+        console.log(player.getInventory());
     },
 
     produceResources: function( dieValue ) {
+        var self = this;
+        console.log('producing resources on '+dieValue);
 
         var payouts = [];
 
         //get terrain with number counter equal to dieValue
         _.each(this.terrain, function(terrain,n){
-            if (terrain.dieValue==dieValue){
+            if (terrain.getDieValue()==dieValue){
                 payouts = payouts.concat(terrain.generateResources());
             }
         });
 
-        _.each(payouts,function(payout){
-            payout.player.addInventory(resourceType,resourceCard);
+        console.log(payouts);
 
-            console.log("player inventory:");
-            console.log(payout.player.getInventory());
+        _.each(payouts,function(payout){
+            //{player:piece.getOwner(),count:resourceCount,terrain:self}
+            // spawn resource cards
+            var newResources = [];
+
+            var resourceType = cardConversions[payout.terrain.type];
+            var location = payout.terrain.getOrigin();
+            var pieceId = 0;
+
+            for (var i=0;i<payout.count;i++) {
+                var entity = ig.game.spawnEntity(EntityResourceCard, location.x, location.y);
+                var resourceCard = new ResourceCard(pieceId,entity,resourceType);
+                resourceCard.reveal();
+                newResources.push(resourceCard);
+                console.log('produced resource:');
+                console.log(resourceCard);
+            }
+
+            // give cards to recipients
+            _.each(newResources, function(resource){
+                self.dealCard(resource, payout.player);
+            });
         });
     },
 

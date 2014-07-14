@@ -28,6 +28,10 @@ ig.module('game.classes.terrain')
                     return _origin;
                 },
 
+                getDieValue: function(){
+                    return _dieValue;
+                },
+
                 placeNumberToken: function( numberToken ) {
                     _dieValue = numberToken.dieValue;
                     _numberToken = numberToken;
@@ -138,11 +142,11 @@ ig.module('game.classes.terrain')
                     var resourceType = null;
                     var payouts = [];
 
-                    // determine quantity & recipients from bulidings on terrain
+                    // determine quantity & recipients from buildings on terrain
                     _.each(pieces, function(piece) {
                         console.log(piece.type);
 
-                        var resourceCount ;
+                        var resourceCount;
 
                         if (piece.type=="road") {
                             resourceCount = 0;
@@ -155,7 +159,7 @@ ig.module('game.classes.terrain')
                         resourceTotal+=resourceCount;
 
                         if (resourceCount>0) {
-                            payouts.push({player:piece.getOwner(),count:resourceCount});
+                            payouts.push({player:piece.getOwner(),count:resourceCount,terrain:self});
                         }
                     });
 
@@ -163,21 +167,7 @@ ig.module('game.classes.terrain')
                     console.log(resourceTotal);
                     console.log("resource recipients:");
                     console.log(payouts);
-                    // spawn resource cards
 
-                    var location = this.getOrigin();
-                    var pieceId = 0;
-                    var entity = ig.game.spawnEntity(EntityResourceCard, location.x, location.y);
-                    var resourceType = cardConversions[self.type];
-
-                    var resourceCard = new ResourceCard(pieceId,entity,resourceType);
-
-                    resourceCard.reveal();
-
-                    console.log(resourceCard);
-                    //var settlement = new Piece("settlement",pieceId,entity);
-
-                    // move cards to recipients
                     return payouts;
                 },
 

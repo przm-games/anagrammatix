@@ -67,6 +67,46 @@ MyGame = ig.Game.extend({
 		
 	},
 
+    startGame: function() {
+
+    },
+
+    cacheGameState: function() {
+
+        //cache board setup
+
+
+        //terrain: type
+        //number token: number
+        //robber: position
+
+
+        //for each player
+        //cache pieces
+        //cache inventory
+        
+    },
+
+    loadGame: function( gameState ) {
+
+    },
+
+    setupNewGame: function( playerConfig ) {
+
+        this.setupTerrain();
+        this.placeTerrain(this.origins);
+
+        this.setupNumberTokens();
+        this.placeNumberTokens(this.origins);
+
+        this.setupLocations(this.origins);
+
+        this.setupPorts();
+        this.placePorts();
+
+        this.setupPlayers(gameState.players);
+    },
+
     setupPlayers: function(playerConfig) {
         var self = this;
 
@@ -76,15 +116,31 @@ MyGame = ig.Game.extend({
         //1 position at each of 4 corners
         var cornerOffset = 100;
         var positions = [];
+        var orientations = [];
 
         if (playerConfig.length<=4) {
             //starting top right, placing clockwise
-            positions.push({x:cornerOffset,y:cornerOffset});
-            positions.push({x:boardWidth-cornerOffset,y:cornerOffset});
-            positions.push({x:boardWidth-cornerOffset,y:boardWidth-cornerOffset});
-            positions.push({x:cornerOffset,y:boardWidth-cornerOffset});
+            positions = [
+                {x:cornerOffset,y:cornerOffset},
+                {x:boardWidth-cornerOffset,y:cornerOffset},
+                {x:boardWidth-cornerOffset,y:boardWidth-cornerOffset},
+                {x:cornerOffset,y:boardWidth-cornerOffset}
+            ];
+
+            orientations = [
+                0, Math.PI/2, Math.PI, Math.PI*3/2
+            ];
+
+            limits = {
+                baseWidth: 250,
+                safeHand: 7
+            };
+
+        } else if (playerConfig.length>4) {
+            //TODO
+            //5-6 players
         }
-        
+
 
         _.each(playerConfig,function(playerData,n){
 
@@ -97,33 +153,59 @@ MyGame = ig.Game.extend({
             //TODO 
             // set player info: name
 
+            player.setLimits(limits);
             player.setLocation('origin',position.x,position.y);
             player.setEntity('base',entity);
+            player.setOrientation(orientations[n]);
             player.setColor(playerData.color);
             player.setName(playerData.name);
+            player.generateCardPositions(14);
 
-            self.players.push(player);           
+            self.players.push(player);
+
+            //TODO
+            //setup pieces
+
+
+            //TODO
+            //setup inventory
         });
         
 
     },
 
+    dealCard: function( card, player ) {
+
+
+
+    },
+
+    produceResources: function( dieValue ) {
+
+        var payouts = [];
+
+        //get terrain with number counter equal to dieValue
+        _.each(this.terrain, function(terrain,n){
+            if (terrain.dieValue==dieValue){
+                payouts = payouts.concat(terrain.generateResources());
+            }
+        });
+
+        _.each(payouts,function(payout){
+            payout.player.addInventory(resourceType,resourceCard);
+
+            console.log("player inventory:");
+            console.log(payout.player.getInventory());
+        });
+    },
+
 	render: function() {
-		this.setupTerrain();
 
-		this.placeTerrain(this.origins);
+		//TODO if no gameState cache
+        this.setupNewGame( gameState.players );
 
-        this.setupNumberTokens();
-
-        this.placeNumberTokens(this.origins);
-
-		this.setupLocations(this.origins);
-
-        this.setupPorts();
-        this.placePorts();
-
-
-        this.setupPlayers(playerConfig);
+        //else
+        //TODO load game from cache
 
         console.log(this.players);
 
@@ -134,18 +216,16 @@ MyGame = ig.Game.extend({
         player.buildRoad(this.terrain[5],1);
         player.buildSettlement(this.terrain[5],2);
 
-        this.terrain[1].generateResources();
-        this.terrain[2].generateResources();
-        this.terrain[5].generateResources();
-        this.terrain[6].generateResources();
 
-        player.getEligiblePurchases();
+        this.produceResources(8);
+
+//        this.terrain[2].generateResources();
+//        this.terrain[5].generateResources();
+//        this.terrain[6].generateResources();
+//
+//        player.getEligiblePurchases();
 
         // self.terrain[5].showLocations([0,2,4,6,8,10]);
-        // self.terrain[5].buildSettlement(0);
-        // self.terrain[5].buildRoad(0);
-        // self.terrain[5].buildRoad(1);
-        // self.terrain[5].buildRoad(2);
 
 
         // OVERRIDE
@@ -290,15 +370,8 @@ MyGame = ig.Game.extend({
 
         
         placementOrder.forEach(function(terrainIndex,orderIndex){
-
-            var targetOrigin = origins[terrainIndex];
             var numberToken = numberTokens[orderIndex];
-
-
-            // place terrain at origin
-            numberToken.pos.x = targetOrigin.x;
-            numberToken.pos.y = targetOrigin.y;
-            // TODO animate terrain with predetermined type to origin
+            self.terrain[terrainIndex].placeNumberToken(numberToken);
         });
     },
 	

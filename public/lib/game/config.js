@@ -56,6 +56,9 @@ ig.module('game.config')
             { name:'Mike', color:'red',
                 inventory: {
 
+                },
+                pieces: {
+
                 }
             },
             { name:'dogoodjonathan', color:'blue'},
@@ -72,20 +75,33 @@ ig.module('game.config')
         {
             title: "Resource Production",
             id: "resource-production",
+            actions: {
+                entry: [],
+                player: [],
+                exit: []
+            }
         },
         {
             title: "Trade",
             id: "trade",
-            actions: [
-                "domesticTrade","maritimeTrade"
-            ]
+            actions: {
+                entry: [],
+                player: [
+                    "domesticTrade","maritimeTrade"
+                ],
+                exit: []
+            }
         },
         {
             title: "Build",
             id: "build",
-            actions: [
-                "buildSettlement", "buildCity"
-            ]
+            actions: {
+                entry: [],
+                player: [
+                    "buildSettlement", "buildCity", "buildRoad"
+                ],
+                exit: []
+            }
         }
     ];
 

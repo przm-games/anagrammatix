@@ -32,9 +32,8 @@ ig.module('game.entities.resourceCounter')
             } else {
                 this.currentAnim = this.anims.d2;
             }
-
-            
-
+            //cache number to lookup terrain for resource production phase
+            this.dieValue = settings.number;
         }
     });
 });

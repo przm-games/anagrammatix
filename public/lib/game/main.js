@@ -31,6 +31,7 @@ ig.module(
 
     'game.classes.terrain',
     'game.classes.resourceCard',
+    'game.classes.developmentCard',
     'game.classes.pieceLocation',
     'game.classes.player',
     'game.classes.deck',
@@ -49,7 +50,37 @@ MyGame = ig.Game.extend({
 	
 	// Load a font
 	font: new ig.Font( 'media/04b03.font.png' ),
-	
+
+    // Bind classes to key names
+    classMap: {
+       development: DevelopmentCard,
+       resource: ResourceCard
+    },
+
+    entityMap: {
+       development: EntityDevelopmentCard,
+       resource: EntityResourceCard
+    },
+
+    actionMap: {
+        activateKnight: function(){
+            console.log("activateKnight");
+        },
+        activateRoadBuilding: function(){
+            console.log("activateRoadBuilding");
+        },
+        activateYearOfPlenty: function(){
+            console.log("activateYearOfPlenty");
+        },
+        activateMonopoly: function(){
+            console.log("activateMonopoly");
+        },
+        earnVictoryPoint: function(){
+            console.log("earnVictoryPoint");
+        }
+
+    },
+
 	origins: [],
 	locationOrigins: [],
 
@@ -58,10 +89,10 @@ MyGame = ig.Game.extend({
     numberTokens: [],
     ports: [],
 
-    decks: [],
-
+    decks: {},
 
     desert: null,
+    robber: null,
 
     players: [],
 	
@@ -119,6 +150,22 @@ MyGame = ig.Game.extend({
         this.placePorts();
 
         this.setupPlayers(gameState.players);
+
+        this.setupDecks();
+    },
+
+    setupDecks: function() {
+        var self = this;
+
+        _.each( decks, function( deckConfig ){
+            var cardList = deckConfig.cards;
+            var cardTypes = library[deckConfig.type];
+
+            var deck = new Deck( cardList, cardTypes, self.classMap, self.entityMap, self.actionMap, deckConfig.type );
+            deck.setOrigin(deckConfig.origin);
+            deck.populate();
+        });
+
     },
 
     setupPlayers: function(playerConfig) {

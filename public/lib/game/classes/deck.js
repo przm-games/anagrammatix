@@ -5,10 +5,14 @@ ig.module('game.classes.deck')
     .defines(function() {
 
 
-        Deck = function( cardList, cardTypes, entityClass, type ){
+        Deck = function( cardList, cardTypes, classes, entities, actions, type ){
 
             var _cards = [];
             var _origin = {x:0,y:0};
+
+            var _classes = classes || {};
+            var _entities = entities || {};
+            var _actions = actions || {};
 
             var _cardList = cardList || [];
             var _cardTypes = cardTypes || {};
@@ -29,7 +33,28 @@ ig.module('game.classes.deck')
                     _origin.y = y;
                 },
                 populate: function() {
+                    var self = this;
+                    _.each(_cardList, function(quantity, key){
+                        console.log(quantity);
+                        console.log(key);
 
+                        for (var i=0;i<quantity;i++){
+                            var entity = new _entities[_type](_origin.x,_origin.y);
+                            entity.setType(_cardTypes[key].animation);
+
+                            var card = new _classes[_type]({
+                                id: 0,
+                                entity: entity,
+                                title: _cardTypes[key].title,
+                                description: _cardTypes[key].description
+                            });
+
+                            card.entity.reveal();
+                            console.log('new card:');
+                            console.log(_cardTypes[key].title);
+                        }
+
+                    });
                     //new entityClass
                 },
                 addCard: function( card ){

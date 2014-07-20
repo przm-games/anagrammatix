@@ -19,55 +19,71 @@ ig.module('game.config')
                     market: 1,
                     university: 1,
                     monopoly: 2,
-                    road: 2,
+                    roadBuilding: 2,
                     plenty: 2
+                },
+                origin: {x:200,y:200}
+            }
+        ];
+
+        library = {
+            development: {
+                knight: {
+                    title: "Knight",
+                    animation: "knight",
+                    description: "Move the robber. Steal 1 resource from an owner of adjacent settlement or city.",
+                    activation: "activateKnight"
+                },
+                roadBuilding: {
+                    title: "Road Building",
+                    animation: "road",
+                    description: "Place two roads as if you had built them.",
+                    activation: "activateRoadBuilding"
+                },
+                plenty: {
+                    title: "Year of Plenty",
+                    animation: "plenty",
+                    description: "Take any 2 resources of your choice from the bank. Keep them or use the immediately.",
+                    activation: "activateYearOfPlenty"
+                },
+                monopoly: {
+                    title: "Monopoly",
+                    animation: "monopoly",
+                    description: "Announce 1 resource type. All players must give you all of their resources of that type.",
+                    activation: "activateMonopoly"
+                },
+                chapel: {
+                    title: "Chapel",
+                    animation: "chapel",
+                    description: "1 Victory Point!",
+                    activation: "earnVictoryPoint"
+                },
+                palace: {
+                    title: "Palace",
+                    animation: "palace",
+                    description: "1 Victory Point!",
+                    activation: "earnVictoryPoint"
+                },
+                market: {
+                    title: "Market",
+                    animation: "market",
+                    description: "1 Victory Point!",
+                    activation: "earnVictoryPoint"
+                },
+                library: {
+                    title: "Library",
+                    animation: "library",
+                    description: "1 Victory Point!",
+                    activation: "earnVictoryPoint"
+                },
+                university: {
+                    title: "University",
+                    animation: "university",
+                    description: "1 Victory Point!",
+                    activation: "earnVictoryPoint"
                 }
             }
-        ];
-
-        library = [
-            {
-                title: "Knight",
-                animation: "knight",
-                description: "Move the robber. Steal 1 resource from an owner of adjacent settlement or city."
-            },
-            {
-                title: "Road Building",
-                animation: "road",
-                description: "Place two roads as if you had built them."
-            },
-            {
-                title: "Year of Plenty",
-                animation: "plenty",
-                description: "Take any 2 resources of your choice from the bank. Keep them or use the immediately."
-            },
-            {
-                title: "Monopoly",
-                animation: "monopoly",
-                description: "Announce 1 resource type. All players must give you all of their resources of that type."
-            },
-            {
-                title: "Chapel",
-                animation: "chapel",
-                description: "1 Victory Point!"
-            },
-            {
-                title: "Palace",
-                animation: "palace",
-                description: "1 Victory Point!"
-            },
-            {
-                title: "Market",
-                animation: "market",
-                description: "1 Victory Point!"
-            },
-            {
-                title: "Library",
-                animation: "library",
-                description: "1 Victory Point!"
-            }
-        ];
-
+        };
 
 
         catalog = [

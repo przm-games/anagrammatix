@@ -218,9 +218,19 @@ ig.module('game.classes.player')
                     terrain.placePiece(settlement,position);
                 },
                 buildCity: function( settlement ) {
-
+                    //get settlements
 
                 },
+                buyDevelopmentCard: function() {
+                    //subtract cost from inventory
+
+                    //locate development card in developmentCard deck
+
+                },
+                activateDevelopmentCard: function( developmentCard ) {
+
+                },
+
 
                 moveRobber: function(terrain, location) {
                     terrain.placeRobber(location);

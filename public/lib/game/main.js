@@ -58,8 +58,13 @@ MyGame = ig.Game.extend({
     },
 
     entityMap: {
-       development: EntityDevelopmentCard,
-       resource: EntityResourceCard
+       development: function( origin ){
+           console.log(origin);
+           return ig.game.spawnEntity(EntityDevelopmentCard, origin.x, origin.y);
+       },
+       resource: function( origin ){
+           return ig.game.spawnEntity(EntityResourceCard, origin.x, origin.y);
+       }
     },
 
     actionMap: {
@@ -162,7 +167,7 @@ MyGame = ig.Game.extend({
             var cardTypes = library[deckConfig.type];
 
             var deck = new Deck( cardList, cardTypes, self.classMap, self.entityMap, self.actionMap, deckConfig.type );
-            deck.setOrigin(deckConfig.origin);
+            deck.setOrigin(deckConfig.origin.x, deckConfig.origin.y);
             deck.populate();
         });
 

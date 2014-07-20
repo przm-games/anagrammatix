@@ -34,12 +34,18 @@ ig.module('game.classes.deck')
                 },
                 populate: function() {
                     var self = this;
+
+                    console.log('entities:');
+                    console.log(_entities);
+
                     _.each(_cardList, function(quantity, key){
                         console.log(quantity);
                         console.log(key);
 
                         for (var i=0;i<quantity;i++){
-                            var entity = new _entities[_type](_origin.x,_origin.y);
+
+                            var entity = _entities[_type](_origin);
+                            console.log(entity);
                             entity.setType(_cardTypes[key].animation);
 
                             var card = new _classes[_type]({

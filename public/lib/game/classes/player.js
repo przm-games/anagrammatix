@@ -91,6 +91,7 @@ ig.module('game.classes.player')
 
                     cardLocations.push(cardLocation);
                 },
+
                 generateCardPositions: function( total, locationKey ) {
 
                     var origin = _locations.origin;
@@ -119,7 +120,7 @@ ig.module('game.classes.player')
 
                             case Math.PI/2:
                                 //extend down
-                                position = {x:origin.x, y:origin.y+width/(total-1)*i};
+                                position = {x:origin.x, y:origin.y-width/(total-1)*i};
                                 break;
 
                             case Math.PI:
@@ -129,7 +130,8 @@ ig.module('game.classes.player')
 
                             case Math.PI*3/2:
                                 //extend up
-                                position = {x:origin.x, y:origin.y-width/(total-1)*i};
+                                position = {x:origin.x, y:origin.y+width/(total-1)*i};
+
                                 break;
                         }
 
@@ -145,6 +147,8 @@ ig.module('game.classes.player')
                     });
                 },
                 receiveCards: function( cards, locationKey ) {
+                    var self = this;
+
                     console.log('player receiving cards:');
                     console.log(cards);
                     console.log(locationKey);
@@ -157,6 +161,10 @@ ig.module('game.classes.player')
                         var location = _locations[locationKey][cardTarget.length];
                         card.setLocation(location);
                         cards.push(card);
+
+                        //hide card from other players
+                        card.hide();
+                        card.entity.rotateToAngle(_orientation);
                     });
 
                 },

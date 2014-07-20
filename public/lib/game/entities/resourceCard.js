@@ -32,6 +32,11 @@ ig.module('game.entities.resourceCard')
         hide: function() {
             this.currentAnim = this.anims.hidden;
         },
+
+        rotateToAngle: function(angle) {
+            this.currentAnim.angle = angle;
+        },
+
         setOwner: function(playerId) {
             
         },

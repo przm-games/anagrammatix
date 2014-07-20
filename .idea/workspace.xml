@@ -2,8 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="6235e5d5-beca-45f2-8cd8-098cb29845ad" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/lib/game/config.js" afterPath="$PROJECT_DIR$/public/lib/game/config.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/lib/game/classes/deck.js" afterPath="$PROJECT_DIR$/public/lib/game/classes/deck.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/lib/game/main.js" afterPath="$PROJECT_DIR$/public/lib/game/main.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/lib/game/classes/terrain.js" afterPath="$PROJECT_DIR$/public/lib/game/classes/terrain.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/lib/game/classes/player.js" afterPath="$PROJECT_DIR$/public/lib/game/classes/player.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/lib/game/utils.js" afterPath="$PROJECT_DIR$/public/lib/game/utils.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="anagrammatix.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -25,91 +29,149 @@
     <favorites_list name="anagrammatix" />
   </component>
   <component name="FileEditorManager">
-    <leaf>
-      <file leaf-file-name="main.js" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/public/lib/game/main.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="183" column="0" selection-start="4012" selection-end="4012" vertical-scroll-proportion="0.26717559" vertical-offset="2570" max-vertical-offset="10155">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="card.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/public/lib/game/classes/card.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="435">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="resourceCounter.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/public/lib/game/entities/resourceCounter.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="34" column="45" selection-start="1181" selection-end="1181" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="660">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="road.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/public/lib/game/entities/road.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="600">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="utils.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/public/lib/game/utils.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="525">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="player.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/public/lib/game/classes/player.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="125" column="53" selection-start="4081" selection-end="4081" vertical-scroll-proportion="-39.384617" vertical-offset="851" max-vertical-offset="3615">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="pieceLocation.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/public/lib/game/classes/pieceLocation.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="11" column="33" selection-start="348" selection-end="348" vertical-scroll-proportion="0.0" vertical-offset="474" max-vertical-offset="1155">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="terrain.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/public/lib/game/classes/terrain.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="161" column="93" selection-start="5481" selection-end="5481" vertical-scroll-proportion="0.0" vertical-offset="2447" max-vertical-offset="3179">
-              <folding>
-                <marker date="1405336452000" expanded="true" signature="115:5910" placeholder="{...}" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="config.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/public/lib/game/config.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="101" column="18" selection-start="2298" selection-end="2298" vertical-scroll-proportion="0.0" vertical-offset="705" max-vertical-offset="2940">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-    </leaf>
+    <splitter split-orientation="horizontal" split-proportion="0.5">
+      <split-first>
+        <splitter split-orientation="vertical" split-proportion="0.5">
+          <split-first>
+            <leaf>
+              <file leaf-file-name="player.js" pinned="false" current="true" current-in-tab="true">
+                <entry file="file://$PROJECT_DIR$/public/lib/game/classes/player.js">
+                  <provider selected="true" editor-type-id="text-editor">
+                    <state line="22" column="23" selection-start="572" selection-end="572" vertical-scroll-proportion="0.57984495" vertical-offset="0" max-vertical-offset="4675">
+                      <folding />
+                    </state>
+                  </provider>
+                </entry>
+              </file>
+              <file leaf-file-name="card.js" pinned="false" current="false" current-in-tab="false">
+                <entry file="file://$PROJECT_DIR$/public/lib/game/classes/card.js">
+                  <provider selected="true" editor-type-id="text-editor">
+                    <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="435">
+                      <folding />
+                    </state>
+                  </provider>
+                </entry>
+              </file>
+              <file leaf-file-name="piece.js" pinned="false" current="false" current-in-tab="false">
+                <entry file="file://$PROJECT_DIR$/public/lib/game/classes/piece.js">
+                  <provider selected="true" editor-type-id="text-editor">
+                    <state line="32" column="35" selection-start="784" selection-end="784" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="690">
+                      <folding />
+                    </state>
+                  </provider>
+                </entry>
+              </file>
+              <file leaf-file-name="resourceCounter.js" pinned="false" current="false" current-in-tab="false">
+                <entry file="file://$PROJECT_DIR$/public/lib/game/entities/resourceCounter.js">
+                  <provider selected="true" editor-type-id="text-editor">
+                    <state line="34" column="45" selection-start="1181" selection-end="1181" vertical-scroll-proportion="0.0" vertical-offset="510" max-vertical-offset="660">
+                      <folding />
+                    </state>
+                  </provider>
+                </entry>
+              </file>
+              <file leaf-file-name="road.js" pinned="false" current="false" current-in-tab="false">
+                <entry file="file://$PROJECT_DIR$/public/lib/game/entities/road.js">
+                  <provider selected="true" editor-type-id="text-editor">
+                    <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="600">
+                      <folding />
+                    </state>
+                  </provider>
+                </entry>
+              </file>
+              <file leaf-file-name="utils.js" pinned="false" current="false" current-in-tab="false">
+                <entry file="file://$PROJECT_DIR$/public/lib/game/utils.js">
+                  <provider selected="true" editor-type-id="text-editor">
+                    <state line="27" column="57" selection-start="763" selection-end="763" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="585">
+                      <folding />
+                    </state>
+                  </provider>
+                </entry>
+              </file>
+              <file leaf-file-name="pieceLocation.js" pinned="false" current="false" current-in-tab="false">
+                <entry file="file://$PROJECT_DIR$/public/lib/game/classes/pieceLocation.js">
+                  <provider selected="true" editor-type-id="text-editor">
+                    <state line="3" column="17" selection-start="78" selection-end="91" vertical-scroll-proportion="-2.0769231" vertical-offset="0" max-vertical-offset="1386">
+                      <folding />
+                    </state>
+                  </provider>
+                </entry>
+              </file>
+              <file leaf-file-name="location.js" pinned="false" current="false" current-in-tab="false">
+                <entry file="file://$PROJECT_DIR$/public/lib/game/entities/location.js">
+                  <provider selected="true" editor-type-id="text-editor">
+                    <state line="11" column="21" selection-start="327" selection-end="327" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="510">
+                      <folding />
+                    </state>
+                  </provider>
+                </entry>
+              </file>
+              <file leaf-file-name="terrain.js" pinned="false" current="false" current-in-tab="false">
+                <entry file="file://$PROJECT_DIR$/public/lib/game/classes/terrain.js">
+                  <provider selected="true" editor-type-id="text-editor">
+                    <state line="12" column="26" selection-start="267" selection-end="276" vertical-scroll-proportion="-6.923077" vertical-offset="0" max-vertical-offset="2805">
+                      <folding />
+                    </state>
+                  </provider>
+                </entry>
+              </file>
+              <file leaf-file-name="config.js" pinned="false" current="false" current-in-tab="false">
+                <entry file="file://$PROJECT_DIR$/public/lib/game/config.js">
+                  <provider selected="true" editor-type-id="text-editor">
+                    <state line="32" column="14" selection-start="1001" selection-end="1001" vertical-scroll-proportion="0.0" vertical-offset="480" max-vertical-offset="3900">
+                      <folding />
+                    </state>
+                  </provider>
+                </entry>
+              </file>
+            </leaf>
+          </split-first>
+          <split-second>
+            <leaf>
+              <file leaf-file-name="terrain.js" pinned="false" current="false" current-in-tab="true">
+                <entry file="file://$PROJECT_DIR$/public/lib/game/classes/terrain.js">
+                  <provider selected="true" editor-type-id="text-editor">
+                    <state line="155" column="46" selection-start="5258" selection-end="5258" vertical-scroll-proportion="0.984375" vertical-offset="2160" max-vertical-offset="3366">
+                      <folding />
+                    </state>
+                  </provider>
+                </entry>
+              </file>
+            </leaf>
+          </split-second>
+        </splitter>
+      </split-first>
+      <split-second>
+        <splitter split-orientation="vertical" split-proportion="0.5">
+          <split-first>
+            <leaf>
+              <file leaf-file-name="main.js" pinned="false" current="false" current-in-tab="true">
+                <entry file="file://$PROJECT_DIR$/public/lib/game/main.js">
+                  <provider selected="true" editor-type-id="text-editor">
+                    <state line="549" column="12" selection-start="14885" selection-end="14885" vertical-scroll-proportion="0.76898223" vertical-offset="9406" max-vertical-offset="12438">
+                      <folding />
+                    </state>
+                  </provider>
+                </entry>
+              </file>
+            </leaf>
+          </split-first>
+          <split-second>
+            <leaf>
+              <file leaf-file-name="deck.js" pinned="false" current="false" current-in-tab="true">
+                <entry file="file://$PROJECT_DIR$/public/lib/game/classes/deck.js">
+                  <provider selected="true" editor-type-id="text-editor">
+                    <state line="68" column="58" selection-start="2029" selection-end="2029" vertical-scroll-proportion="0.759375" vertical-offset="738" max-vertical-offset="1404">
+                      <folding />
+                    </state>
+                  </provider>
+                </entry>
+              </file>
+            </leaf>
+          </split-second>
+        </splitter>
+      </split-second>
+    </splitter>
   </component>
   <component name="FindManager">
     <FindUsagesManager>
@@ -122,18 +184,20 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/public/lib/game/config.js" />
-        <option value="$PROJECT_DIR$/public/lib/game/classes/player.js" />
         <option value="$PROJECT_DIR$/public/lib/game/entities/resourceCounter.js" />
         <option value="$PROJECT_DIR$/public/lib/game/classes/terrain.js" />
+        <option value="$PROJECT_DIR$/public/lib/game/config.js" />
+        <option value="$PROJECT_DIR$/public/lib/game/utils.js" />
         <option value="$PROJECT_DIR$/public/lib/game/main.js" />
+        <option value="$PROJECT_DIR$/public/lib/game/classes/deck.js" />
+        <option value="$PROJECT_DIR$/public/lib/game/classes/player.js" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
     <option name="y" value="22" />
-    <option name="width" value="1218" />
-    <option name="height" value="778" />
+    <option name="width" value="2507" />
+    <option name="height" value="1418" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="false">
     <OptionsSetting value="true" id="Add" />
@@ -255,6 +319,32 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+              <option name="myItemId" value="entities" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="anagrammatix" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="anagrammatix" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="public" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="lib" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="game" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
               <option name="myItemId" value="classes" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -281,6 +371,11 @@
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="SearchEverywhereHistory" value="" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="options.lastSelected" value="editor" />
+    <property name="options.splitter.main.proportions" value="0.3" />
+    <property name="options.splitter.details.proportions" value="0.2" />
+    <property name="options.searchVisible" value="true" />
   </component>
   <component name="RunManager">
     <configuration default="true" type="DartUnitRunConfigurationType" factoryName="DartUnit">
@@ -322,6 +417,23 @@
     <list size="0" />
   </component>
   <component name="ShelveChangesManager" show_recycled="false" />
+  <component name="SvnConfiguration" maxAnnotateRevisions="500" myUseAcceleration="nothing" myAutoUpdateAfterCommit="false" cleanupOnStartRun="false" SSL_PROTOCOLS="sslv3">
+    <option name="USER" value="" />
+    <option name="PASSWORD" value="" />
+    <option name="mySSHConnectionTimeout" value="30000" />
+    <option name="mySSHReadTimeout" value="30000" />
+    <option name="LAST_MERGED_REVISION" />
+    <option name="MERGE_DRY_RUN" value="false" />
+    <option name="MERGE_DIFF_USE_ANCESTRY" value="true" />
+    <option name="UPDATE_LOCK_ON_DEMAND" value="false" />
+    <option name="IGNORE_SPACES_IN_MERGE" value="false" />
+    <option name="CHECK_NESTED_FOR_QUICK_MERGE" value="false" />
+    <option name="IGNORE_SPACES_IN_ANNOTATE" value="true" />
+    <option name="SHOW_MERGE_SOURCES_IN_ANNOTATE" value="true" />
+    <option name="FORCE_UPDATE" value="false" />
+    <option name="IGNORE_EXTERNALS" value="false" />
+    <myIsUseDefaultProxy>false</myIsUseDefaultProxy>
+  </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
       <changelist id="6235e5d5-beca-45f2-8cd8-098cb29845ad" name="Default" comment="" />
@@ -331,26 +443,26 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="22" width="1218" height="778" extended-state="0" />
+    <frame x="0" y="22" width="2507" height="1418" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32987398" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.16748768" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.08137216" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
   <component name="Vcs.Log.UiProperties">
@@ -370,16 +482,135 @@
     <breakpoint-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/public/lib/game/config.js">
+    <entry file="file://$PROJECT_DIR$/public/lib/game/main.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="101" column="18" selection-start="2298" selection-end="2298" vertical-scroll-proportion="0.0" vertical-offset="705" max-vertical-offset="2940">
+        <state line="228" column="16" selection-start="5486" selection-end="5486" vertical-scroll-proportion="0.0" vertical-offset="2280" max-vertical-offset="10320">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/lib/game/classes/card.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="435">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/lib/game/entities/resourceCounter.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="34" column="45" selection-start="1181" selection-end="1181" vertical-scroll-proportion="0.0" vertical-offset="510" max-vertical-offset="660">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/lib/game/entities/road.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="600">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/public/lib/game/utils.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="663">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="525">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/lib/game/classes/player.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="125" column="53" selection-start="4081" selection-end="4081" vertical-scroll-proportion="0.0" vertical-offset="851" max-vertical-offset="3615">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/lib/game/classes/pieceLocation.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="11" column="33" selection-start="348" selection-end="348" vertical-scroll-proportion="0.0" vertical-offset="165" max-vertical-offset="1155">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/lib/game/classes/terrain.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="161" column="93" selection-start="5481" selection-end="5481" vertical-scroll-proportion="0.0" vertical-offset="2415" max-vertical-offset="2805">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/lib/game/config.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="32" column="14" selection-start="1001" selection-end="1001" vertical-scroll-proportion="0.0" vertical-offset="480" max-vertical-offset="3900">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/lib/game/classes/deck.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="12" column="37" selection-start="280" selection-end="280" vertical-scroll-proportion="0.0" vertical-offset="180" max-vertical-offset="1020">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/lib/game/main.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="183" column="0" selection-start="3956" selection-end="3956" vertical-scroll-proportion="0.0" vertical-offset="2745" max-vertical-offset="10440">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/lib/game/classes/card.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="435">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/lib/game/entities/resourceCounter.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="34" column="45" selection-start="1181" selection-end="1181" vertical-scroll-proportion="0.0" vertical-offset="510" max-vertical-offset="660">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/lib/game/entities/road.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="600">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/lib/game/utils.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="525">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/lib/game/classes/player.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="125" column="53" selection-start="4081" selection-end="4081" vertical-scroll-proportion="0.0" vertical-offset="851" max-vertical-offset="3615">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/lib/game/classes/pieceLocation.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="11" column="33" selection-start="348" selection-end="348" vertical-scroll-proportion="0.0" vertical-offset="165" max-vertical-offset="1155">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/lib/game/classes/terrain.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="161" column="93" selection-start="5481" selection-end="5481" vertical-scroll-proportion="0.0" vertical-offset="2415" max-vertical-offset="2805">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/lib/game/config.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="101" column="9" selection-start="2130" selection-end="2130" vertical-scroll-proportion="0.0" vertical-offset="1515" max-vertical-offset="3210">
           <folding />
         </state>
       </provider>
@@ -391,20 +622,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/public/lib/game/classes/player.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="125" column="53" selection-start="4081" selection-end="4081" vertical-scroll-proportion="-39.384617" vertical-offset="851" max-vertical-offset="3615">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/lib/game/classes/pieceLocation.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="11" column="33" selection-start="348" selection-end="348" vertical-scroll-proportion="0.0" vertical-offset="474" max-vertical-offset="1155">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/public/lib/game/entities/resourceCounter.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="34" column="45" selection-start="1181" selection-end="1181" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="660">
@@ -412,18 +629,28 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/public/lib/game/classes/terrain.js">
+    <entry file="file://$PROJECT_DIR$/public/lib/game/entities/resourceCard.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="161" column="93" selection-start="5481" selection-end="5481" vertical-scroll-proportion="0.0" vertical-offset="2447" max-vertical-offset="3179">
-          <folding>
-            <marker date="1405336452000" expanded="true" signature="115:5910" placeholder="{...}" />
-          </folding>
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="705" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/lib/game/config.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="32" column="14" selection-start="1001" selection-end="1001" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="3900">
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/public/lib/game/entities/resourceCard.js">
+    <entry file="file://$PROJECT_DIR$/public/lib/game/entities/player.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="705">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1321">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/lib/game/utils.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="27" column="57" selection-start="763" selection-end="763" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="585">
           <folding />
         </state>
       </provider>
@@ -435,9 +662,51 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/public/lib/game/classes/terrain.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="12" column="26" selection-start="267" selection-end="276" vertical-scroll-proportion="-6.923077" vertical-offset="0" max-vertical-offset="2805">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/lib/game/classes/deck.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="68" column="58" selection-start="2029" selection-end="2029" vertical-scroll-proportion="0.759375" vertical-offset="738" max-vertical-offset="1404">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/public/lib/game/main.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="183" column="0" selection-start="4012" selection-end="4012" vertical-scroll-proportion="0.26717559" vertical-offset="2570" max-vertical-offset="10155">
+        <state line="549" column="12" selection-start="14885" selection-end="14885" vertical-scroll-proportion="0.76898223" vertical-offset="9406" max-vertical-offset="12438">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/lib/game/classes/piece.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="32" column="35" selection-start="784" selection-end="784" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="690">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/lib/game/entities/location.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="11" column="21" selection-start="327" selection-end="327" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="510">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/lib/game/classes/pieceLocation.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="3" column="17" selection-start="78" selection-end="91" vertical-scroll-proportion="-2.0769231" vertical-offset="0" max-vertical-offset="1386">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/lib/game/classes/player.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="22" column="23" selection-start="572" selection-end="572" vertical-scroll-proportion="0.57984495" vertical-offset="0" max-vertical-offset="4675">
           <folding />
         </state>
       </provider>

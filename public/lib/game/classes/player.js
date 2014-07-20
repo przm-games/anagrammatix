@@ -2,7 +2,9 @@ ig.module('game.classes.player')
     .requires(
         'game.entities.road',
         'game.entities.city',
-        'game.entities.settlement'
+        'game.entities.settlement',
+        'game.entities.location',
+        'game.classes.pieceLocation'
     )
     .defines(function() {
 
@@ -11,9 +13,15 @@ ig.module('game.classes.player')
             var _id = id;
             var _color = null;
             var _name = null;
-            var _hand = [];
+            var _cards = {
+                hand: [],
+                field: []
+            };
             var _pieces = [];
-            var _locations = {};
+            var _locations = {
+                hand: [],
+                field: []
+            };
             var _inventory = {};
             var _entities = {};
 
@@ -74,13 +82,21 @@ ig.module('game.classes.player')
                 getLimit: function(key) {
                     return _limits[key];
                 },
-                generateCardPositions: function( total ) {
+                createLocation: function( position, locationKey ){
+                    var cardLocations = _locations[locationKey];
+
+                    var entity = ig.game.spawnEntity(EntityLocation, position.x, position.y);
+                    // new Piece location model
+                    var cardLocation = new PieceLocation(position.x,position.y,locationKey,0,entity);
+
+                    cardLocations.push(cardLocation);
+                },
+                generateCardPositions: function( total, locationKey ) {
 
                     var origin = _locations.origin;
                     var width = _limits.baseWidth;
-                    var cardLocations = [];
 
-                    cardLocations.push(origin);
+                    this.createLocation(origin,locationKey);
 
                     // distribute positions along line
                     // TODO
@@ -90,7 +106,7 @@ ig.module('game.classes.player')
 
                     for (var i=1;i<total;i++) {
 
-                        var location;
+                        var position;
 
                         // 0, Math.PI/2, Math.PI, Math.PI*3/2
                         switch( _orientation ) {
@@ -98,33 +114,51 @@ ig.module('game.classes.player')
 
                             case 0:
                                 //extend right
-                                location = {x:origin.x+width/(total-1)*i, y:origin.y};
+                                position = {x:origin.x+width/(total-1)*i, y:origin.y};
                                 break;
 
                             case Math.PI/2:
                                 //extend down
-                                location = {x:origin.x, y:origin.y+width/(total-1)*i};
+                                position = {x:origin.x, y:origin.y+width/(total-1)*i};
                                 break;
 
                             case Math.PI:
                                 //extend left
-                                location = {x:origin.x-width/(total-1)*i, y:origin.y};
+                                position = {x:origin.x-width/(total-1)*i, y:origin.y};
                                 break;
 
                             case Math.PI*3/2:
                                 //extend up
-                                location = {x:origin.x, y:origin.y-width/(total-1)*i};
+                                position = {x:origin.x, y:origin.y-width/(total-1)*i};
                                 break;
                         }
 
-                        cardLocations.push(location);
+                        this.createLocation(position,locationKey);
                     }
+
                     // draw line of all possible positions
-
-                    console.log(cardLocations);
-
-                    _locations.cards = cardLocations;
                     // rotate all cards to player orientation
+                },
+                showCardPositions: function( locationKey ) {
+                    _.each(_locations[locationKey], function(location){
+
+                    });
+                },
+                receiveCards: function( cards, locationKey ) {
+                    console.log('player receiving cards:');
+                    console.log(cards);
+                    console.log(locationKey);
+
+                    //get cards at location
+                    var cardTarget =_cards[locationKey];
+                    console.log(cardTarget);
+
+                    _.each(cards,function(card){
+                        var location = _locations[locationKey][cardTarget.length];
+                        card.setLocation(location);
+                        cards.push(card);
+                    });
+
                 },
 
                 addPiece: function(piece){

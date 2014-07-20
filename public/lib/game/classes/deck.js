@@ -1,46 +1,73 @@
 ig.module('game.classes.deck')
-.requires()
-.defines(function() {
-    
-    Deck = function(){
+    .requires(
+        'game.classes.card'
+    )
+    .defines(function() {
 
-        var _cards = [];
 
-        //set card types
+        Deck = function( cardList, cardTypes, entityClass, type ){
 
-        //set quantity of card type 
+            var _cards = [];
+            var _origin = {x:0,y:0};
 
-        //shuffle
+            var _cardList = cardList || [];
+            var _cardTypes = cardTypes || {};
+            var _type = type || null;
 
-        //draw X cards
 
-        return {
-            addCard: function( cardGenerator, quantity ) {
-                for (var i=0; i<quantity; i++) {
-                    var card = new cardGenerator();
+            //set card types
+
+            //set quantity of card type
+
+            //shuffle
+
+            //draw X cards
+
+            return {
+                setOrigin: function( x, y ){
+                    _origin.x = x;
+                    _origin.y = y;
+                },
+                populate: function() {
+
+                    //new entityClass
+                },
+                addCard: function( card ){
                     _cards.push(card);
-                }
-            },
-            shuffle: function() {
+                },
+                generateCard: function( cardGenerator, quantity ) {
+                    for (var i=0; i<quantity; i++) {
+                        var card = new cardGenerator();
+                        _cards.push(card);
+                    }
+                },
+                shuffle: function() {
 
-            },
-            draw: function( quantity ) {
-                var drawnCards = [];
+                },
+                draw: function( quantity ) {
+                    var drawnCards = [];
 
-                for (var i=0; i<quantity; i++) {
-                    var card = _cards.pop();
-                    drawnCards.push(card);
-                }
+                    for (var i=0; i<quantity; i++) {
+                        var card = _cards.pop();
+                        drawnCards.push(card);
+                    }
 
-                return drawnCards;
-            },
-            getCards: function( quantity ) {
-                if (typeof quantity == "undefined") {
-                    return _cards;
-                } else {
-                    return _cards.slice(quantity);
+                    return drawnCards;
+                },
+                getCards: function( quantity ) {
+                    if (typeof quantity == "undefined") {
+                        return _cards;
+                    } else {
+                        return _cards.slice(quantity);
+                    }
+                },
+                dealCards: function( quantity, player, locationKey ) {
+                    //TODO
+                    // deal from top or bottom of deck???
+
+                    var dealt = _cards.splice(0,quantity);
+                    player.receiveCards(dealt, locationKey);
                 }
-            }
+            };
         };
-    };
-});
+    });

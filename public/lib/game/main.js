@@ -33,6 +33,7 @@ ig.module(
     'game.classes.resourceCard',
     'game.classes.pieceLocation',
     'game.classes.player',
+    'game.classes.deck',
 
     // developer files
     'game.config'
@@ -56,6 +57,9 @@ MyGame = ig.Game.extend({
 	terrain: [],
     numberTokens: [],
     ports: [],
+
+    decks: [],
+
 
     desert: null,
 
@@ -88,6 +92,16 @@ MyGame = ig.Game.extend({
     },
 
     loadGame: function( gameState ) {
+
+    },
+
+    dealCards: function( deck, player, quantity ){
+
+
+        //payout.player.addInventory(card.,resourceCard);
+
+        console.log("player inventory:");
+        console.log(player.getInventory());
 
     },
 
@@ -159,7 +173,9 @@ MyGame = ig.Game.extend({
             player.setOrientation(orientations[n]);
             player.setColor(playerData.color);
             player.setName(playerData.name);
-            player.generateCardPositions(14);
+            player.generateCardPositions(14, 'hand');
+
+            player.showCardPositions('hand');
 
             self.players.push(player);
 
@@ -172,14 +188,6 @@ MyGame = ig.Game.extend({
         });
         
 
-    },
-
-    dealCard: function( card, player ) {
-
-        //payout.player.addInventory(card.,resourceCard);
-
-        console.log("player inventory:");
-        console.log(player.getInventory());
     },
 
     produceResources: function( dieValue ) {
@@ -200,7 +208,9 @@ MyGame = ig.Game.extend({
         _.each(payouts,function(payout){
             //{player:piece.getOwner(),count:resourceCount,terrain:self}
             // spawn resource cards
-            var newResources = [];
+            var newResources = new Deck();
+
+            //TODO create temporary deck for new cards
 
             var resourceType = cardConversions[payout.terrain.type];
             var location = payout.terrain.getOrigin();
@@ -210,15 +220,17 @@ MyGame = ig.Game.extend({
                 var entity = ig.game.spawnEntity(EntityResourceCard, location.x, location.y);
                 var resourceCard = new ResourceCard(pieceId,entity,resourceType);
                 resourceCard.reveal();
-                newResources.push(resourceCard);
+                newResources.addCard(resourceCard);
                 console.log('produced resource:');
                 console.log(resourceCard);
             }
 
             // give cards to recipients
-            _.each(newResources, function(resource){
-                self.dealCard(resource, payout.player);
-            });
+
+            // deal cards from temporary deck
+            newResources.dealCards( payout.count, payout.player, 'hand');
+
+
         });
     },
 
@@ -241,6 +253,8 @@ MyGame = ig.Game.extend({
 
 
         this.produceResources(8);
+
+//        var developmentCardDeck = new Deck(decks[0].cards, );
 
 //        this.terrain[2].generateResources();
 //        this.terrain[5].generateResources();

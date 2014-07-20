@@ -22,7 +22,11 @@ ig.module('game.utils')
 		  }
 
 		  return array;
-		}
+		},
+        showTestMarker: function( x, y ) {
+            var font = new ig.Font( 'media/04b03.font.png' );
+            font.draw( 'X', x, y, ig.Font.ALIGN.CENTER );
+        }
     }
 
 });

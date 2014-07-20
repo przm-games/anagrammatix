@@ -55,7 +55,13 @@ ig.module('game.classes.deck')
                                 description: _cardTypes[key].description
                             });
 
+                            _cards.push(card);
+
+                            //TODO
+                            //animate card going into deck
                             card.entity.reveal();
+                            card.entity.hide();
+
                             console.log('new card:');
                             console.log(_cardTypes[key].title);
                         }
@@ -72,8 +78,12 @@ ig.module('game.classes.deck')
                         _cards.push(card);
                     }
                 },
-                shuffle: function() {
-
+                shuffle: function( count ) {
+                    for (var i=0;i<count;i++){
+                        _cards = _.shuffle(_cards);
+                        console.log('shuffled cards');
+                        console.log(_cards);
+                    }
                 },
                 draw: function( quantity ) {
                     var drawnCards = [];

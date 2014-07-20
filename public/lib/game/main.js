@@ -169,6 +169,10 @@ MyGame = ig.Game.extend({
             var deck = new Deck( cardList, cardTypes, self.classMap, self.entityMap, self.actionMap, deckConfig.type );
             deck.setOrigin(deckConfig.origin.x, deckConfig.origin.y);
             deck.populate();
+
+            deck.shuffle(3);
+
+            self.decks[deckConfig.name] = deck;
         });
 
     },

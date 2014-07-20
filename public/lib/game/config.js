@@ -10,6 +10,7 @@ ig.module('game.config')
 
         decks = [
             {
+                name: "development",
                 type: "development",
                 cards: {
                     knight: 14,

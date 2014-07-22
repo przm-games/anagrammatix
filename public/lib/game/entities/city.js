@@ -23,7 +23,7 @@ ig.module('game.entities.city')
 
             this.currentAnim = this.anims.red;
         },
-        setPlayerColor: function(color) {
+        setIdentifier: function(color) {
             this.currentAnim = this.anims[color];
         },
         setOwner: function(playerId) {

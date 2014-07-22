@@ -53,7 +53,7 @@ ig.module('game.classes.player')
                     return _inventory;
                 },
                 consumeInventory: function() {
-                    cost
+                    //cost
                 },
 
                 setLocation: function(key,x,y) {
@@ -263,27 +263,25 @@ ig.module('game.classes.player')
                     console.log('building city');
                     console.log(settlement);
 
-                    var terrain = settlement.getProximals()[0];
-                    var position = settlement.getPosition();
-
                     //create city entity
                     var entity = ig.game.spawnEntity(EntityCity, location.x, location.y);
                     var city = new Piece("city",pieceId,entity);
                     city.setOwner(this);
                     this.addPiece(city);
 
-                    terrain.placePiece(city,position);
+                    settlement.getLocation().placePiece(city);
 
 
                     //destroy settlement
-                    settlement.entity.kill();
-                    this.removePiece(settlement);
-
-                    var sharedTerrain = settlement.getLocation().getOwners();
-
-                    _.each(sharedTerrain,function(terrain){
-                        terrain.removePiece(piece);
-                    });
+                    settlement.destroy();
+//                    settlement.entity.kill();
+//                    this.removePiece(settlement);
+//
+//                    var sharedTerrain = settlement.getLocation().getOwners();
+//
+//                    _.each(sharedTerrain,function(terrain){
+//                        terrain.removePiece(settlement);
+//                    });
 
                 },
                 buyDevelopmentCard: function( developmentCardDeck ) {

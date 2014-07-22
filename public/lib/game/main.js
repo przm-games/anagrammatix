@@ -314,7 +314,7 @@ MyGame = ig.Game.extend({
         player.buildSettlement(terrain.getVertex(2));
 
         var settlement = player.getPieces("settlement")[0];
-        //player.buildCity(settlement);
+        player.buildCity(settlement);
 
         this.produceResources(8);
 

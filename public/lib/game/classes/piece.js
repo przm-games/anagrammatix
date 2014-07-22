@@ -10,11 +10,6 @@ ig.module('game.classes.piece')
         var _position = null;
         var _location = null; //PieceLocation
         var _owner = null;
-        var _proximals = [];
-
-        //a proximal has an object and a relationship descriptor
-        //object: Terrain
-        //description: position
 
         // TODO 
         // distinguish by owner
@@ -37,15 +32,6 @@ ig.module('game.classes.piece')
             getOwner: function() {
                 return _owner;
             },
-
-            getProximals: function(){
-                return _proximals;
-            },
-            setProximals: function( proximals ) {
-                //all touching terrain
-                //pass through from location
-                _proximals = proximals;
-            },
 //            setTerrain: function( terrain ) {
 //                _terrain = terrain;
 //            },
@@ -62,6 +48,19 @@ ig.module('game.classes.piece')
             },
             getLocation: function(location) {
                 return _location;
+            },
+
+            destroy: function() {
+                var self = this;
+
+                this.entity.kill();
+                _owner.removePiece(this);
+
+                var sharedTerrain = _location.getOwners();
+
+                _.each(sharedTerrain,function(terrain){
+                    terrain.removePiece(self);
+                });
             }
         };
     }

@@ -94,7 +94,9 @@ MyGame = ig.Game.extend({
     numberTokens: [],
     ports: [],
 
-    decks: {},
+    decks: {
+        discard: []
+    },
 
     desert: null,
     robber: null,
@@ -307,6 +309,8 @@ MyGame = ig.Game.extend({
         player.buildRoad(this.terrain[5],1);
         player.buildSettlement(this.terrain[5],2);
 
+        var settlement = player.getPieces("settlement")[0];
+        player.buildCity(settlement);
 
         this.produceResources(8);
 

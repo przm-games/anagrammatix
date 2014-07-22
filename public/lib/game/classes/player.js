@@ -50,6 +50,9 @@ ig.module('game.classes.player')
                 getInventory: function() {
                     return _inventory;
                 },
+                consumeInventory: function() {
+                    cost
+                },
 
                 setLocation: function(key,x,y) {
                     _locations[key] = {x:x, y:y}
@@ -175,8 +178,19 @@ ig.module('game.classes.player')
                 removePiece: function(piece){
 
                 },
-                getPieces: function(){
-                    return _pieces;
+                getPieces: function( key ){
+                    if (typeof key=="undefined"){
+                        return _pieces;
+                    } else {
+                        var cache = [];
+                        _.each(_pieces, function(piece){
+                           if (piece.type==key){
+                              cache.push(piece);
+                           }
+                        });
+                        return cache;
+                    }
+
                 },
 
                 getEligibleBuildingLocations: function() {
@@ -218,16 +232,22 @@ ig.module('game.classes.player')
                     terrain.placePiece(settlement,position);
                 },
                 buildCity: function( settlement ) {
-                    //get settlements
+
+                    console.log('building city');
+                    console.log(settlement);
+                    //destroy settlement entity
+
+                    //create city entity
+
 
                 },
-                buyDevelopmentCard: function() {
+                buyDevelopmentCard: function( developmentCardDeck ) {
                     //subtract cost from inventory
 
                     //locate development card in developmentCard deck
 
                 },
-                activateDevelopmentCard: function( developmentCard ) {
+                activateDevelopmentCard: function( developmentCard, discardDeck ) {
 
                 },
 

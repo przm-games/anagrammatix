@@ -166,7 +166,7 @@ ig.module('game.classes.player')
                     _.each(cards,function(card){
                         var location = _locations[locationKey][cardTarget.length];
                         card.setLocation(location);
-                        cards.push(card);
+                        cardTarget.push(card);
 
                         //hide card from other players
                         card.hide();

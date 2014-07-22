@@ -191,7 +191,7 @@ ig.module('game.classes.terrain')
                     var payouts = [];
 
                     var pieces = this.getPieces();
-                    console.log(pieces);
+                    //console.log(pieces);
 
                     var resourceTotal = 0;
                     var resourceType = null;
@@ -199,7 +199,7 @@ ig.module('game.classes.terrain')
 
                     // determine quantity & recipients from buildings on terrain
                     _.each(pieces, function(piece) {
-                        console.log(piece.type);
+                        //console.log(piece.type);
 
                         var resourceCount;
 

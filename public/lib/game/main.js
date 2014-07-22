@@ -265,7 +265,7 @@ MyGame = ig.Game.extend({
         });
 
         console.log(payouts);
-        alert('payouts on '+dieValue);
+        //alert('payouts on '+dieValue);
 
         _.each(payouts,function(payout){
             //{player:piece.getOwner(),count:resourceCount,terrain:self}
@@ -414,8 +414,8 @@ MyGame = ig.Game.extend({
             });
         });
 
-        console.log('outer edges:');
-        console.log(outerEdges);
+        //console.log('outer edges:');
+        //console.log(outerEdges);
 
         //9 ports
         //# of edges between ports
@@ -428,8 +428,8 @@ MyGame = ig.Game.extend({
             portEdges.push(outerEdges[edgeIndex]);
         });
 
-        console.log('port edges:');
-        console.log(portEdges);
+        //console.log('port edges:');
+        //console.log(portEdges);
 
         //shuffle ports
         self.ports = _.shuffle(self.ports);
@@ -482,8 +482,8 @@ MyGame = ig.Game.extend({
         var desertIndex = this.desert.getOrigin().index;
         placementOrder = _.without(placementOrder,desertIndex);
 
-        console.log('desert tile at:');
-        console.log(this.desert.getOrigin());
+        //console.log('desert tile at:');
+        //console.log(this.desert.getOrigin());
 
         
         placementOrder.forEach(function(terrainIndex,orderIndex){
@@ -526,7 +526,7 @@ MyGame = ig.Game.extend({
         	var potentialNeighbors = findNeighbors(location);
         	var currentNeighbors = location.getNeighbors();
 
-            console.log('location.entity.zIndex: '+location.entity.zIndex);
+            //console.log('location.entity.zIndex: '+location.entity.zIndex);
 
         	if (currentNeighbors<potentialNeighbors) {
         		var newNeighbors = _.difference(potentialNeighbors,currentNeighbors);
@@ -628,7 +628,7 @@ MyGame = ig.Game.extend({
 
             });
             
-            console.log(self.locationOrigins.length);
+            //console.log(self.locationOrigins.length);
 
         }
 
@@ -738,8 +738,8 @@ MyGame = ig.Game.extend({
 
                 var terrain = self.terrain[originIndex];
 
-                console.log(origin);
-                console.log(terrain);
+                //console.log(origin);
+                //console.log(terrain);
 
                 if (terrain.type=="desert") {
                     console.log('desert tile!');
@@ -747,7 +747,7 @@ MyGame = ig.Game.extend({
                 }
 
             	terrain.setOrigin(origin.x,origin.y,originIndex);
-            	console.log(terrain.getOrigin());
+            	//console.log(terrain.getOrigin());
 
                 // place terrain at origin
                 terrain.entity.pos.x = origin.x;

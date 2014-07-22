@@ -8,6 +8,8 @@ ig.module('game.classes.player')
     )
     .defines(function() {
 
+        var pieceId = 0;
+
         Player = function(id) {
 
             var _id = id;
@@ -176,7 +178,10 @@ ig.module('game.classes.player')
                     _pieces.push(piece);
                 },
                 removePiece: function(piece){
-
+                    console.log("removing piece");
+                    console.log(_pieces.length);
+                    _pieces =  _.without(_pieces,piece);
+                    console.log(_pieces.length);
                 },
                 getPieces: function( key ){
                     if (typeof key=="undefined"){
@@ -205,40 +210,80 @@ ig.module('game.classes.player')
                     // cities
                     // get current settlements
                 },
-                buildRoad: function( terrain, position ) {
+                buildRoad: function( location ) {
 
-                    var location = _locations.origin;
+                    var origin = _locations.origin;
 
-                    var entity = ig.game.spawnEntity(EntityRoad, location.x, location.y);
-                    var pieceId = 0;
+                    var entity = ig.game.spawnEntity(EntityRoad, origin.x, origin.y);
                     var road = new Piece("road",pieceId,entity);
 
                     road.setOwner(this);
                     this.addPiece(road);
 
-                    terrain.placePiece(road,position);
+                    location.placePiece(road);
                 },
-                buildSettlement: function( terrain, position ) {
+                buildSettlement: function( location ) {
 
-                    var location = _locations.origin;
+                    var origin = _locations.origin;
 
-                    var entity = ig.game.spawnEntity(EntitySettlement, location.x, location.y);
-                    var pieceId = 0;
+                    var entity = ig.game.spawnEntity(EntitySettlement, origin.x, origin.y);
                     var settlement = new Piece("settlement",pieceId,entity);
 
                     settlement.setOwner(this);
                     this.addPiece(settlement);
 
-                    terrain.placePiece(settlement,position);
+                    location.placePiece(settlement);
                 },
+//                buildRoad: function( terrain, position ) {
+//
+//                    var location = _locations.origin;
+//
+//                    var entity = ig.game.spawnEntity(EntityRoad, location.x, location.y);
+//                    var road = new Piece("road",pieceId,entity);
+//
+//                    road.setOwner(this);
+//                    this.addPiece(road);
+//
+//                    terrain.placePiece(road,position);
+//                },
+//                buildSettlement: function( terrain, position ) {
+//
+//                    var location = _locations.origin;
+//
+//                    var entity = ig.game.spawnEntity(EntitySettlement, location.x, location.y);
+//                    var settlement = new Piece("settlement",pieceId,entity);
+//
+//                    settlement.setOwner(this);
+//                    this.addPiece(settlement);
+//
+//                    terrain.placePiece(settlement,position);
+//                },
                 buildCity: function( settlement ) {
 
                     console.log('building city');
                     console.log(settlement);
-                    //destroy settlement entity
+
+                    var terrain = settlement.getProximals()[0];
+                    var position = settlement.getPosition();
 
                     //create city entity
+                    var entity = ig.game.spawnEntity(EntityCity, location.x, location.y);
+                    var city = new Piece("city",pieceId,entity);
+                    city.setOwner(this);
+                    this.addPiece(city);
 
+                    terrain.placePiece(city,position);
+
+
+                    //destroy settlement
+                    settlement.entity.kill();
+                    this.removePiece(settlement);
+
+                    var sharedTerrain = settlement.getLocation().getOwners();
+
+                    _.each(sharedTerrain,function(terrain){
+                        terrain.removePiece(piece);
+                    });
 
                 },
                 buyDevelopmentCard: function( developmentCardDeck ) {

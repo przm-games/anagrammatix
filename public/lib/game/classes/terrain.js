@@ -44,9 +44,40 @@ ig.module('game.classes.terrain')
                 addLocation:function(location){
                     //if location is unique
                     //if locations.length<12
-                    location.setIndex(_locations.length);
+                    var position = _locations.length;
+                    var angle = 0;
+
+                    switch (position) {
+                        //edges are 1,3,5,7,9,11
+                        //vertices are 0,2,4,6,8,10
+                        case 1:
+                        case 7:
+                            angle = Math.PI*2/3;
+                            break;
+                        case 3:
+                        case 9:
+                            angle = 0;
+                            break;
+                        case 5:
+                        case 11:
+                            angle = Math.PI*1/3;
+                            break;
+                    }
+
+                    location.setIndex(position);
+                    location.setOrientation(angle);
+
                     _locations.push(location);
 
+                },
+                getEdge: function( position ){
+                    //0-11
+                    //even # vertices
+                    //odd # edges
+                    return _locations[1+position*2];
+                },
+                getVertex: function( position ){
+                    return _locations[position*2];
                 },
                 getLocations: function(){
                     return _locations;
@@ -54,6 +85,12 @@ ig.module('game.classes.terrain')
 
                 addPiece: function(piece){
                     _pieces.push(piece);
+                },
+                removePiece: function(piece){
+                    console.log("removing piece");
+                    console.log(_pieces.length);
+                    _pieces =  _.without(_pieces,piece);
+                    console.log(_pieces.length);
                 },
                 getPieces: function(){
                     return _pieces;

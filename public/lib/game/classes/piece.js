@@ -7,8 +7,14 @@ ig.module('game.classes.piece')
         var _type = type;
         var _entity = entity;
 
+        var _position = null;
         var _location = null; //PieceLocation
         var _owner = null;
+        var _proximals = [];
+
+        //a proximal has an object and a relationship descriptor
+        //object: Terrain
+        //description: position
 
         // TODO 
         // distinguish by owner
@@ -16,6 +22,13 @@ ig.module('game.classes.piece')
         return {
             type: _type,
             entity: _entity,
+
+            setPosiiton: function( position ){
+                _position = position;
+            },
+            getPosition: function(){
+                return _position;
+            },
             
             setOwner: function(owner) {
                 _owner = owner;
@@ -25,6 +38,20 @@ ig.module('game.classes.piece')
                 return _owner;
             },
 
+            getProximals: function(){
+                return _proximals;
+            },
+            setProximals: function( proximals ) {
+                //all touching terrain
+                //pass through from location
+                _proximals = proximals;
+            },
+//            setTerrain: function( terrain ) {
+//                _terrain = terrain;
+//            },
+//            getTerrain: function() {
+//                return _terrain;
+//            },
 
             setLocation: function(location) {
                 console.log(location);

@@ -304,13 +304,17 @@ MyGame = ig.Game.extend({
 
         var player = this.players[1];
 
-        player.buildSettlement(this.terrain[5],0);
-        player.buildRoad(this.terrain[5],0);
-        player.buildRoad(this.terrain[5],1);
-        player.buildSettlement(this.terrain[5],2);
+        //get location
+        var terrain = this.terrain[5];
+
+
+        player.buildSettlement(terrain.getVertex(0));
+        player.buildRoad(terrain.getEdge(0));
+        player.buildRoad(terrain.getEdge(1));
+        player.buildSettlement(terrain.getVertex(2));
 
         var settlement = player.getPieces("settlement")[0];
-        player.buildCity(settlement);
+        //player.buildCity(settlement);
 
         this.produceResources(8);
 

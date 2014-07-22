@@ -13,6 +13,8 @@ ig.module('game.classes.pieceLocation')
         var _entity = entity;
         var _index = null;
 
+        var _orientation = 0;
+
         return {
             id: _id,
             type: _type,
@@ -38,6 +40,43 @@ ig.module('game.classes.pieceLocation')
             removePiece: function(piece){
                 //TODO
                 //remove piece
+            },
+            placePiece: function( piece ) {
+
+                switch( piece.type ) {
+
+                    case "road":
+                        piece.entity.rotateToAngle(_orientation);
+                        break;
+
+                    case "settlement":
+                    case "city":
+                        break;
+                }
+
+
+                this.addPiece(piece);
+                piece.setLocation(this);
+
+                // add piece ownership to all terrain sharing that location
+                // every vertex should have 3 owners
+                // every edge should have 2 owners
+
+                //console.log("location owners:");
+                //console.log(location.getOwners());
+
+                var sharedTerrain = this.getOwners();
+
+                _.each(sharedTerrain,function(terrain){
+                    terrain.addPiece(piece);
+                });
+            },
+
+            setOrientation: function( orientation ){
+                _orientation = orientation;
+            },
+            getOrientation: function(){
+                return _orientation;
             },
 
             setIndex: function(index){

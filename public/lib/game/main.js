@@ -46,6 +46,8 @@ ig.module(
         font.draw( 'X', x, y, ig.Font.ALIGN.CENTER );
     }
 
+    var pieceId = 0;
+
 MyGame = ig.Game.extend({
 	
 	// Load a font
@@ -307,16 +309,25 @@ MyGame = ig.Game.extend({
         //get location
         var terrain = this.terrain[5];
 
+        var location = this.desert.getOrigin();
+        var entity = ig.game.spawnEntity(EntityRobber, location.x, location.y);
+        var robber = new Piece("robber",pieceId,entity);
+
+        this.robber = robber;
+
 
         player.buildSettlement(terrain.getVertex(0));
         player.buildRoad(terrain.getEdge(0));
         player.buildRoad(terrain.getEdge(1));
         player.buildSettlement(terrain.getVertex(2));
 
-        var settlement = player.getPieces("settlement")[0];
-        player.buildCity(settlement);
+        player.buildCity(player.getPieces("settlement")[0]);
+        player.buildCity(player.getPieces("settlement")[0]);
 
         this.produceResources(8);
+        this.produceResources(4);
+        this.produceResources(6);
+        this.produceResources(3);
 
 //        var developmentCardDeck = new Deck(decks[0].cards, );
 

@@ -35,6 +35,7 @@ ig.module(
     'game.classes.pieceLocation',
     'game.classes.player',
     'game.classes.deck',
+    'game.classes.robber',
 
     // developer files
     'game.config'
@@ -258,12 +259,13 @@ MyGame = ig.Game.extend({
 
         //get terrain with number counter equal to dieValue
         _.each(this.terrain, function(terrain,n){
-            if (terrain.getDieValue()==dieValue){
+            if (terrain.getDieValue()==dieValue && !terrain.isBlocked()){
                 payouts = payouts.concat(terrain.generateResources());
             }
         });
 
         console.log(payouts);
+        alert('payouts on '+dieValue);
 
         _.each(payouts,function(payout){
             //{player:piece.getOwner(),count:resourceCount,terrain:self}
@@ -311,10 +313,11 @@ MyGame = ig.Game.extend({
 
         var location = this.desert.getOrigin();
         var entity = ig.game.spawnEntity(EntityRobber, location.x, location.y);
-        var robber = new Piece("robber",pieceId,entity);
+        var robber = new Robber(pieceId,entity);
 
         this.robber = robber;
 
+        player.moveRobber(this.robber,this.terrain[5]);
 
         player.buildSettlement(terrain.getVertex(0));
         player.buildRoad(terrain.getEdge(0));
@@ -328,6 +331,8 @@ MyGame = ig.Game.extend({
         this.produceResources(4);
         this.produceResources(6);
         this.produceResources(3);
+
+
 
 //        var developmentCardDeck = new Deck(decks[0].cards, );
 

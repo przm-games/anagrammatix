@@ -16,6 +16,8 @@ ig.module('game.classes.terrain')
             var _numberToken = null;
             var _dieValue = null;
 
+            var _blocked = false;
+
             return {
                 id: _id,
                 type: _type,
@@ -45,7 +47,7 @@ ig.module('game.classes.terrain')
                     //if location is unique
                     //if locations.length<12
                     var position = _locations.length;
-                    var angle = 0;
+                    var angle;
 
                     switch (position) {
                         //edges are 1,3,5,7,9,11
@@ -62,6 +64,9 @@ ig.module('game.classes.terrain')
                         case 11:
                             angle = Math.PI*1/3;
                             break;
+
+                        default:
+                            angle = 0;
                     }
 
                     location.setIndex(position);
@@ -110,74 +115,87 @@ ig.module('game.classes.terrain')
                     });
                 },
 
+                block: function(){
+                    console.log(this);
+
+                    _blocked = true;
+                },
+                unblock: function(){
+                    _blocked = false;
+                },
+                isBlocked: function(){
+                    if (this.type == "desert") {
+                        return true;
+                    } else {
+                        return _blocked;
+                    }
+                },
+
                 getEdge: function(position) {
                     return _locations[1+position*2];
                 },
 
-                placePiece: function( piece, position ) {
-
-                    var location;
-
-                    switch( piece.type ) {
-
-                        case "road":
-                            location = _locations[1+position*2];
-                            var angle;
-                            switch (position) {
-                                case 0:
-                                case 3:
-                                    angle = Math.PI*2/3;
-                                    break;
-                                case 1:
-                                case 4:
-                                    angle = 0;
-                                    break;
-                                case 2:
-                                case 5:
-                                    angle = Math.PI*1/3;
-                                    break;
-                            }
-
-                            piece.entity.rotateToAngle(angle);
-                            break;
-
-                        case "settlement":
-                        case "city":
-                            location = _locations[position*2];
-                            break;
-                    }
-
-
-                    location.addPiece(piece);
-                    piece.setLocation(location);
-
-                    // add piece ownership to all terrain sharing that location
-                    // every vertex should have 3 owners
-                    // every edge should have 2 owners
-
-                    //console.log("location owners:");
-                    //console.log(location.getOwners());
-
-                    var sharedTerrain = location.getOwners();
-
-                    _.each(sharedTerrain,function(terrain){
-                        terrain.addPiece(piece);
-                    });
-                },
+//                placePiece: function( piece, position ) {
+//
+//                    var location;
+//
+//                    switch( piece.type ) {
+//
+//                        case "road":
+//                            location = _locations[1+position*2];
+//                            var angle;
+//                            switch (position) {
+//                                case 0:
+//                                case 3:
+//                                    angle = Math.PI*2/3;
+//                                    break;
+//                                case 1:
+//                                case 4:
+//                                    angle = 0;
+//                                    break;
+//                                case 2:
+//                                case 5:
+//                                    angle = Math.PI*1/3;
+//                                    break;
+//                            }
+//
+//                            piece.entity.rotateToAngle(angle);
+//                            break;
+//
+//                        case "settlement":
+//                        case "city":
+//                            location = _locations[position*2];
+//                            break;
+//                    }
+//
+//
+//                    location.addPiece(piece);
+//                    piece.setLocation(location);
+//
+//                    // add piece ownership to all terrain sharing that location
+//                    // every vertex should have 3 owners
+//                    // every edge should have 2 owners
+//
+//                    //console.log("location owners:");
+//                    //console.log(location.getOwners());
+//
+//                    var sharedTerrain = location.getOwners();
+//
+//                    _.each(sharedTerrain,function(terrain){
+//                        terrain.addPiece(piece);
+//                    });
+//                },
 
                 generateResources: function() {
                     var self = this;
-
-                    if (this.type == "desert") {
-                        return false;
-                    }
+                    var payouts = [];
 
                     var pieces = this.getPieces();
                     console.log(pieces);
 
                     var resourceTotal = 0;
                     var resourceType = null;
-                    var payouts = [];
+
 
                     // determine quantity & recipients from buildings on terrain
                     _.each(pieces, function(piece) {
@@ -208,8 +226,9 @@ ig.module('game.classes.terrain')
                     return payouts;
                 },
 
-                placeRobber: function(terrain) {
+                placeRobber: function( robber ) {
 
+                    robber.setTerrain(this);
 
                 }
 

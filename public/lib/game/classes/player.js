@@ -30,6 +30,7 @@ ig.module('game.classes.player')
             // rotate all assets along periphery of board
             var _orientation = 0;
             var _limits = {};
+            var _blocked = false;
 
             return {
                 setName: function(name) {
@@ -295,8 +296,8 @@ ig.module('game.classes.player')
                 },
 
 
-                moveRobber: function(terrain, location) {
-                    terrain.placeRobber(location);
+                moveRobber: function( robber, terrain ) {
+                    terrain.placeRobber( robber );
                 },
 
                 initiateTrade: function( player ){

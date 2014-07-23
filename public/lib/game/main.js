@@ -189,7 +189,7 @@ MyGame = ig.Game.extend({
         //establish player positions on/around board
 
         //1 position at each of 4 corners
-        var cornerOffset = 100;
+        var cornerOffset = offsets.playerCorner;
         var positions = [];
         var orientations = [];
 

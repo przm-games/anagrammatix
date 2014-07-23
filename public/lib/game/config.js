@@ -8,6 +8,18 @@ ig.module('game.config')
         boardCenterOffsetX = (boardWidth-(10*xSpacing))/2, boardCenterOffsetY = (boardWidth-(8*ySpacing))/2;
         rows = [3, 4, 5, 4, 3];
 
+        offsets = {
+            playerCorner: 25,
+            resourceCards: 50
+        };
+
+        degrees = {
+            0: 0,
+            90: Math.PI/2,
+            180: Math.PI,
+            270: Math.PI*3/2
+        };
+
         decks = [
             {
                 name: "development",
@@ -23,7 +35,7 @@ ig.module('game.config')
                     roadBuilding: 2,
                     plenty: 2
                 },
-                origin: {x:200,y:200}
+                origin: {x:75,y:200}
             }
         ];
 

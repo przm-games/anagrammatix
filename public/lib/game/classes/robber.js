@@ -26,9 +26,8 @@ ig.module('game.classes.robber')
             _terrain = terrain;
             _terrain.block();
 
-
-            console.log(_terrain.isBlocked());
-            alert('blocking terrain');
+            //console.log(_terrain.isBlocked());
+            //alert('blocking terrain');
         }
 
 

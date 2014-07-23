@@ -7,7 +7,7 @@ ig.module('game.classes.card')
         //type,id,entity
         var piece = new Piece("card",id,entity);
 
-        piece.subtype = subtype;
+        piece.cardType = subtype;
 
         piece.reveal = function(){
             //show front of card

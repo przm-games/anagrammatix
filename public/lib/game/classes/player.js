@@ -1,5 +1,7 @@
 ig.module('game.classes.player')
     .requires(
+        'game.config',
+
         'game.entities.road',
         'game.entities.city',
         'game.entities.settlement',
@@ -40,15 +42,33 @@ ig.module('game.classes.player')
                     return _name;
                 },
 
-                addInventory: function(key, object) {
+                addInventory: function(object) {
+                    console.log('receiving inventory for');
+
+                    var key;
+                    //cards:
+                    //type: cards
+                    //cardType: resource || development
+                    //resourceType:
+
                     //developmentCards
-                    //resourceCards
+
+                    //resourceCards by type
+                    if (object.cardType=="resource") {
+                        key = object.resourceType;
+                    } else if (object.cardType=="development") {
+                        key = object.cardType;
+                    }
+
+                    console.log(key);
 
                     if (typeof _inventory[key] == "undefined") {
                         _inventory[key] = [];
                     }
 
                     _inventory[key].push(object);
+
+                    console.log(_inventory[key]);
                 },
                 getInventory: function() {
                     return _inventory;
@@ -99,8 +119,18 @@ ig.module('game.classes.player')
                 },
 
                 generateCardPositions: function( total, locationKey ) {
+                    //positions relative to player origin
+                    //mapped according to orientation
 
                     var origin = _locations.origin;
+
+                    switch(_orientation){
+                        case degrees[90]:
+
+                        break;
+                    }
+
+
                     var width = _limits.baseWidth;
 
                     this.createLocation(origin,locationKey);
@@ -171,7 +201,12 @@ ig.module('game.classes.player')
                         //hide card from other players
                         card.hide();
                         card.entity.rotateToAngle(_orientation);
+
+                        //process card for inventory
+                        self.addInventory(card);
                     });
+
+
 
                 },
 

@@ -212,13 +212,15 @@ ig.module('game.classes.player')
                     var self = this;
 
                     var locations = [];
+                    var roads = this.getPieces('road');
+                    var settlements = this.getPieces('settlement');
 
                     switch (item) {
                         // roads
                         // get edge neighbors for current roads, settlements, and cities
                         // check that road is not on edge
                         case 'road':
-                            var roads = this.getPieces('road');
+
 
                             _.each(roads,function(road){
                                var origin = road.getLocation(); //edge
@@ -248,13 +250,18 @@ ig.module('game.classes.player')
                         // get vertex neighbors for current roads
                         // check that vertex is at least 2 roads away and 2 edges away from another settlement
                         case 'settlement':
-                            var settlements = this.getPieces('settlement');
+
+
+
+
+
+
                             break;
 
                         // cities
                         // get current settlements
                         case 'city':
-                            var cities = this.getPieces('city');
+                            //var cities = this.getPieces('city');
                             break;
                     }
 

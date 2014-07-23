@@ -101,7 +101,36 @@ ig.module('game.classes.pieceLocation')
             },
             getNeighbors: function(){
                 return _neighbors;
-            }
+            },
+
+            getNeighborsAtDistance: function( degree ){ //degree of separation
+                console.log('getNeighborsAtDistance');
+                var cache = [];
+                var targets = [this];
+                var counter = 0;
+
+                do {
+                    console.log(counter);
+                    cache = _.union(cache,targets);
+                    targets = this.walkNeighbors(targets,cache);
+                    console.log(targets);
+                    counter++;
+
+                } while(counter<degree);
+
+                return _.difference(targets,cache);;
+            },
+
+            walkNeighbors: function( neighbors, history ){
+                console.log('walkNeighbors');
+                var cache = [];
+                _.each(neighbors,function(neighbor){
+                    cache = cache.concat(neighbor.getNeighbors());
+                });
+                console.log(cache);
+
+                return _.difference( _.uniq(cache), history );
+            },
 
         };
     };

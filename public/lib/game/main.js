@@ -159,11 +159,11 @@ MyGame = ig.Game.extend({
 
         player.moveRobber(this.robber,this.terrain[5]);
 
-        //player.buildSettlement(terrain.getVertex(0));
+        player.buildSettlement(terrain.getVertex(0));
         player.buildRoad(terrain.getEdge(0));
         //player.buildCity(player.getPieces("settlement")[0]);
 
-        player.buildRoad(terrain.getEdge(1));
+        //player.buildRoad(terrain.getEdge(1));
 //        player.buildSettlement(terrain.getVertex(2));
 //        player.buildCity(player.getPieces("settlement")[0]);
 
@@ -187,15 +187,26 @@ MyGame = ig.Game.extend({
         this.dealResourceCards(payouts);
 
         //test road building
-        var locations = player.getEligibleBuildingLocations('road');
-        console.log('getEligibleBuildingLocations');
-        console.log(locations);
+//        var locations = player.getEligibleBuildingLocations('road');
+//        console.log('getEligibleBuildingLocations');
+//        console.log(locations);
+//
+//        _.each(locations,function(location){
+//           player.buildRoad(location);
+//        });
+//
+//        console.log(player.getPieces('road').length);
 
+        //test settlement building
+        var location = terrain.getVertex(0);
+
+        var locations = location.getNeighborsAtDistance(4);
+        console.log(locations.length);
         _.each(locations,function(location){
-           player.buildRoad(location);
+           player.buildSettlement(location);
         });
 
-        console.log(player.getPieces('road').length);
+
 //        var report = player.getAffordableActions();
 //
 //        console.log("eligible purchases:");

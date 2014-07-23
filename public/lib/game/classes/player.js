@@ -244,6 +244,8 @@ ig.module('game.classes.player')
                                     });
                                 });
                             });
+
+                            locations = _.uniq(locations);
                             break;
 
                         // settlements
@@ -251,10 +253,41 @@ ig.module('game.classes.player')
                         // check that vertex is at least 2 roads away and 2 edges away from another settlement
                         case 'settlement':
 
+                            _.each(roads,function(road){
+                                locations = locations.concat(road.getLocation().getNeighbors());
+                            });
 
+                            locations = _.uniq(locations);
+                            console.log('road vertices');
+                            console.log(locations.length);
 
+                            var invalidated = [];
+                            _.each(locations,function(location){
 
+                                var invalidLocation = false;
 
+                                //if has a piece
+                                if (location.getPieces().length>0){
+                                    console.log('vertex occupied');
+                                    invalidLocation=true;
+                                } else {
+                                    //if settlement or city is 1 vertex away
+                                    _.each(location.getNeighborsAtDistance(2),function(vertex){
+                                        if (vertex.getPieces().length>0){
+                                            console.log('neighbor vertex occupied');
+                                            invalidLocation=true;
+                                        }
+                                    });
+
+                                }
+                                if (invalidLocation){
+                                    invalidated.push(location);
+                                }
+                            });
+                            console.log('invalid vertices');
+                            console.log(invalidated);
+
+                            locations = _.difference(locations,invalidated);
 
                             break;
 
@@ -265,7 +298,7 @@ ig.module('game.classes.player')
                             break;
                     }
 
-                    return _.uniq(locations);
+                    return locations;
                 },
                 buildRoad: function( location ) {
 

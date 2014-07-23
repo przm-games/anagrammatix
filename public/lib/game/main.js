@@ -187,24 +187,35 @@ MyGame = ig.Game.extend({
         this.dealResourceCards(payouts);
 
         //test road building
-//        var locations = player.getEligibleBuildingLocations('road');
-//        console.log('getEligibleBuildingLocations');
-//        console.log(locations);
-//
-//        _.each(locations,function(location){
-//           player.buildRoad(location);
-//        });
-//
-//        console.log(player.getPieces('road').length);
+        var locations = player.getEligibleBuildingLocations('road');
+        console.log('getEligibleBuildingLocations for road');
+        console.log(locations);
+
+        _.each(locations,function(location){
+           player.buildRoad(location);
+        });
+
+        console.log(player.getPieces('road').length);
 
         //test settlement building
-        var location = terrain.getVertex(0);
-
-        var locations = location.getNeighborsAtDistance(4);
+        //var location = terrain.getVertex(0);
+        locations = player.getEligibleBuildingLocations('settlement');
+        console.log('getEligibleBuildingLocations for settlement');
         console.log(locations.length);
+        console.log(locations);
+
         _.each(locations,function(location){
            player.buildSettlement(location);
         });
+
+        console.log(player.getPieces('settlement').length);
+
+        //test degrees of separation
+//        var locations = location.getNeighborsAtDistance(4);
+//        console.log(locations.length);
+//        _.each(locations,function(location){
+//           player.buildSettlement(location);
+//        });
 
 
 //        var report = player.getAffordableActions();

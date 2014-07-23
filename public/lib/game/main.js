@@ -136,13 +136,74 @@ MyGame = ig.Game.extend({
 
     },
 
-    dealCards: function( deck, player, quantity ){
+    render: function() {
 
+        //TODO if no gameState cache
+        this.setupNewGame( gameState.players );
 
-        //payout.player.addInventory(card.,resourceCard);
+        //else
+        //TODO load game from cache
 
-        console.log("player inventory:");
-        console.log(player.getInventory());
+        console.log(this.players);
+
+        var player = this.players[1];
+
+        //get location
+        var terrain = this.terrain[5];
+
+        var location = this.desert.getOrigin();
+        var entity = ig.game.spawnEntity(EntityRobber, location.x, location.y);
+        var robber = new Robber(pieceId,entity);
+
+        this.robber = robber;
+
+        player.moveRobber(this.robber,this.terrain[5]);
+
+        //player.buildSettlement(terrain.getVertex(0));
+        player.buildRoad(terrain.getEdge(0));
+        //player.buildCity(player.getPieces("settlement")[0]);
+
+        player.buildRoad(terrain.getEdge(1));
+//        player.buildSettlement(terrain.getVertex(2));
+//        player.buildCity(player.getPieces("settlement")[0]);
+
+        //TODO
+        // player rolls dice
+
+//        this.produceResources(8);
+//        this.produceResources(4);
+//        this.produceResources(6);
+//        this.produceResources(3);
+
+        //seed player inventory
+        var payouts = [
+            { player: player, count:4, type:'hills', origin:player.getLocation('origin') },
+            { player: player, count:4, type:'mountains', origin:player.getLocation('origin') },
+            { player: player, count:4, type:'fields', origin:player.getLocation('origin') },
+            { player: player, count:4, type:'pasture', origin:player.getLocation('origin') },
+            { player: player, count:4, type:'forest', origin:player.getLocation('origin') }
+        ];
+
+        this.dealResourceCards(payouts);
+
+        //test road building
+        var locations = player.getEligibleBuildingLocations('road');
+        console.log('getEligibleBuildingLocations');
+        console.log(locations);
+
+        _.each(locations,function(location){
+           player.buildRoad(location);
+        });
+
+        console.log(player.getPieces('road').length);
+//        var report = player.getAffordableActions();
+//
+//        console.log("eligible purchases:");
+//        console.log(report);
+//
+//        if (player.purchase(catalog.road)) {
+//            //player.buildRoad();
+//        };
 
     },
 
@@ -307,79 +368,6 @@ MyGame = ig.Game.extend({
         return resourceCard;
     },
 
-	render: function() {
-
-		//TODO if no gameState cache
-        this.setupNewGame( gameState.players );
-
-        //else
-        //TODO load game from cache
-
-        console.log(this.players);
-
-        var player = this.players[1];
-
-        //get location
-        var terrain = this.terrain[5];
-
-        var location = this.desert.getOrigin();
-        var entity = ig.game.spawnEntity(EntityRobber, location.x, location.y);
-        var robber = new Robber(pieceId,entity);
-
-        this.robber = robber;
-
-        player.moveRobber(this.robber,this.terrain[5]);
-
-        player.buildSettlement(terrain.getVertex(0));
-        player.buildRoad(terrain.getEdge(0));
-        player.buildRoad(terrain.getEdge(1));
-        player.buildSettlement(terrain.getVertex(2));
-
-        player.buildCity(player.getPieces("settlement")[0]);
-        player.buildCity(player.getPieces("settlement")[0]);
-
-//        this.produceResources(8);
-//        this.produceResources(4);
-//        this.produceResources(6);
-//        this.produceResources(3);
-
-        //seed player inventory
-        var payouts = [
-            { player: player, count:5, type:'hills', origin:player.getLocation('origin') },
-            { player: player, count:5, type:'mountains', origin:player.getLocation('origin') },
-            { player: player, count:5, type:'fields', origin:player.getLocation('origin') },
-            { player: player, count:5, type:'pasture', origin:player.getLocation('origin') },
-            { player: player, count:5, type:'forest', origin:player.getLocation('origin') }
-        ];
-
-        this.dealResourceCards(payouts);
-
-
-//        var developmentCardDeck = new Deck(decks[0].cards, );
-
-//        this.terrain[2].generateResources();
-//        this.terrain[5].generateResources();
-//        this.terrain[6].generateResources();
-//
-//        player.getEligiblePurchases();
-
-        // self.terrain[5].showLocations([0,2,4,6,8,10]);
-
-
-        // OVERRIDE
-        // test all other entities
-        // ig.game.spawnEntity(EntityPort, 200, 200);
-        // ig.game.spawnEntity(EntityRoad, 200, 200);
-        // ig.game.spawnEntity(EntityCity, 200, 200);
-        // ig.game.spawnEntity(EntitySettlement, 200, 200);
-        // ig.game.spawnEntity(EntityRobber, 200, 200);
-        // ig.game.spawnEntity(EntityLocation, 200, 200);
-        // ig.game.spawnEntity(EntityResourceCounter, 200, 200);
-        // ig.game.spawnEntity(EntityResourceCard, 200, 200);
-        // ig.game.spawnEntity(EntityDevelopmentCard, 200, 200);
-
-	},
-
     setupPorts: function() {
         var self = this;
 
@@ -538,7 +526,7 @@ MyGame = ig.Game.extend({
         var origin = {x:boardCenterOffsetX+2*xSpacing,y:boardCenterOffsetY};
 
 
-        self.terrain.forEach(function(terrain, index){
+        _.each(self.terrain, function(terrain){
             generateLocationOrigins(terrain);       
         });
 
@@ -628,7 +616,7 @@ MyGame = ig.Game.extend({
             	} else {
             		//console.log('new location');
             		
-            		var locationType = (index%2==0) ? "edge" : "vertex";
+            		var locationType = (index%2==0) ? "vertex" : "edge";
             		var locationId = self.locations.length;
 
                     var entity = ig.game.spawnEntity(EntityLocation, origin.x, origin.y);

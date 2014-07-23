@@ -33,13 +33,15 @@ ig.module('game.classes.pieceLocation')
 
             },
 
+            getPieces: function(){
+                return _pieces;
+            },
             addPiece: function(piece){
                 _pieces.push(piece);
                 //piece.setLocation(self);
             },
             removePiece: function(piece){
-                //TODO
-                //remove piece
+                _pieces = _.without(_pieces,piece);
             },
             placePiece: function( piece ) {
 
@@ -61,12 +63,7 @@ ig.module('game.classes.pieceLocation')
                 // add piece ownership to all terrain sharing that location
                 // every vertex should have 3 owners
                 // every edge should have 2 owners
-
-                //console.log("location owners:");
-                //console.log(location.getOwners());
-
                 var sharedTerrain = this.getOwners();
-
                 _.each(sharedTerrain,function(terrain){
                     terrain.addPiece(piece);
                 });

@@ -99,15 +99,15 @@ ig.module('game.config')
         };
 
 
-        catalog = [
-            {
+        catalog = {
+            road: {
                 name: "road",
                 cost: {
                     wood: 1,
                     brick: 1
                 }
             },
-            {
+            settlement: {
                 name: "settlement",
                 cost: {
                     wood: 1,
@@ -116,14 +116,14 @@ ig.module('game.config')
                     sheep: 1
                 }
             },
-            {
+            city: {
                 name: "city",
                 cost: {
                     wheat: 2,
                     ore: 3
                 }
             },
-            {
+            developmentCard: {
                 name: "developmentCard",
                 cost: {
                     wheat: 1,
@@ -131,7 +131,7 @@ ig.module('game.config')
                     sheep: 1
                 }
             }
-        ];
+    };
 
         cardConversions = {
             hills:"brick",

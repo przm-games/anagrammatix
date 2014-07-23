@@ -35,46 +35,20 @@ ig.module('game.classes.player')
             var _blocked = false;
 
             return {
+
+                roll: function( dice ){
+
+                    _.each(dice, function(die){
+
+                    });
+
+                },
+
                 setName: function(name) {
                     _name = name;
                 },
                 getName: function() {
                     return _name;
-                },
-
-                addInventory: function(object) {
-                    console.log('receiving inventory for');
-
-                    var key;
-                    //cards:
-                    //type: cards
-                    //cardType: resource || development
-                    //resourceType:
-
-                    //developmentCards
-
-                    //resourceCards by type
-                    if (object.cardType=="resource") {
-                        key = object.resourceType;
-                    } else if (object.cardType=="development") {
-                        key = object.cardType;
-                    }
-
-                    console.log(key);
-
-                    if (typeof _inventory[key] == "undefined") {
-                        _inventory[key] = [];
-                    }
-
-                    _inventory[key].push(object);
-
-                    console.log(_inventory[key]);
-                },
-                getInventory: function() {
-                    return _inventory;
-                },
-                consumeInventory: function() {
-                    //cost
                 },
 
                 setLocation: function(key,x,y) {
@@ -234,17 +208,57 @@ ig.module('game.classes.player')
 
                 },
 
-                getEligibleBuildingLocations: function() {
-                    // roads
-                    // get edge neighbors for current roads, settlements, and cities
-                    // check that road is not on edge
+                getEligibleBuildingLocations: function( item ) {
+                    var self = this;
 
-                    // settlements
-                    // get vertex neighbors for current roads
-                    // check that vertex is at least 2 roads away and 2 edges away from another settlement
+                    var locations = [];
 
-                    // cities
-                    // get current settlements
+                    switch (item) {
+                        // roads
+                        // get edge neighbors for current roads, settlements, and cities
+                        // check that road is not on edge
+                        case 'road':
+                            var roads = this.getPieces('road');
+
+                            _.each(roads,function(road){
+                               var origin = road.getLocation(); //edge
+                                console.log('location under road');
+                                console.log(origin);
+
+                               var vertices = origin.getNeighbors(); //adjacent vertices
+                                console.log('vertices adjacent to road');
+                                console.log(vertices);
+
+                                _.each(vertices,function(vertex){
+
+                                    var edges = vertex.getNeighbors();
+                                    console.log('edges of vertex');
+                                    console.log(edges);
+
+                                    _.each(edges,function(edge){
+                                        if (edge.getPieces().length==0 && edge!=origin){
+                                            locations.push(edge);
+                                        }
+                                    });
+                                });
+                            });
+                            break;
+
+                        // settlements
+                        // get vertex neighbors for current roads
+                        // check that vertex is at least 2 roads away and 2 edges away from another settlement
+                        case 'settlement':
+                            var settlements = this.getPieces('settlement');
+                            break;
+
+                        // cities
+                        // get current settlements
+                        case 'city':
+                            var cities = this.getPieces('city');
+                            break;
+                    }
+
+                    return _.uniq(locations);
                 },
                 buildRoad: function( location ) {
 
@@ -286,15 +300,6 @@ ig.module('game.classes.player')
 
                     //destroy settlement
                     settlement.destroy();
-//                    settlement.entity.kill();
-//                    this.removePiece(settlement);
-//
-//                    var sharedTerrain = settlement.getLocation().getOwners();
-//
-//                    _.each(sharedTerrain,function(terrain){
-//                        terrain.removePiece(settlement);
-//                    });
-
                 },
                 buyDevelopmentCard: function( developmentCardDeck ) {
                     //subtract cost from inventory
@@ -318,7 +323,18 @@ ig.module('game.classes.player')
 
                 },
 
-                getEligiblePurchases: function() {
+                getValidActions: function(){
+
+                    //crossreference permitted and affordable actions
+
+                },
+
+                getPermittedActions: function(){ //permission based on game state
+
+
+                },
+
+                getAffordableActions: function() { //based on player inventory
                     var self = this;
 
                     // check player inventory against catalog
@@ -349,13 +365,62 @@ ig.module('game.classes.player')
 
                     });
 
-                    console.log("eligible purchases:");
-                    console.log(report);
+                    return report;
+                },
+                addInventory: function(object) {
+                    console.log('receiving inventory for');
 
+                    var key;
+                    //cards:
+                    //type: cards
+                    //cardType: resource || development
+                    //resourceType:
+
+                    //developmentCards
+
+                    //resourceCards by type
+                    if (object.cardType=="resource") {
+                        key = object.resourceType;
+                    } else if (object.cardType=="development") {
+                        key = object.cardType;
+                    }
+
+                    console.log(key);
+
+                    if (typeof _inventory[key] == "undefined") {
+                        _inventory[key] = [];
+                    }
+
+                    _inventory[key].push(object);
+
+                    console.log(_inventory[key]);
+                },
+                getInventory: function() {
+                    return _inventory;
+                },
+                consumeInventory: function(quantity,key) {
+                    var consumed;
+                    console.log(_inventory[key]);
+                    if (typeof _inventory[key]==="undefined"){
+                        return false;
+                    } else if (_inventory[key]<quantity){
+                        return false;
+                    } else {
+                        consumed = _inventory[key].splice(0,quantity);
+                    }
+
+                    return consumed;
                 },
                 purchase: function( item ){
-
-
+                    var self = this;
+                    console.log('purchasing '+item.name);
+                    _.each(item.cost, function(cost,key){
+                        if (!self.consumeInventory(cost,key)){
+                            return false;
+                        }
+                    });
+                    console.log(_inventory);
+                    return true;
                 }
             };
 

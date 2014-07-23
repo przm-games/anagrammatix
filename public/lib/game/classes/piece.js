@@ -46,7 +46,7 @@ ig.module('game.classes.piece')
                 _entity.pos.x = _location.position.x;
                 _entity.pos.y = _location.position.y;
             },
-            getLocation: function(location) {
+            getLocation: function() {
                 return _location;
             },
 
@@ -54,10 +54,11 @@ ig.module('game.classes.piece')
                 var self = this;
 
                 this.entity.kill();
+
                 _owner.removePiece(this);
+                _location.removePiece(this);
 
                 var sharedTerrain = _location.getOwners();
-
                 _.each(sharedTerrain,function(terrain){
                     terrain.removePiece(self);
                 });

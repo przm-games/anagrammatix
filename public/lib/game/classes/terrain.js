@@ -214,7 +214,7 @@ ig.module('game.classes.terrain')
                         resourceTotal+=resourceCount;
 
                         if (resourceCount>0) {
-                            payouts.push({player:piece.getOwner(),count:resourceCount,terrain:self});
+                            payouts.push({player:piece.getOwner(),count:resourceCount,type:self.type,origin:self.getOrigin()});
                         }
                     });
 

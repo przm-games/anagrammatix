@@ -81,7 +81,7 @@ ig.module('game.classes.player')
                     _locations[key] = {x:x, y:y}
                 },
                 getLocation: function(key) {
-                    return _location[key];
+                    return _locations[key];
                 },
 
                 setColor: function(color){
@@ -270,30 +270,6 @@ ig.module('game.classes.player')
 
                     location.placePiece(settlement);
                 },
-//                buildRoad: function( terrain, position ) {
-//
-//                    var location = _locations.origin;
-//
-//                    var entity = ig.game.spawnEntity(EntityRoad, location.x, location.y);
-//                    var road = new Piece("road",pieceId,entity);
-//
-//                    road.setOwner(this);
-//                    this.addPiece(road);
-//
-//                    terrain.placePiece(road,position);
-//                },
-//                buildSettlement: function( terrain, position ) {
-//
-//                    var location = _locations.origin;
-//
-//                    var entity = ig.game.spawnEntity(EntitySettlement, location.x, location.y);
-//                    var settlement = new Piece("settlement",pieceId,entity);
-//
-//                    settlement.setOwner(this);
-//                    this.addPiece(settlement);
-//
-//                    terrain.placePiece(settlement,position);
-//                },
                 buildCity: function( settlement ) {
 
                     console.log('building city');

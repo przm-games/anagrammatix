@@ -9,7 +9,7 @@ ig.module('game.config')
         rows = [3, 4, 5, 4, 3];
 
         offsets = {
-            playerCorner: 75,
+            playerCorner: 50,
             resourceCards: 50
         };
 
@@ -57,54 +57,63 @@ ig.module('game.config')
                 knight: {
                     title: "Knight",
                     animation: "knight",
+                    class: "knight",
                     description: "Move the robber. Steal 1 resource from an owner of adjacent settlement or city.",
                     activation: "activateKnight"
                 },
                 roadBuilding: {
                     title: "Road Building",
                     animation: "road",
+                    class: "road",
                     description: "Place two roads as if you had built them.",
                     activation: "activateRoadBuilding"
                 },
                 plenty: {
                     title: "Year of Plenty",
                     animation: "plenty",
+                    class: "plenty",
                     description: "Take any 2 resources of your choice from the bank. Keep them or use the immediately.",
                     activation: "activateYearOfPlenty"
                 },
                 monopoly: {
                     title: "Monopoly",
                     animation: "monopoly",
+                    class: "plenty",
                     description: "Announce 1 resource type. All players must give you all of their resources of that type.",
                     activation: "activateMonopoly"
                 },
                 chapel: {
                     title: "Chapel",
                     animation: "chapel",
+                    class: "autopoint",
                     description: "1 Victory Point!",
                     activation: "earnVictoryPoint"
                 },
                 palace: {
                     title: "Palace",
                     animation: "palace",
+                    class: "autopoint",
                     description: "1 Victory Point!",
                     activation: "earnVictoryPoint"
                 },
                 market: {
                     title: "Market",
                     animation: "market",
+                    class: "autopoint",
                     description: "1 Victory Point!",
                     activation: "earnVictoryPoint"
                 },
                 library: {
                     title: "Library",
                     animation: "library",
+                    class: "autopoint",
                     description: "1 Victory Point!",
                     activation: "earnVictoryPoint"
                 },
                 university: {
                     title: "University",
                     animation: "university",
+                    class: "autopoint",
                     description: "1 Victory Point!",
                     activation: "earnVictoryPoint"
                 }

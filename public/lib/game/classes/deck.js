@@ -51,6 +51,7 @@ ig.module('game.classes.deck')
                             var card = new _classes[_type]({
                                 id: 0,
                                 entity: entity,
+                                subClass: _cardTypes[key].class,
                                 title: _cardTypes[key].title,
                                 description: _cardTypes[key].description
                             });
@@ -95,12 +96,32 @@ ig.module('game.classes.deck')
 
                     return drawnCards;
                 },
-                getCards: function( quantity ) {
+                getCards: function( quantity, subClass ) {
+                    console.log('getCards');
+//                    console.log(_cards);
+//                    console.log(_cards.length);
+//                    console.log(quantity);
+//                    console.log(subClass);
+
                     if (typeof quantity == "undefined") {
                         return _cards;
-                    } else {
+                    } else if (typeof subClass == "undefined") {
                         return _cards.slice(quantity);
+                    } else {
+                        var matches = [];
+                        _.each(_cards,function(card){
+                            if (matches.length<quantity && card.hasSubclass(subClass)){
+                                matches.push(card);
+                            }
+                        });
+                        _cards = _.difference(_cards,matches);
+                        //console.log(matches);
+                        return matches;
                     }
+                },
+                returnCards: function(cards){
+                    //TODO return cards to deck
+                    //TODO shuffle deck
                 },
                 dealCards: function( quantity, player, locationKey ) {
                     //TODO deal from top or bottom of deck???

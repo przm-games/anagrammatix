@@ -4,11 +4,13 @@ ig.module('game.classes.developmentCard')
 
         DevelopmentCard = function( config ) {
             //id, entity, title, description
-
+            //console.log(config);
             var card = new Card(config.id,config.entity,"development");
 
             var _action = null;
             var _deck = null;
+
+            card.addSubclass(config.subClass);
 
             card.title = config.title;
             card.description = config.description;

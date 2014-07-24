@@ -101,6 +101,8 @@ MyGame = ig.Game.extend({
         discard: []
     },
 
+    bank: {},
+
     desert: null,
     robber: null,
 
@@ -116,7 +118,7 @@ MyGame = ig.Game.extend({
 
     },
 
-    cacheGameState: function() {
+    saveGame: function() {
 
         //cache board setup
 
@@ -135,6 +137,13 @@ MyGame = ig.Game.extend({
     loadGame: function( gameState ) {
 
     },
+
+    //parse command object from websocket into game action(s)
+    parseCommand: function( data ){
+
+    },
+
+
 
     render: function() {
 
@@ -210,6 +219,12 @@ MyGame = ig.Game.extend({
 
         console.log(player.getPieces('settlement').length);
 
+        var points = player.countVictoryPoints();
+        console.log('points:');
+        console.log(points);
+
+
+
         //test degrees of separation
 //        var locations = location.getNeighborsAtDistance(4);
 //        console.log(locations.length);
@@ -218,7 +233,22 @@ MyGame = ig.Game.extend({
 //        });
 
         //test development cards
-        this.dealDevelopmentCards(1,player);
+        //this.dealDevelopmentCards(1,player);
+
+        var payouts = [
+            {player:player,count:2,subClass:"knight",location:"hand"}
+        ];
+
+        this.setDevelopmentCards(payouts);
+
+        console.log('check player cards');
+        var resourceCards = player.getCards('hand','resource');
+        var developmentCards = player.getCards('hand','development');
+        console.log(resourceCards);
+        console.log(developmentCards);
+
+
+        //player.activateKnight();
 
 //        var report = player.getAffordableActions();
 //
@@ -229,6 +259,10 @@ MyGame = ig.Game.extend({
 //            //player.buildRoad();
 //        };
 
+    },
+
+    setupBank: function(){
+        //TODO total resource cards available ???
     },
 
     setupNewGame: function( playerConfig ) {
@@ -319,9 +353,12 @@ MyGame = ig.Game.extend({
             player.setOrientation(orientations[n]);
             player.setColor(playerData.color);
             player.setName(playerData.name);
-            player.generateCardPositions(25, 'hand');
 
+            player.generateCardPositions(25, 'hand', {x:0,y:-25});
             player.showCardPositions('hand');
+
+            player.generateCardPositions(10, 'field', {x:0,y:25});
+            player.showCardPositions('field');
 
             self.players.push(player);
 
@@ -337,7 +374,6 @@ MyGame = ig.Game.extend({
     },
 
     produceResources: function( dieValue ) {
-        var self = this;
         console.log('producing resources on '+dieValue);
 
         var payouts = [];
@@ -356,8 +392,24 @@ MyGame = ig.Game.extend({
     },
 
     dealDevelopmentCards: function( quantity, player ){
+        var self = this;
         console.log('dealDevelopmentCard');
         this.decks['development'].dealCards(quantity,player,'hand');
+    },
+
+    setDevelopmentCards: function( payouts ){
+        var self = this;
+        //{player:piece.getOwner(),count:resourceCount,subClass:"",location:""}
+
+        _.each(payouts,function(payout){
+            var dealt = [];
+
+            dealt = dealt.concat(self.decks['development'].getCards(payout.count,payout.subClass));
+
+            payout.player.receiveCards(dealt, payout.location);
+        });
+
+
     },
 
     dealResourceCards: function( payouts ){

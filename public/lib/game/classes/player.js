@@ -121,28 +121,41 @@ ig.module('game.classes.player')
                     //longest road
                     //largest army
                     //single victory point cards
+                    return total;
                 },
 
-                createLocation: function( position, locationKey ){
-                    var cardLocations = _locations[locationKey];
-
-                    var entity = ig.game.spawnEntity(EntityLocation, position.x, position.y);
-                    // new Piece location model
-                    var cardLocation = new PieceLocation(position.x,position.y,locationKey,0,entity);
-
-                    cardLocations.push(cardLocation);
-                },
-
-                generateCardPositions: function( total, locationKey ) {
+                generateCardPositions: function( total, locationKey, offset ) {
                     //positions relative to player origin
                     //mapped according to orientation
 
                     var origin = _locations.origin;
 
                     switch(_orientation){
-                        case degrees[90]:
 
-                        break;
+                        case degrees[0]:
+                            //extend right
+                            //position = {x:origin.x+width/(total-1)*i, y:origin.y};
+                            origin = {x:origin.x+offset.x, y:origin.y+offset.y};
+                            break;
+
+                        case degrees[90]:
+                            //extend down
+                            //position = {x:origin.x, y:origin.y-width/(total-1)*i};
+                            origin = {x:origin.x+offset.y, y:origin.y-offset.x};
+                            break;
+
+                        case degrees[180]:
+                            //extend left
+                            //position = {x:origin.x-width/(total-1)*i, y:origin.y};
+                            origin = {x:origin.x-offset.x, y:origin.y-offset.y};
+                            break;
+
+                        case degrees[270]:
+                            //extend up
+                            //position = {x:origin.x, y:origin.y+width/(total-1)*i};
+                            origin = {x:origin.x-offset.y, y:origin.y+offset.x};
+
+                            break;
                     }
 
 
@@ -164,22 +177,22 @@ ig.module('game.classes.player')
                         switch( _orientation ) {
                             //distribute positions along maxWidth
 
-                            case 0:
+                            case degrees[0]:
                                 //extend right
                                 position = {x:origin.x+width/(total-1)*i, y:origin.y};
                                 break;
 
-                            case Math.PI/2:
+                            case degrees[90]:
                                 //extend down
                                 position = {x:origin.x, y:origin.y-width/(total-1)*i};
                                 break;
 
-                            case Math.PI:
+                            case degrees[180]:
                                 //extend left
                                 position = {x:origin.x-width/(total-1)*i, y:origin.y};
                                 break;
 
-                            case Math.PI*3/2:
+                            case degrees[270]:
                                 //extend up
                                 position = {x:origin.x, y:origin.y+width/(total-1)*i};
 
@@ -197,6 +210,16 @@ ig.module('game.classes.player')
 
                     });
                 },
+                createLocation: function( position, locationKey ){
+                    var cardLocations = _locations[locationKey];
+
+                    var entity = ig.game.spawnEntity(EntityLocation, position.x, position.y);
+                    // new Piece location model
+                    var cardLocation = new PieceLocation(position.x,position.y,locationKey,0,entity);
+
+                    cardLocations.push(cardLocation);
+                },
+
                 receiveCards: function( cards, locationKey ) {
                     var self = this;
 
@@ -231,6 +254,18 @@ ig.module('game.classes.player')
 
 
 
+                },
+                getCards: function( locationKey, mainClass, subClass ){
+
+                    var matches = [];
+
+                    _.each(_cards[locationKey], function(card){
+                        if (card.class==mainClass && (typeof subClass=="undefined" || card.hasSubclass(subClass))) {
+                            matches.push(card);
+                        }
+                    });
+
+                    return matches;
                 },
 
                 addPiece: function(piece){
@@ -390,13 +425,48 @@ ig.module('game.classes.player')
                     //destroy settlement
                     settlement.destroy();
                 },
+
                 buyDevelopmentCard: function( developmentCardDeck ) {
                     //subtract cost from inventory
 
                     //locate development card in developmentCard deck
 
                 },
-                activateDevelopmentCard: function( developmentCard, discardDeck ) {
+                playDevelopmentCard: function( developmentCard, discardDeck ) {
+
+                    //if year of plenty, monopoly, or road building
+                    //discard
+
+
+                    //else play on field
+
+
+                },
+                activateKnight: function( terrain, robber ){
+                    console.log('activateKnight');
+
+                    //find knight card
+                    var cards = this.getCards('hand','development','knight');
+
+                    console.log(cards);
+
+                    //play knight card
+
+                    //move robber
+                },
+                activateRoadBuilding:  function( player, locations ){
+                    console.log('activateRoadBuilding');
+                    _.each(locations,function(location){
+                        player.buildRoad(location);
+                    });
+                },
+                activateYearOfPlenty: function( player, types ){
+
+                },
+                activateMonopoly: function( player, type ){
+                    //player declares type
+                },
+                earnVictoryPoint: function( player ){
 
                 },
 
@@ -408,7 +478,9 @@ ig.module('game.classes.player')
                 initiateTrade: function( player ){
 
                 },
-                makeTrade: function(){
+                makeTrade: function( given, received ){
+
+
 
                 },
 

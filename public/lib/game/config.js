@@ -9,7 +9,7 @@ ig.module('game.config')
         rows = [3, 4, 5, 4, 3];
 
         offsets = {
-            playerCorner: 25,
+            playerCorner: 75,
             resourceCards: 50
         };
 
@@ -19,6 +19,19 @@ ig.module('game.config')
             180: Math.PI,
             270: Math.PI*3/2
         };
+
+        badges = {
+            largestArmy: {
+                title: "Largest Army",
+                description: "This card goes to the player with the longest unbroken road of at least 5 segments. Another player who builds a longer roads takes this card.",
+                bonus: 2
+            },
+            longestRoad: {
+                title: "Longest Road",
+                description: "The first player to play 3 Knight cards gets this card. Another player who plays more Knight cards takes this card.",
+                bonus: 2
+            }
+        }
 
         decks = [
             {

@@ -217,6 +217,8 @@ MyGame = ig.Game.extend({
 //           player.buildSettlement(location);
 //        });
 
+        //test development cards
+        this.dealDevelopmentCards(1,player);
 
 //        var report = player.getAffordableActions();
 //
@@ -351,6 +353,11 @@ MyGame = ig.Game.extend({
         //alert('payouts on '+dieValue);
 
         this.dealResourceCards(payouts);
+    },
+
+    dealDevelopmentCards: function( quantity, player ){
+        console.log('dealDevelopmentCard');
+        this.decks['development'].dealCards(quantity,player,'hand');
     },
 
     dealResourceCards: function( payouts ){

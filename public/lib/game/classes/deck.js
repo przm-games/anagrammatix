@@ -72,12 +72,12 @@ ig.module('game.classes.deck')
                 addCard: function( card ){
                     _cards.push(card);
                 },
-                generateCard: function( cardGenerator, quantity ) {
-                    for (var i=0; i<quantity; i++) {
-                        var card = new cardGenerator();
-                        _cards.push(card);
-                    }
-                },
+//                generateCard: function( cardGenerator, quantity ) {
+//                    for (var i=0; i<quantity; i++) {
+//                        var card = new cardGenerator();
+//                        _cards.push(card);
+//                    }
+//                },
                 shuffle: function( count ) {
                     for (var i=0;i<count;i++){
                         _cards = _.shuffle(_cards);
@@ -103,8 +103,9 @@ ig.module('game.classes.deck')
                     }
                 },
                 dealCards: function( quantity, player, locationKey ) {
-                    //TODO
-                    // deal from top or bottom of deck???
+                    //TODO deal from top or bottom of deck???
+
+                    //TODO deal revealed or hidden?
 
                     var dealt = _cards.splice(0,quantity);
                     player.receiveCards(dealt, locationKey);

@@ -36,5 +36,9 @@ ig.module('game.entities.developmentCard')
         hide: function() {
             this.currentAnim = this.anims.hidden;
         },
+
+        rotateToAngle: function(angle) {
+            this.currentAnim.angle = angle;
+        }
     });
 });

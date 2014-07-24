@@ -27,6 +27,7 @@ ig.module('game.classes.player')
                 field: []
             };
             var _inventory = {};
+            var _badges = {};
             var _entities = {};
 
             // rotate all assets along periphery of board
@@ -82,6 +83,46 @@ ig.module('game.classes.player')
                 getLimit: function(key) {
                     return _limits[key];
                 },
+
+                checkForLongestRoad: function(){
+
+                    //find all open edges
+
+                    //construct tree
+
+                    //remove duplicate paths
+                    //if difference.length = 0
+
+                    //measure paths
+
+
+                    //compare paths
+
+                },
+                checkForLargestArmy: function(){
+
+                    //inspect cards on fields
+
+                },
+                countVictoryPoints: function(){
+
+                    var total = 0;
+
+
+                    total+=this.getPieces('settlement').length; //count settlements
+                    total+=2*this.getPieces('city').length; //count cities
+
+                    //count badges
+                    _.each(_badges,function(badge){
+                       switch(badge.name) {
+
+                       }
+                    });
+                    //longest road
+                    //largest army
+                    //single victory point cards
+                },
+
                 createLocation: function( position, locationKey ){
                     var cardLocations = _locations[locationKey];
 
@@ -173,8 +214,16 @@ ig.module('game.classes.player')
                         cardTarget.push(card);
 
                         //hide card from other players
-                        card.hide();
+                        //card.hide();
+
+                        card.reveal();
+
                         card.entity.rotateToAngle(_orientation);
+
+                        card.entity.zIndex=cardTarget.length;
+
+                        // Re-sort Entities for layering
+                        ig.game.sortEntitiesDeferred();
 
                         //process card for inventory
                         self.addInventory(card);

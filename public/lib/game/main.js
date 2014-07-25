@@ -232,6 +232,7 @@ MyGame = ig.Game.extend({
 //           player.buildSettlement(location);
 //        });
 
+
         //test development cards
         //this.dealDevelopmentCards(1,player);
 
@@ -241,14 +242,17 @@ MyGame = ig.Game.extend({
 
         this.setDevelopmentCards(payouts);
 
-        console.log('check player cards');
-        var resourceCards = player.getCards('hand','resource');
-        var developmentCards = player.getCards('hand','development');
-        console.log(resourceCards);
-        console.log(developmentCards);
+//        console.log('check player cards');
+//        var resourceCards = player.getCards('hand','resource');
+//        var developmentCards = player.getCards('hand','development');
+//        console.log(resourceCards);
+//        console.log(developmentCards);
 
+        //find knight card
+        var cards = player.getCards('hand','development','knight');
+        console.log(cards);
 
-        //player.activateKnight();
+        player.activateKnight(cards[0],this.robber,this.terrain[1]);
 
 //        var report = player.getAffordableActions();
 //

@@ -53,7 +53,8 @@ ig.module('game.classes.deck')
                                 entity: entity,
                                 subClass: _cardTypes[key].class,
                                 title: _cardTypes[key].title,
-                                description: _cardTypes[key].description
+                                description: _cardTypes[key].description,
+                                resolution: _cardTypes[key].resolution
                             });
 
                             _cards.push(card);

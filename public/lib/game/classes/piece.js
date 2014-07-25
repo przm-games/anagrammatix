@@ -17,6 +17,7 @@ ig.module('game.classes.piece')
         return {
             type: _type,
             entity: _entity,
+            inventoryKey: null,
 
             setPosiiton: function( position ){
                 _position = position;

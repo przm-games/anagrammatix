@@ -252,8 +252,6 @@ ig.module('game.classes.player')
                         self.addInventory(card);
                     });
 
-
-
                 },
                 getCards: function( locationKey, mainClass, subClass ){
 
@@ -266,6 +264,25 @@ ig.module('game.classes.player')
                     });
 
                     return matches;
+                },
+                resolveCard: function( card ) {
+                    console.log('card.resolve');
+
+                    //_cards['hand'] = _.without(_cards['hand'],card);
+                    //TODO animate movement to resolution
+
+                    switch(card.resolution){
+                        case 'field':
+                            this.receiveCards([card],'field');
+                            break;
+
+                        case 'discard':
+
+                            break;
+                        case 'hand':
+
+                            break;
+                    }
                 },
 
                 addPiece: function(piece){
@@ -362,7 +379,6 @@ ig.module('game.classes.player')
                                             invalidLocation=true;
                                         }
                                     });
-
                                 }
                                 if (invalidLocation){
                                     invalidated.push(location);
@@ -421,38 +437,53 @@ ig.module('game.classes.player')
 
                     settlement.getLocation().placePiece(city);
 
-
                     //destroy settlement
                     settlement.destroy();
                 },
 
+                playCard: function(card){
+                    //remove card from hand
+                    _cards['hand'] = _.without(_cards['hand'],card);
+                    card.play();
+                },
+
                 buyDevelopmentCard: function( developmentCardDeck ) {
-                    //subtract cost from inventory
-
-                    //locate development card in developmentCard deck
-
+                    this.purchase(catalog.developmentCard);
+                    developmentCardDeck.dealCards(1,this,'hand');
                 },
-                playDevelopmentCard: function( developmentCard, discardDeck ) {
 
-                    //if year of plenty, monopoly, or road building
-                    //discard
-
-
-                    //else play on field
-
-
+                buyRoad: function( location ){
+                    this.purchase(catalog.road);
+                    this.buildRoad(location);
                 },
-                activateKnight: function( terrain, robber ){
+                buySettlement: function( location ){
+                    this.purchase(catalog.settlement);
+                    this.buildSettlement(location);
+                },
+                buyCity: function( location ) {
+                    this.purchase(catalog.settlement);
+                    this.buildSettlement(location.getPieces()[0]);
+                },
+
+                activateKnight: function( card, robber, terrain ){
+                    var self = this;
                     console.log('activateKnight');
 
-                    //find knight card
-                    var cards = this.getCards('hand','development','knight');
-
-                    console.log(cards);
-
-                    //play knight card
-
                     //move robber
+                    var activation = function(){
+                        console.log('knight activation');
+                        console.log(robber);
+                        console.log(terrain);
+                        self.moveRobber( robber, terrain );
+                    }
+                    card.setActivation(activation);
+
+                    this.playCard(card);
+                    //remove card from inventory
+                    _inventory = _.without(_inventory[card.inventory],card);
+
+                    //move card to field
+                    this.resolveCard(card);
                 },
                 activateRoadBuilding:  function( player, locations ){
                     console.log('activateRoadBuilding');
@@ -529,23 +560,9 @@ ig.module('game.classes.player')
                     return report;
                 },
                 addInventory: function(object) {
+
+                    var key = object.inventoryKey;
                     console.log('receiving inventory for');
-
-                    var key;
-                    //cards:
-                    //type: cards
-                    //cardType: resource || development
-                    //resourceType:
-
-                    //developmentCards
-
-                    //resourceCards by type
-                    if (object.cardType=="resource") {
-                        key = object.resourceType;
-                    } else if (object.cardType=="development") {
-                        key = object.cardType;
-                    }
-
                     console.log(key);
 
                     if (typeof _inventory[key] == "undefined") {

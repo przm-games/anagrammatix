@@ -83,11 +83,13 @@ ig.module('game.classes.player')
                     return _limits[key];
                 },
 
-                addBadge: function( key ){
-
+                addBadge: function( key, badge ){
+                    _badges[key] = badge;
                 },
                 removeBadge: function( key ){
-
+                    var badge = _badges[key];
+                    delete _badges[key];
+                    return badge;
                 },
 
                 countKnights: function(){
@@ -104,8 +106,8 @@ ig.module('game.classes.player')
                     total+=this.getCards('field','development','autopoint').length;
 
                     //count badges
-                    _.each(_badges,function(badge){
-                        switch(badge.name) {
+                    _.each(_badges,function(badge,key){
+                        switch(key) {
                             case 'largestArmy':
                             case 'longestRoad':
                                 total+=2;

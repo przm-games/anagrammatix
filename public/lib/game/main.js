@@ -20,6 +20,7 @@ ig.module(
         'game.entities.resourceCard',
         'game.entities.resourceCounter',
         'game.entities.developmentCard',
+        'game.entities.badge',
 
         'game.entities.terrainDesert',
         'game.entities.terrainFields',
@@ -32,6 +33,7 @@ ig.module(
         'game.classes.terrain',
         'game.classes.resourceCard',
         'game.classes.developmentCard',
+        'game.classes.badge',
         'game.classes.pieceLocation',
         'game.classes.player',
         'game.classes.deck',
@@ -103,6 +105,8 @@ ig.module(
             decks: {
                 discard: []
             },
+
+            badges: {},
 
             bank: {},
 
@@ -386,8 +390,6 @@ ig.module(
                     leader.addBadge('largestArmy');
                     self.leaders['largestArmy'] = leader;
                 }
-
-
             },
 
             checkForLongestRoad: function(){
@@ -427,6 +429,21 @@ ig.module(
                 //TODO total resource cards available ???
             },
 
+            setupBadges: function( badges ){
+                var self = this;
+                console.log('setupBadges');
+
+                _.each(badges,function(badgeData,key){
+                    console.log(badgeData);
+                    console.log(key);
+                    var entity = ig.game.spawnEntity(EntityBadge, badgeData.origin.x, badgeData.origin.y);
+                    var badge = new Badge(pieceId,entity,key);
+
+                    self.badges[key]=badge;
+                });
+                alert('check badges');
+            },
+
             setupNewGame: function( playerConfig ) {
 
                 this.setupTerrain();
@@ -442,10 +459,11 @@ ig.module(
 
                 this.setupPlayers(gameState.players);
 
-                this.setupDecks();
+                this.setupDecks(DECKS);
+                this.setupBadges(BADGES);
             },
 
-            setupDecks: function() {
+            setupDecks: function(decks) {
                 var self = this;
 
                 _.each( decks, function( deckConfig ){

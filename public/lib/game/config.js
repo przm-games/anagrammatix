@@ -87,7 +87,7 @@ ig.module('game.config')
                     class: "plenty",
                     description: "Take any 2 resources of your choice from the bank. Keep them or use the immediately.",
                     activation: "activateYearOfPlenty",
-                    resolution: 'discard'
+                    resolution: 'field'
                 },
                 monopoly: {
                     title: "Monopoly",

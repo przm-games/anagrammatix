@@ -1,5 +1,6 @@
 ig.module('game.classes.terrain')
     .requires(
+        'game.config',
         'game.classes.resourceCard'
     )
     .defines(function() {
@@ -214,7 +215,7 @@ ig.module('game.classes.terrain')
                         resourceTotal+=resourceCount;
 
                         if (resourceCount>0) {
-                            payouts.push({player:piece.getOwner(),count:resourceCount,type:self.type,origin:self.getOrigin()});
+                            payouts.push({player:piece.getOwner(),count:resourceCount,type:cardConversions[self.type],origin:self.getOrigin()});
                         }
                     });
 

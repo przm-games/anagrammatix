@@ -258,11 +258,11 @@ ig.module(
                 _.each(this.players,function(player){
 
                     var payouts = [
-                        { player: player, count:3, type:'hills', origin:player.getLocation('origin') },
-                        { player: player, count:3, type:'mountains', origin:player.getLocation('origin') },
-                        { player: player, count:3, type:'fields', origin:player.getLocation('origin') },
-                        { player: player, count:3, type:'pasture', origin:player.getLocation('origin') },
-                        { player: player, count:3, type:'forest', origin:player.getLocation('origin') }
+                        { player: player, count:3, type:'brick', origin:player.getLocation('origin') },
+                        { player: player, count:3, type:'ore', origin:player.getLocation('origin') },
+                        { player: player, count:3, type:'wheat', origin:player.getLocation('origin') },
+                        { player: player, count:3, type:'sheep', origin:player.getLocation('origin') },
+                        { player: player, count:3, type:'wood', origin:player.getLocation('origin') }
                     ];
 
                     self.dealResourceCards(payouts);
@@ -313,7 +313,8 @@ ig.module(
                 //this.dealDevelopmentCards(1,player);
 
                 var payouts = [
-                    {player:player,count:2,subClass:"knight",location:"hand"}
+                    {player:player,count:2,subClass:"knight",location:"hand"},
+                    {player:player,count:2,subClass:"plenty",location:"hand"}
                 ];
 
                 this.setDevelopmentCards(payouts);
@@ -324,11 +325,18 @@ ig.module(
 //        console.log(resourceCards);
 //        console.log(developmentCards);
 
-                //find knight card
+                // test knight activation
                 var cards = player.getCards('hand','development','knight');
                 console.log(cards);
 
                 player.activateKnight(cards[0],this.robber,this.terrain[1]);
+
+
+                //test year of plenty activation
+                var cards = player.getCards('hand','development','plenty');
+                console.log(cards);
+
+                player.activateYearOfPlenty(cards[0], ['wood','wheat'], self.dealResourceCards.bind(self) ) ;
 
 //        var report = player.getAffordableActions();
 //
@@ -493,11 +501,12 @@ ig.module(
                 var newResources = new Deck(); //create temporary deck for new cards
 
                 _.each(payouts,function(payout){
-                    //{player:piece.getOwner(),count:resourceCount,terrain:self}
                     // spawn resource cards
 
-                    var resourceType = cardConversions[payout.type];
+                    var resourceType = payout.type;
                     var position = payout.origin;
+
+                    console.log(resourceType);
 
                     for (var i=0;i<payout.count;i++) {
 

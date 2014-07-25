@@ -114,9 +114,9 @@ ig.module('game.classes.player')
 
                     //count badges
                     _.each(_badges,function(badge){
-                       switch(badge.name) {
+                        switch(badge.name) {
 
-                       }
+                        }
                     });
                     //longest road
                     //largest army
@@ -300,9 +300,9 @@ ig.module('game.classes.player')
                     } else {
                         var cache = [];
                         _.each(_pieces, function(piece){
-                           if (piece.type==key){
-                              cache.push(piece);
-                           }
+                            if (piece.type==key){
+                                cache.push(piece);
+                            }
                         });
                         return cache;
                     }
@@ -324,11 +324,11 @@ ig.module('game.classes.player')
 
 
                             _.each(roads,function(road){
-                               var origin = road.getLocation(); //edge
+                                var origin = road.getLocation(); //edge
                                 console.log('location under road');
                                 console.log(origin);
 
-                               var vertices = origin.getNeighbors(); //adjacent vertices
+                                var vertices = origin.getNeighbors(); //adjacent vertices
                                 console.log('vertices adjacent to road');
                                 console.log(vertices);
 
@@ -443,10 +443,18 @@ ig.module('game.classes.player')
                     settlement.destroy();
                 },
 
-                playCard: function(card){
+                playCard: function(card, activation){
                     //remove card from hand
                     _cards['hand'] = _.without(_cards['hand'],card);
+
+                    card.setActivation(activation);
                     card.play();
+
+                    //remove card from inventory
+                    _inventory = _.without(_inventory[card.inventory],card);
+
+                    //move card to field
+                    this.resolveCard(card);
                 },
 
                 buyDevelopmentCard: function( developmentCardDeck ) {
@@ -478,14 +486,9 @@ ig.module('game.classes.player')
                         console.log(terrain);
                         self.moveRobber( robber, terrain );
                     }
-                    card.setActivation(activation);
 
-                    this.playCard(card);
-                    //remove card from inventory
-                    _inventory = _.without(_inventory[card.inventory],card);
+                    this.playCard(card, activation);
 
-                    //move card to field
-                    this.resolveCard(card);
                 },
                 activateRoadBuilding:  function( player, locations ){
                     console.log('activateRoadBuilding');
@@ -493,10 +496,28 @@ ig.module('game.classes.player')
                         player.buildRoad(location);
                     });
                 },
-                activateYearOfPlenty: function( player, types ){
+                activateYearOfPlenty: function( card, types, resourceGenerator ){
+                    var self = this;
+                    console.log('activateYearOfPlenty');
 
+                    var payouts = [];
+                    _.each(types,function(type){
+                            payouts.push({
+                                player:self,
+                                count:1,
+                                type:type,
+                                origin:self.getLocation('origin')
+                            });
+                    });
+                    console.log(payouts);
+
+                    var activation = function(){
+                        resourceGenerator(payouts);
+                    }
+
+                    this.playCard(card, activation);
                 },
-                activateMonopoly: function( player, type ){
+                activateMonopoly: function( type ){
                     //player declares type
                 },
                 earnVictoryPoint: function( player ){

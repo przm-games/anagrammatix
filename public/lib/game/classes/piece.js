@@ -41,7 +41,7 @@ ig.module('game.classes.piece')
 //            },
 
             setLocation: function(location) {
-                console.log(location);
+                //console.log(location);
                 _location = location;
 
                 _entity.pos.x = _location.position.x;

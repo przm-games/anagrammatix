@@ -312,13 +312,13 @@ ig.module(
                 //test development cards
                 //this.dealDevelopmentCards(1,player);
 
-                var payouts = [
-                    {player:player,count:1,subClass:"knight",location:"hand"},
-                    {player:player,count:1,subClass:"plenty",location:"hand"},
-                    {player:player,count:1,subClass:"monopoly",location:"hand"}
-                ];
-
-                this.setDevelopmentCards(payouts);
+//                var payouts = [
+//                    {player:player,count:1,subClass:"knight",location:"hand"},
+//                    {player:player,count:1,subClass:"plenty",location:"hand"},
+//                    {player:player,count:1,subClass:"monopoly",location:"hand"}
+//                ];
+//
+//                this.setDevelopmentCards(payouts);
 
 //        console.log('check player cards');
 //        var resourceCards = player.getCards('hand','resource');
@@ -327,24 +327,30 @@ ig.module(
 //        console.log(developmentCards);
 
                 // test knight activation
-                var cards = player.getCards('hand','development','knight');
-                console.log(cards);
-
-                //player.activateKnight(cards[0],this.robber,this.terrain[1]);
+//                var cards = player.getCards('hand','development','knight');
+//                console.log(cards);
+//                player.activateKnight(cards[0],this.robber,this.terrain[1]);
 
 
                 //test year of plenty activation
-                var cards = player.getCards('hand','development','plenty');
-                console.log(cards);
-
-                //player.activateYearOfPlenty(cards[0], ['wood','wheat'], self.dealResourceCards.bind(self) ) ;
+//                var cards = player.getCards('hand','development','plenty');
+//                console.log(cards);
+//                player.activateYearOfPlenty(cards[0], ['wood','wheat'], self.dealResourceCards.bind(self) ) ;
 
 
                 // test monopoly activation
-                var cards = player.getCards('hand','development','monopoly');
-                console.log(cards);
+//                var cards = player.getCards('hand','development','monopoly');
+//                console.log(cards);
+//                player.activateMonopoly(cards[0], 'wheat', this.players);
 
-                player.activateMonopoly(cards[0], 'wheat', this.players);
+
+                //test trading
+                var exchanges = [
+                    {player:this.players[0],type:'wheat',quantity:2},
+                    {player:this.players[1],type:'wood',quantity:2}
+                ]
+
+                this.makeTrade(exchanges);
 
 //        var report = player.getAffordableActions();
 //
@@ -355,6 +361,23 @@ ig.module(
 //            //player.buildRoad();
 //        };
 
+            },
+
+            makeTrade: function( exchanges ){
+
+                var a = exchanges[0];
+                var givenA = a.player.consumeInventory(a.quantity, a.type);
+                a.player.sortHand();
+
+                var b = exchanges[1];
+                var givenB = b.player.consumeInventory(b.quantity, b.type);
+                b.player.sortHand();
+
+                a.player.receiveCards(givenB,'hand');
+                a.player.sortHand();
+
+                b.player.receiveCards(givenA,'hand');
+                b.player.sortHand();
             },
 
             setupBank: function(){

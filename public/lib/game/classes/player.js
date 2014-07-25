@@ -243,15 +243,16 @@ ig.module('game.classes.player')
 
                         card.entity.rotateToAngle(_orientation);
 
-                        card.entity.zIndex=cardTarget.length;
-
-                        // Re-sort Entities for layering
-                        ig.game.sortEntitiesDeferred();
+//                        card.entity.zIndex=cardTarget.length;
+//
+//                        // Re-sort Entities for layering
+//                        ig.game.sortEntitiesDeferred();
 
                         //process card for inventory
                         self.addInventory(card);
                     });
 
+                    self.sortHand();
                 },
                 sortHand: function(){ //after cards have been removed from hand, compact spacing
 
@@ -264,7 +265,10 @@ ig.module('game.classes.player')
                     _.each(cardTarget,function(card,index){
                             var location = _locations[locationKey][index];
                             card.setLocation(location);
+                            card.entity.zIndex=index;
                     });
+                    // Re-sort Entities for layering
+                    ig.game.sortEntitiesDeferred();
                 },
                 getCards: function( locationKey, mainClass, subClass ){
 
@@ -572,11 +576,6 @@ ig.module('game.classes.player')
                 initiateTrade: function( player ){
 
                 },
-                makeTrade: function( given, received ){
-
-
-
-                },
 
                 getValidActions: function(){
 
@@ -655,6 +654,7 @@ ig.module('game.classes.player')
                     }
                     //also remove visible cards from hand
                     _cards['hand'] = _.difference(_cards['hand'],consumed);
+                    this.sortHand();
 
                     console.log('after consumption');
                     console.log(_inventory[key]);

@@ -137,7 +137,7 @@ ig.module('game.classes.player')
                         case degrees[0]:
                             //extend right
                             //position = {x:origin.x+width/(total-1)*i, y:origin.y};
-                            origin = {x:origin.x+offset.x, y:origin.y+offset.y};
+                            origin = {x:origin.x-offset.x, y:origin.y-offset.y};
                             break;
 
                         case degrees[90]:
@@ -149,7 +149,7 @@ ig.module('game.classes.player')
                         case degrees[180]:
                             //extend left
                             //position = {x:origin.x-width/(total-1)*i, y:origin.y};
-                            origin = {x:origin.x-offset.x, y:origin.y-offset.y};
+                            origin = {x:origin.x+offset.x, y:origin.y+offset.y};
                             break;
 
                         case degrees[270]:
@@ -173,7 +173,7 @@ ig.module('game.classes.player')
                         switch( _orientation ) {
                             //distribute positions along maxWidth
 
-                            case degrees[0]:
+                            case degrees[180]:
                                 //extend right
                                 position = {x:origin.x+width/(total-1)*i, y:origin.y};
                                 break;
@@ -183,7 +183,7 @@ ig.module('game.classes.player')
                                 position = {x:origin.x, y:origin.y-width/(total-1)*i};
                                 break;
 
-                            case degrees[180]:
+                            case degrees[0]:
                                 //extend left
                                 position = {x:origin.x-width/(total-1)*i, y:origin.y};
                                 break;

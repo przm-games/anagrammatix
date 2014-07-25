@@ -201,27 +201,6 @@ ig.module('game.config')
             forest: "wood"
         };
 
-        gameState = {
-            turnCount: 0,
-            players: [
-                { name:'Mike', color:'red',
-                    inventory: {
-
-                    },
-                    pieces: {
-
-                    }
-                },
-                { name:'dogoodjonathan', color:'blue'},
-                { name:'jimmy chen', color:'white'},
-                { name:'Kailing Chan To', color:'green' }
-            ],
-            turnState: {
-                player: 0,
-                phase: "resource-production"
-            }
-        };
-
         phases = [
             {
                 title: "Resource Production",
@@ -335,10 +314,35 @@ ig.module('game.config')
             }
         ];
 
+
+
         playerConfig = [
             { name:'Mike', color:'red'},
             { name:'dogoodjonathan', color:'blue'},
             { name:'jimmy chen', color:'white'},
             { name:'Kailing Chan To', color:'green' }
         ];
+
+        gameState = {
+            turnCount: 0,
+            players: [
+                { name:'Mike', color:'red',
+                    inventory: {
+
+                    },
+                    pieces: {
+
+                    }
+                },
+                { name:'dogoodjonathan', color:'blue'},
+                { name:'jimmy chen', color:'white'}
+                ,{ name:'Kailing Chan To', color:'green' }
+            ],
+            turnState: {
+                player: 0,
+                phase: "resource-production"
+            }
+        };
+
+
     });

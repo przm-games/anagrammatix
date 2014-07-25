@@ -162,7 +162,6 @@ ig.module(
 
                 //TODO if no gameState cache
                 this.setupNewGame( gameState.players );
-
                 //else
                 //TODO load game from cache
 
@@ -170,19 +169,6 @@ ig.module(
 
                 var player = this.players[1];
 
-                //get location
-                var terrain = this.terrain[5];
-
-                var location = this.desert.getOrigin();
-                var entity = ig.game.spawnEntity(EntityRobber, location.x, location.y);
-                var robber = new Robber(pieceId,entity);
-
-                this.robber = robber;
-
-                //player.moveRobber(this.robber,this.terrain[5]);
-
-                //player.buildSettlement(terrain.getVertex(0));
-                //player.buildRoad(terrain.getEdge(0));
 
                 var boardState = {
                     pieces: [
@@ -228,6 +214,18 @@ ig.module(
                         }
                     ]
                 };
+
+
+                var location = this.desert.getOrigin();
+                var entity = ig.game.spawnEntity(EntityRobber, location.x, location.y);
+                var robber = new Robber(pieceId,entity);
+
+                this.robber = robber;
+
+                //player.moveRobber(this.robber,this.terrain[5]);
+
+                //player.buildSettlement(terrain.getVertex(0));
+                //player.buildRoad(terrain.getEdge(0));
 
                 _.each(boardState.pieces,function(piece){
 
@@ -511,7 +509,7 @@ ig.module(
                     ];
 
                     orientations = [
-                        0, Math.PI*3/2, Math.PI, Math.PI/2
+                        Math.PI, Math.PI*3/2, 0, Math.PI/2
                     ];
 
 
@@ -539,10 +537,10 @@ ig.module(
                     player.setColor(playerData.color);
                     player.setName(playerData.name);
 
-                    player.generateCardPositions(40, 'hand', ZONES.hand );
+                    player.generateCardPositions(16, 'hand', ZONES.hand );
                     player.showCardPositions('hand');
 
-                    player.generateCardPositions(10, 'field',ZONES.field );
+                    player.generateCardPositions(8, 'field',ZONES.field );
                     player.showCardPositions('field');
 
                     player.generateCardPositions(2, 'badges',ZONES.badges );

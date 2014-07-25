@@ -253,6 +253,19 @@ ig.module('game.classes.player')
                     });
 
                 },
+                sortHand: function(){ //after cards have been removed from hand, compact spacing
+
+                    var locationKey = 'hand';
+
+                    //get cards at location
+                    var cardTarget =_cards[locationKey];
+                    console.log(cardTarget);
+
+                    _.each(cardTarget,function(card,index){
+                            var location = _locations[locationKey][index];
+                            card.setLocation(location);
+                    });
+                },
                 getCards: function( locationKey, mainClass, subClass ){
 
                     var matches = [];
@@ -534,6 +547,8 @@ ig.module('game.classes.player')
                             if (target.length>0){
                                 var given = player.consumeInventory(target.length,resourceType)
                                 taken = taken.concat(given);
+
+                                player.sortHand();
                             }
                         });
 
@@ -625,9 +640,12 @@ ig.module('game.classes.player')
                     return _inventory[key];
                 },
                 consumeInventory: function(quantity,key) {
-                    var consumed;
+                    var consumed = [];
                     console.log('consume inventory')
                     console.log(_inventory[key]);
+                    console.log(_cards['hand']);
+
+
                     if (typeof _inventory[key]==="undefined"){
                         return false;
                     } else if (_inventory[key]<quantity){
@@ -635,6 +653,12 @@ ig.module('game.classes.player')
                     } else {
                         consumed = _inventory[key].splice(0,quantity);
                     }
+                    //also remove visible cards from hand
+                    _cards['hand'] = _.difference(_cards['hand'],consumed);
+
+                    console.log('after consumption');
+                    console.log(_inventory[key]);
+                    console.log(_cards['hand']);
 
                     return consumed;
                 },

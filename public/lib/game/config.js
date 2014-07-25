@@ -79,7 +79,7 @@ ig.module('game.config')
                     class: "road",
                     description: "Place two roads as if you had built them.",
                     activation: "activateRoadBuilding",
-                    resolution: 'discard'
+                    resolution: 'field'
                 },
                 plenty: {
                     title: "Year of Plenty",
@@ -92,10 +92,10 @@ ig.module('game.config')
                 monopoly: {
                     title: "Monopoly",
                     animation: "monopoly",
-                    class: "plenty",
+                    class: "monopoly",
                     description: "Announce 1 resource type. All players must give you all of their resources of that type.",
                     activation: "activateMonopoly",
-                    resolution: 'discard'
+                    resolution: 'field'
                 },
                 chapel: {
                     title: "Chapel",

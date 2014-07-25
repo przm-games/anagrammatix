@@ -517,8 +517,33 @@ ig.module('game.classes.player')
 
                     this.playCard(card, activation);
                 },
-                activateMonopoly: function( type ){
-                    //player declares type
+                activateMonopoly: function( card, resourceType, players ){
+                    var self = this;
+
+                    console.log('activateMonopoly');
+                    console.log(resourceType);
+
+                    players = _.without(players,this);
+                    var taken = [];
+
+                    var activation = function(){
+                        _.each(players,function(player){
+                            var target = player.getInventory(resourceType);
+                            console.log(target);
+
+                            if (target.length>0){
+                                var given = player.consumeInventory(target.length,resourceType)
+                                taken = taken.concat(given);
+                            }
+                        });
+
+                        console.log('resources taken');
+                        console.log(taken);
+
+                        self.receiveCards(taken,'hand');
+                    }
+
+                    this.playCard(card, activation);
                 },
                 earnVictoryPoint: function( player ){
 
@@ -596,11 +621,12 @@ ig.module('game.classes.player')
 
                     console.log(_inventory[key]);
                 },
-                getInventory: function() {
-                    return _inventory;
+                getInventory: function(key) {
+                    return _inventory[key];
                 },
                 consumeInventory: function(quantity,key) {
                     var consumed;
+                    console.log('consume inventory')
                     console.log(_inventory[key]);
                     if (typeof _inventory[key]==="undefined"){
                         return false;

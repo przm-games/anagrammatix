@@ -111,6 +111,8 @@ ig.module(
 
             players: [],
 
+            leaders: {}, //for largest army and longest road
+
             init: function() {
                 // Initialize your game here; bind keys etc.
 
@@ -360,6 +362,47 @@ ig.module(
 //        if (player.purchase(catalog.road)) {
 //            //player.buildRoad();
 //        };
+
+            },
+
+            checkForLargestArmy: function(){ //must run after every knight activation!!!
+                var self = this;
+                var leader = null;
+                var bestCount = this.leaders['largestArmy'] ? this.leaders['largestArmy'].countKnights() : 2;
+
+                _.each(this.players,function(player){
+                   var count = player.countKnights();
+                    if (count>bestCount) {
+                       leader = player;
+                    }
+                });
+
+                if (self.leaders['largestArmy'] !== leader){ //new leader
+
+                    if (this.leaders['largestArmy']){ //previous leader
+                        this.leaders['largestArmy'].removeBadge('largestArmy')
+                    }
+
+                    leader.addBadge('largestArmy');
+                    self.leaders['largestArmy'] = leader;
+                }
+
+
+            },
+
+            checkForLongestRoad: function(){
+
+                //find all open edges
+
+                //construct tree
+
+                //remove duplicate paths
+                //if difference.length = 0
+
+                //measure paths
+
+
+                //compare paths
 
             },
 

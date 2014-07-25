@@ -33,7 +33,6 @@ ig.module('game.classes.player')
             // rotate all assets along periphery of board
             var _orientation = 0;
             var _limits = {};
-            var _blocked = false;
 
             return {
 
@@ -84,25 +83,15 @@ ig.module('game.classes.player')
                     return _limits[key];
                 },
 
-                checkForLongestRoad: function(){
-
-                    //find all open edges
-
-                    //construct tree
-
-                    //remove duplicate paths
-                    //if difference.length = 0
-
-                    //measure paths
-
-
-                    //compare paths
+                addBadge: function( key ){
 
                 },
-                checkForLargestArmy: function(){
+                removeBadge: function( key ){
 
-                    //inspect cards on fields
+                },
 
+                countKnights: function(){
+                    return this.getCards('field','development','knight').length;
                 },
                 countVictoryPoints: function(){
 
@@ -112,10 +101,15 @@ ig.module('game.classes.player')
                     total+=this.getPieces('settlement').length; //count settlements
                     total+=2*this.getPieces('city').length; //count cities
 
+                    total+=this.getCards('field','development','autopoint').length;
+
                     //count badges
                     _.each(_badges,function(badge){
                         switch(badge.name) {
-
+                            case 'largestArmy':
+                            case 'longestRoad':
+                                total+=2;
+                                break;
                         }
                     });
                     //longest road
@@ -564,8 +558,10 @@ ig.module('game.classes.player')
 
                     this.playCard(card, activation);
                 },
-                earnVictoryPoint: function( player ){
+                earnVictoryPoint: function( card ){
 
+
+                    //check victory points
                 },
 
 

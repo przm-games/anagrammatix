@@ -80,7 +80,7 @@ jQuery(function($){
             if(App.myRole === 'Host') {
                 //App.Host.checkAnswer(data);
 
-                ig.main( '#canvas', MyGame, 60, 1080, 1080 /*scale, loaderClass*/ );
+                ig.main( '#canvas', MyGame, 60, 1200, 1200 /*, scale, loaderClass*/ );
 
                 // Wait until a game has been established before
                 // requesting game data to render.

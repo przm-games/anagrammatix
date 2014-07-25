@@ -2,21 +2,23 @@ ig.module('game.config')
     .defines(function() {
 
         defaultOrigin = {x:0,y:0};
-        boardWidth = 1080;
+
         xSpacing = Atlas.global.gridSpacing.x;
         ySpacing = Atlas.global.gridSpacing.y;
-        boardCenterOffsetX = (boardWidth-(10*xSpacing))/2, boardCenterOffsetY = (boardWidth-(8*ySpacing))/2;
+
         rows = [3, 4, 5, 4, 3];
 
+        zones = {
+            board: { h:1200, w:1200},
+            player: { h:50, w:400 }
+        };
+
         offsets = {
+            boardCenter: {x:(zones.board.w-(10*xSpacing))/2, y:(zones.board.h-(8*ySpacing))/2},
             playerCorner: {x:50,y:50},
             hand: {x:25,y:-50},
             field: {x:425,y:-50}
         };
-
-        zones = {
-            player: { h:50, w:400 }
-        }
 
         limits = {
             safeHand: 7

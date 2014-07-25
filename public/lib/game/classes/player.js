@@ -424,9 +424,11 @@ ig.module('game.classes.player')
 
                     location.placePiece(settlement);
                 },
-                buildCity: function( settlement ) {
+                buildCity: function( location ) {
 
                     console.log('building city');
+
+                    var settlement = location.getPieces()[0];
                     console.log(settlement);
 
                     //create city entity

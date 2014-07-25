@@ -51,6 +51,9 @@ ig.module(
 
         MyGame = ig.Game.extend({
 
+            width: zones.board.w,
+            height: zones.board.h,
+
             // Load a font
             font: new ig.Font( 'media/04b03.font.png' ),
 
@@ -393,9 +396,9 @@ ig.module(
                     //starting top right, placing clockwise
                     positions = [
                         {x:cornerOffset.x,y:cornerOffset.y},
-                        {x:boardWidth-cornerOffset.y,y:cornerOffset.x},
-                        {x:boardWidth-cornerOffset.x,y:boardWidth-cornerOffset.y},
-                        {x:cornerOffset.y,y:boardWidth-cornerOffset.x}
+                        {x:zones.board.w-cornerOffset.y,y:cornerOffset.x},
+                        {x:zones.board.w-cornerOffset.x,y:zones.board.w-cornerOffset.y},
+                        {x:cornerOffset.y,y:zones.board.w-cornerOffset.x}
                     ];
 
                     orientations = [
@@ -677,7 +680,7 @@ ig.module(
             setupLocations: function() {
                 var self = this;
 
-                var origin = {x:boardCenterOffsetX+2*xSpacing,y:boardCenterOffsetY};
+                var origin = {x:offsets.boardCenter.x+2*xSpacing,y:offsets.boardCenter.y};
 
 
                 _.each(self.terrain, function(terrain){
@@ -801,7 +804,7 @@ ig.module(
             setupTerrain: function() {
                 var self = this;
 
-                var origin = {x:boardCenterOffsetX+3*xSpacing,y:boardCenterOffsetY+xSpacing};
+                var origin = {x:offsets.boardCenter.x+3*xSpacing,y:offsets.boardCenter.y+xSpacing};
 
                 rows.forEach(function(rowLength,rowIndex){
                     self.origins = self.origins.concat(generateTerrainOrigins(origin,rowLength));

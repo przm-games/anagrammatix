@@ -248,11 +248,9 @@ ig.module('game.classes.player')
                         self.addInventory(card);
                     });
 
-                    self.sortHand();
+                    self.sortCards(locationKey);
                 },
-                sortHand: function(){ //after cards have been removed from hand, compact spacing
-
-                    var locationKey = 'hand';
+                sortCards: function(locationKey){ //after cards have been removed from hand, compact spacing
 
                     //get cards at location
                     var cardTarget =_cards[locationKey];
@@ -456,7 +454,7 @@ ig.module('game.classes.player')
                     settlement.destroy();
                 },
 
-                playCard: function(card, activation){
+                playCard: function(card, activation, callback){
                     //remove card from hand
                     _cards['hand'] = _.without(_cards['hand'],card);
 
@@ -468,6 +466,9 @@ ig.module('game.classes.player')
 
                     //move card to field
                     this.resolveCard(card);
+
+                    //return control to Game
+                    callback();
                 },
 
                 buyDevelopmentCard: function( developmentCardDeck ) {
@@ -488,7 +489,7 @@ ig.module('game.classes.player')
                     this.buildSettlement(location.getPieces()[0]);
                 },
 
-                activateKnight: function( card, robber, terrain ){
+                activateKnight: function( card, robber, terrain, callback ){
                     var self = this;
                     console.log('activateKnight');
 
@@ -500,7 +501,7 @@ ig.module('game.classes.player')
                         self.moveRobber( robber, terrain );
                     }
 
-                    this.playCard(card, activation);
+                    this.playCard(card, activation, callback);
 
                 },
                 activateRoadBuilding:  function( player, locations ){
@@ -548,7 +549,7 @@ ig.module('game.classes.player')
                                 var given = player.consumeInventory(target.length,resourceType)
                                 taken = taken.concat(given);
 
-                                player.sortHand();
+                                player.sortCards('hand');
                             }
                         });
 
@@ -652,7 +653,7 @@ ig.module('game.classes.player')
                     }
                     //also remove visible cards from hand
                     _cards['hand'] = _.difference(_cards['hand'],consumed);
-                    this.sortHand();
+                    this.sortCards('hand');
 
                     console.log('after consumption');
                     console.log(_inventory[key]);

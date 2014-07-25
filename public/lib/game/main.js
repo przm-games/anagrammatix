@@ -262,11 +262,11 @@ ig.module(
                 _.each(this.players,function(player){
 
                     var payouts = [
-                        { player: player, count:3, type:'brick', origin:player.getLocation('origin') },
-                        { player: player, count:3, type:'ore', origin:player.getLocation('origin') },
-                        { player: player, count:3, type:'wheat', origin:player.getLocation('origin') },
-                        { player: player, count:3, type:'sheep', origin:player.getLocation('origin') },
-                        { player: player, count:3, type:'wood', origin:player.getLocation('origin') }
+                        { player: player, count:2, type:'brick', origin:player.getLocation('origin') },
+                        { player: player, count:2, type:'ore', origin:player.getLocation('origin') },
+                        { player: player, count:2, type:'wheat', origin:player.getLocation('origin') },
+                        { player: player, count:2, type:'sheep', origin:player.getLocation('origin') },
+                        { player: player, count:2, type:'wood', origin:player.getLocation('origin') }
                     ];
 
                     self.dealResourceCards(payouts);
@@ -316,13 +316,13 @@ ig.module(
                 //test development cards
                 //this.dealDevelopmentCards(1,player);
 
-//                var payouts = [
-//                    {player:player,count:1,subClass:"knight",location:"hand"},
-//                    {player:player,count:1,subClass:"plenty",location:"hand"},
-//                    {player:player,count:1,subClass:"monopoly",location:"hand"}
-//                ];
-//
-//                this.setDevelopmentCards(payouts);
+                var payouts = [
+                    {player:player,count:3,subClass:"knight",location:"hand"},
+                    {player:player,count:1,subClass:"plenty",location:"hand"},
+                    {player:player,count:1,subClass:"monopoly",location:"hand"}
+                ];
+
+                this.setDevelopmentCards(payouts);
 
 //        console.log('check player cards');
 //        var resourceCards = player.getCards('hand','resource');
@@ -331,14 +331,16 @@ ig.module(
 //        console.log(developmentCards);
 
                 // test knight activation
-//                var cards = player.getCards('hand','development','knight');
-//                console.log(cards);
-//                player.activateKnight(cards[0],this.robber,this.terrain[1]);
+                var cards = player.getCards('hand','development','knight');
+                console.log(cards);
+                player.activateKnight(cards[0],this.robber,this.terrain[1],self.checkForLargestArmy.bind(self));
+                player.activateKnight(cards[1],this.robber,this.terrain[2],self.checkForLargestArmy.bind(self));
+                player.activateKnight(cards[2],this.robber,this.terrain[3],self.checkForLargestArmy.bind(self));
 
 
                 //test badges
-                player.addBadge('largestArmy',self.badges['largestArmy']);
-                player.addBadge('longestRoad',self.badges['longestRoad']);
+                //player.addBadge('largestArmy',self.badges['largestArmy']);
+                //player.addBadge('longestRoad',self.badges['longestRoad']);
 
 
                 //test year of plenty activation
@@ -396,6 +398,8 @@ ig.module(
                 //TODO must run after every knight activation!!!
                 console.log('checkForLargestArmy');
 
+                console.log(this);
+
                 var self = this;
                 var leader = null;
                 var bestCount = this.leaders['largestArmy'] ? this.leaders['largestArmy'].countKnights() : 2;
@@ -407,13 +411,13 @@ ig.module(
                     }
                 });
 
-                if (self.leaders['largestArmy'] !== leader){ //new leader
+                if (leader!==null && self.leaders['largestArmy']!==leader){ //new leader
 
                     if (this.leaders['largestArmy']){ //previous leader
                         this.leaders['largestArmy'].removeBadge('largestArmy')
                     }
 
-                    leader.addBadge('largestArmy',self.badges('largestArmy'));
+                    leader.addBadge('largestArmy',self.badges['largestArmy']);
                     self.leaders['largestArmy'] = leader;
                 }
             },

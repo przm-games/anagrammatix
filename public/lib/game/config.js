@@ -9,7 +9,7 @@ ig.module('game.config')
         rows = [3, 4, 5, 4, 3];
 
         offsets = {
-            playerCorner: 50,
+            playerCorner: 100,
             resourceCards: 50
         };
 

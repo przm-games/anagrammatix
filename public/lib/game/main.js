@@ -369,7 +369,10 @@ ig.module(
 
             },
 
-            checkForLargestArmy: function(){ //must run after every knight activation!!!
+            checkForLargestArmy: function(){
+                //TODO must run after every knight activation!!!
+                console.log('checkForLargestArmy');
+
                 var self = this;
                 var leader = null;
                 var bestCount = this.leaders['largestArmy'] ? this.leaders['largestArmy'].countKnights() : 2;
@@ -387,7 +390,7 @@ ig.module(
                         this.leaders['largestArmy'].removeBadge('largestArmy')
                     }
 
-                    leader.addBadge('largestArmy');
+                    leader.addBadge('largestArmy',self.badges('largestArmy'));
                     self.leaders['largestArmy'] = leader;
                 }
             },
@@ -441,7 +444,7 @@ ig.module(
 
                     self.badges[key]=badge;
                 });
-                alert('check badges');
+                //alert('check badges');
             },
 
             setupNewGame: function( playerConfig ) {
@@ -530,11 +533,14 @@ ig.module(
                     player.setColor(playerData.color);
                     player.setName(playerData.name);
 
-                    player.generateCardPositions(40, 'hand', offsets.hand );
+                    player.generateCardPositions(40, 'hand', ZONES.hand );
                     player.showCardPositions('hand');
 
-                    player.generateCardPositions(10, 'field',offsets.field );
+                    player.generateCardPositions(10, 'field',ZONES.field );
                     player.showCardPositions('field');
+
+                    player.generateCardPositions(2, 'badges',ZONES.badges );
+                    player.showCardPositions('badges');
 
                     self.players.push(player);
 

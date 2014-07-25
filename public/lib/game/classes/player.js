@@ -24,7 +24,8 @@ ig.module('game.classes.player')
             var _pieces = [];
             var _locations = {
                 hand: [],
-                field: []
+                field: [],
+                badges: []
             };
             var _inventory = {};
             var _badges = {};
@@ -120,11 +121,14 @@ ig.module('game.classes.player')
                     return total;
                 },
 
-                generateCardPositions: function( total, locationKey, offset ) {
+                generateCardPositions: function( total, locationKey, zone ) {
                     //positions relative to player origin
                     //mapped according to orientation
 
                     var origin = _locations.origin;
+                    var offset = zone.offset;
+                    var width = zone.size.w;
+                    console.log(width);
 
                     switch(_orientation){
 
@@ -154,16 +158,10 @@ ig.module('game.classes.player')
                             break;
                     }
 
-
-                    var width = zones.player.w;
-
                     this.createLocation(origin,locationKey);
 
                     // distribute positions along line
-                    // TODO
-                    // distribute positions along curve?
-
-                    console.log(width);
+                    // TODO distribute positions along curve?
 
                     for (var i=1;i<total;i++) {
 

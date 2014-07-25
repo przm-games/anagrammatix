@@ -17,8 +17,24 @@ ig.module('game.config')
             boardCenter: {x:(zones.board.w-(10*xSpacing))/2, y:(zones.board.h-(8*ySpacing))/2},
             playerCorner: {x:50,y:50},
             hand: {x:25,y:-50},
-            field: {x:425,y:-50}
+            field: {x:425,y:-50},
+            badges: {x:625,y:-50}
         };
+
+        ZONES = {
+            hand: {
+                size: { h:50, w:400 },
+                offset:  {x:25,y:-50}
+            },
+            field: {
+                size: { h:50, w:300 },
+                offset:  {x:425,y:-50}
+            },
+            badges: {
+                size: { h:50, w:100 },
+                offset: {x:800,y:-50}
+            }
+        }
 
         limits = {
             safeHand: 7

@@ -9,8 +9,17 @@ ig.module('game.config')
         rows = [3, 4, 5, 4, 3];
 
         offsets = {
-            playerCorner: 100,
-            resourceCards: 50
+            playerCorner: {x:50,y:50},
+            hand: {x:25,y:-50},
+            field: {x:425,y:-50}
+        };
+
+        zones = {
+            player: { h:50, w:400 }
+        }
+
+        limits = {
+            safeHand: 7
         };
 
         degrees = {

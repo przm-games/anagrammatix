@@ -255,11 +255,11 @@ ig.module(
                 _.each(this.players,function(player){
 
                     var payouts = [
-                        { player: player, count:4, type:'hills', origin:player.getLocation('origin') },
-                        { player: player, count:4, type:'mountains', origin:player.getLocation('origin') },
-                        { player: player, count:4, type:'fields', origin:player.getLocation('origin') },
-                        { player: player, count:4, type:'pasture', origin:player.getLocation('origin') },
-                        { player: player, count:4, type:'forest', origin:player.getLocation('origin') }
+                        { player: player, count:3, type:'hills', origin:player.getLocation('origin') },
+                        { player: player, count:3, type:'mountains', origin:player.getLocation('origin') },
+                        { player: player, count:3, type:'fields', origin:player.getLocation('origin') },
+                        { player: player, count:3, type:'pasture', origin:player.getLocation('origin') },
+                        { player: player, count:3, type:'forest', origin:player.getLocation('origin') }
                     ];
 
                     self.dealResourceCards(payouts);
@@ -392,20 +392,16 @@ ig.module(
                 if (playerConfig.length<=4) {
                     //starting top right, placing clockwise
                     positions = [
-                        {x:cornerOffset,y:cornerOffset},
-                        {x:boardWidth-cornerOffset,y:cornerOffset},
-                        {x:boardWidth-cornerOffset,y:boardWidth-cornerOffset},
-                        {x:cornerOffset,y:boardWidth-cornerOffset}
+                        {x:cornerOffset.x,y:cornerOffset.y},
+                        {x:boardWidth-cornerOffset.y,y:cornerOffset.x},
+                        {x:boardWidth-cornerOffset.x,y:boardWidth-cornerOffset.y},
+                        {x:cornerOffset.y,y:boardWidth-cornerOffset.x}
                     ];
 
                     orientations = [
                         0, Math.PI*3/2, Math.PI, Math.PI/2
                     ];
 
-                    limits = {
-                        baseWidth: 250,
-                        safeHand: 7
-                    };
 
                 } else if (playerConfig.length>4) {
                     //TODO
@@ -424,17 +420,17 @@ ig.module(
                     //TODO
                     // set player info: name
 
-                    player.setLimits(limits);
+                    //player.setLimits(limits);
                     player.setLocation('origin',position.x,position.y);
                     player.setEntity('base',entity);
                     player.setOrientation(orientations[n]);
                     player.setColor(playerData.color);
                     player.setName(playerData.name);
 
-                    player.generateCardPositions(25, 'hand', {x:0,y:-25});
+                    player.generateCardPositions(40, 'hand', offsets.hand );
                     player.showCardPositions('hand');
 
-                    player.generateCardPositions(10, 'field', {x:0,y:25});
+                    player.generateCardPositions(10, 'field',offsets.field );
                     player.showCardPositions('field');
 
                     self.players.push(player);

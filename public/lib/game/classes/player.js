@@ -159,7 +159,7 @@ ig.module('game.classes.player')
                     }
 
 
-                    var width = _limits.baseWidth;
+                    var width = zones.player.w;
 
                     this.createLocation(origin,locationKey);
 

@@ -11,6 +11,11 @@ ig.module('game.classes.badge')
 
         card.entity.setType(badgeType);
 
+        //OVERRIDE Card methods
+        card.reveal = function(){
+            console.log('badge reveal');
+        }
+
         return card;
     };
 

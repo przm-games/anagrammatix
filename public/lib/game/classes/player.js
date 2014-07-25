@@ -19,7 +19,8 @@ ig.module('game.classes.player')
             var _name = null;
             var _cards = {
                 hand: [],
-                field: []
+                field: [],
+                badges: []
             };
             var _pieces = [];
             var _locations = {
@@ -86,6 +87,7 @@ ig.module('game.classes.player')
 
                 addBadge: function( key, badge ){
                     _badges[key] = badge;
+                    this.receiveCards([badge],'badges');
                 },
                 removeBadge: function( key ){
                     var badge = _badges[key];

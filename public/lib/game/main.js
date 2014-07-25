@@ -338,6 +338,11 @@ ig.module(
 //                player.activateKnight(cards[0],this.robber,this.terrain[1]);
 
 
+                //test badges
+                player.addBadge('largestArmy',self.badges['largestArmy']);
+                player.addBadge('longestRoad',self.badges['longestRoad']);
+
+
                 //test year of plenty activation
 //                var cards = player.getCards('hand','development','plenty');
 //                console.log(cards);
@@ -351,12 +356,12 @@ ig.module(
 
 
                 //test trading
-                var exchanges = [
-                    {player:this.players[0],type:'wheat',quantity:2},
-                    {player:this.players[1],type:'wood',quantity:2}
-                ]
-
-                this.makeTrade(exchanges);
+//                var exchanges = [
+//                    {player:this.players[0],type:'wheat',quantity:2},
+//                    {player:this.players[1],type:'wood',quantity:2}
+//                ]
+//
+//                this.makeTrade(exchanges);
 
 //        var report = player.getAffordableActions();
 //
@@ -367,6 +372,26 @@ ig.module(
 //            //player.buildRoad();
 //        };
 
+            },
+
+            setupBank: function(){
+                //TODO total resource cards available ???
+            },
+
+            setupBadges: function( badges ){
+                var self = this;
+                console.log('setupBadges');
+
+                _.each(badges,function(badgeData,key){
+                    console.log(badgeData);
+                    console.log(key);
+                    var entity = ig.game.spawnEntity(EntityBadge, badgeData.origin.x, badgeData.origin.y);
+                    var badge = new Badge(pieceId,entity,key);
+
+                    self.badges[key]=badge;
+                });
+                //console.log(self.badges);
+                //alert('check badges');
             },
 
             checkForLargestArmy: function(){
@@ -426,25 +451,6 @@ ig.module(
 
                 b.player.receiveCards(givenA,'hand');
                 b.player.sortHand();
-            },
-
-            setupBank: function(){
-                //TODO total resource cards available ???
-            },
-
-            setupBadges: function( badges ){
-                var self = this;
-                console.log('setupBadges');
-
-                _.each(badges,function(badgeData,key){
-                    console.log(badgeData);
-                    console.log(key);
-                    var entity = ig.game.spawnEntity(EntityBadge, badgeData.origin.x, badgeData.origin.y);
-                    var badge = new Badge(pieceId,entity,key);
-
-                    self.badges[key]=badge;
-                });
-                //alert('check badges');
             },
 
             setupNewGame: function( playerConfig ) {

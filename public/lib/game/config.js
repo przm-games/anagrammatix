@@ -28,11 +28,11 @@ ig.module('game.config')
             },
             field: {
                 size: { h:50, w:300 },
-                offset:  {x:425,y:-50}
+                offset:  {x:475,y:-50}
             },
             badges: {
                 size: { h:50, w:100 },
-                offset: {x:800,y:-50}
+                offset: {x:850,y:-50}
             }
         }
 

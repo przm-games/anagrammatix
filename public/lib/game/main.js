@@ -394,48 +394,65 @@ ig.module(
                 //alert('check badges');
             },
 
-            checkForLargestArmy: function(){
-                //TODO must run after every knight activation!!!
+            checkForLargestArmy: function(){ //must run after every knight activation!!!
+
                 console.log('checkForLargestArmy');
 
                 console.log(this);
 
+                this.checkLeader('largestArmy',2,'countKnights');
+
+//                var self = this;
+//                var leader = null;
+//                var bestCount = this.leaders['largestArmy'] ? this.leaders['largestArmy'].countKnights() : 2;
+//
+//                _.each(this.players,function(player){
+//                   var count = player.countKnights();
+//                    if (count>bestCount) {
+//                       leader = player;
+//                    }
+//                });
+//
+//                if (leader!==null && self.leaders['largestArmy']!==leader){ //new leader
+//
+//                    if (this.leaders['largestArmy']){ //previous leader
+//                        this.leaders['largestArmy'].removeBadge('largestArmy')
+//                    }
+//
+//                    leader.addBadge('largestArmy',self.badges['largestArmy']);
+//                    self.leaders['largestArmy'] = leader;
+//                }
+            },
+
+            checkForLongestRoad: function(){ //TODO must run after every road built !!!
+                console.log('checkForLongestRoad');
+
+                console.log(this);
+                this.checkLeader('longestRoad',6,'countLongestRoad');
+            },
+
+            checkLeader: function(badgeKey,threshold,countFunction){
+
                 var self = this;
                 var leader = null;
-                var bestCount = this.leaders['largestArmy'] ? this.leaders['largestArmy'].countKnights() : 2;
+                var bestCount = this.leaders[badgeKey] ? this.leaders[badgeKey][countFunction]() : threshold;
 
                 _.each(this.players,function(player){
-                   var count = player.countKnights();
+                    var count = player[countFunction]();
                     if (count>bestCount) {
-                       leader = player;
+                        leader = player;
                     }
                 });
 
-                if (leader!==null && self.leaders['largestArmy']!==leader){ //new leader
+                if (leader!==null && self.leaders[badgeKey]!==leader){ //new leader
 
-                    if (this.leaders['largestArmy']){ //previous leader
-                        this.leaders['largestArmy'].removeBadge('largestArmy')
+                    if (this.leaders[badgeKey]){ //previous leader
+                        this.leaders[badgeKey].removeBadge(badgeKey)
                     }
 
-                    leader.addBadge('largestArmy',self.badges['largestArmy']);
-                    self.leaders['largestArmy'] = leader;
+                    leader.addBadge(badgeKey,self.badges[badgeKey]);
+                    self.leaders[badgeKey] = leader;
                 }
-            },
-
-            checkForLongestRoad: function(){
-
-                //find all open edges
-
-                //construct tree
-
-                //remove duplicate paths
-                //if difference.length = 0
-
-                //measure paths
-
-
-                //compare paths
-
             },
 
             makeTrade: function( exchanges ){

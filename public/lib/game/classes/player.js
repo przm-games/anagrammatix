@@ -98,6 +98,26 @@ ig.module('game.classes.player')
                 countKnights: function(){
                     return this.getCards('field','development','knight').length;
                 },
+                countLongestRoad: function(){
+                    console.log('countLongestRoad');
+
+                    var maxLength = 0;
+                    //TODO acyclic walk!!!
+
+                    //find all open edges
+
+                    //construct tree
+
+                    //remove duplicate paths
+                    //if difference.length = 0
+
+                    //measure paths
+
+
+                    //compare paths
+
+                    return maxLength;
+                },
                 countVictoryPoints: function(){
 
                     var total = 0;
@@ -504,11 +524,25 @@ ig.module('game.classes.player')
                     this.playCard(card, activation, callback);
 
                 },
-                activateRoadBuilding:  function( player, locations ){
-                    console.log('activateRoadBuilding');
-                    _.each(locations,function(location){
-                        player.buildRoad(location);
-                    });
+                activateRoadBuilding:  function( card, locations, callback ){
+                    var self = this;
+
+                    var activation = function(){
+                        console.log('activateRoadBuilding');
+                        _.each(locations,function(location){
+                            self.buildRoad(location);
+                        });
+                    }
+
+//                    callback = function(){
+//                        if (self.getPieces('road').length>=7){
+//                            callback();
+//                        }
+//                    }
+
+                    //his.playCard(card, activation, callback.bind(self));
+
+                    this.playCard(card, activation, callback);
                 },
                 activateYearOfPlenty: function( card, types, resourceGenerator ){
                     var self = this;

@@ -99,7 +99,7 @@ ig.module('game.classes.pieceLocation')
                 _links[key] = object;
             },
             getLink: function(key){
-                return _links[key];
+                return _links[key] || null;
             },
 
             addNeighbor: function(neighbor){

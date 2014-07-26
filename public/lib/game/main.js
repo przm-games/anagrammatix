@@ -187,7 +187,7 @@ ig.module(
 
                 console.log(this.players);
 
-                var player = this.players[1];
+                var player = this.players[2];
 
 
                 var boardState = {
@@ -223,6 +223,26 @@ ig.module(
                             location: this.terrain[12].getVertex(0)
                         },
                         {
+                            type: 'settlement',
+                            owner: 2,
+                            location: this.terrain[0].getVertex(5)
+                        },
+                        {
+                            type: 'settlement',
+                            owner: 2,
+                            location: this.terrain[0].getVertex(1)
+                        },
+                        {
+                            type: 'settlement',
+                            owner: 2,
+                            location: this.terrain[2].getVertex(0)
+                        },
+                        {
+                            type: 'settlement',
+                            owner: 2,
+                            location: this.terrain[6].getVertex(2)
+                        },
+                        {
                             type: 'road',
                             owner: 3,
                             location: this.terrain[17].getEdge(0)
@@ -256,6 +276,8 @@ ig.module(
                     }
                 });
 
+                //test maritime trade
+                player.updateMaritimeTrades();
 
                 //player.buildCity(player.getPieces("settlement")[0]);
 
@@ -263,8 +285,7 @@ ig.module(
 //        player.buildSettlement(terrain.getVertex(2));
 //        player.buildCity(player.getPieces("settlement")[0]);
 
-                //TODO
-                // player rolls dice
+                //TODO player rolls dice
 
 //        this.produceResources(8);
 //        this.produceResources(4);

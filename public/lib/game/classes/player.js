@@ -41,7 +41,8 @@ ig.module('game.classes.player')
                 brick: 4,
                 wood: 4,
                 sheep: 4,
-                ore: 4
+                ore: 4,
+                any: 4
             }
 
             return {
@@ -464,6 +465,8 @@ ig.module('game.classes.player')
                     this.addPiece(settlement);
 
                     location.placePiece(settlement);
+
+                    this.updateMaritimeTrades();
                 },
                 buildCity: function( location ) {
 
@@ -482,6 +485,7 @@ ig.module('game.classes.player')
 
                     //destroy settlement
                     settlement.destroy();
+                    this.updateMaritimeTrades();
                 },
 
                 playCard: function(card, activation, callback){
@@ -621,21 +625,48 @@ ig.module('game.classes.player')
                     terrain.placeRobber( robber );
                 },
 
-                updateMaritimeTrades: function( portLocations, portLocationMap ){
+                updateMaritimeTrades: function(){
+                    console.log('updateMaritimeTrades');
 
-                    //9 pairs of port locations
+                    //get locations under each settlement
+                    var locations = [];
 
-                    //update 3 any for 1
+                    _.each(this.getPieces('settlement'),function(piece){
+                        locations.push(piece.getLocation());
+                    });
+                    _.each(this.getPieces('city'),function(piece){
+                        locations.push(piece.getLocation());
+                    });
 
-
-                    //update 2 <resourceType> for 1
-
-                    var currentLocations = [];
-
-                    _.each(portLocations,function(portLocation){
+                    var tradeKeys = [];
+                    //check location has link to port
+                    _.each(locations,function(location){
+                        var harbor = location.getLink('harbor');
+                        if (harbor!==null){
+                            tradeKeys.push(harbor.class);
+                        }
 
                     });
 
+                    console.log(tradeKeys);
+
+                    //update 2 <resourceType> for 1
+                    //update 3 any for 1
+                    _.each(tradeKeys,function(key){
+
+                        switch(key){
+                            case 'wheat':
+                            case 'brick':
+                            case 'ore':
+                            case 'sheep':
+                            case 'wood':
+                                _trades[key]=2;
+                                break;
+                            case 'any':
+                                _trades[key]=3;
+                        }
+                    });
+                    console.log(_trades);
                 },
                 makeMaritimeTrade: function( givenType, receivedType, tradeRatio ){
 

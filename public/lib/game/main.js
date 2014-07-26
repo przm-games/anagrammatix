@@ -319,7 +319,8 @@ ig.module(
                 var payouts = [
                     {player:player,count:3,subClass:"knight",location:"hand"},
                     {player:player,count:1,subClass:"plenty",location:"hand"},
-                    {player:player,count:1,subClass:"monopoly",location:"hand"}
+                    {player:player,count:1,subClass:"monopoly",location:"hand"},
+                    {player:player,count:1,subClass:"road",location:"hand"}
                 ];
 
                 this.setDevelopmentCards(payouts);
@@ -331,12 +332,17 @@ ig.module(
 //        console.log(developmentCards);
 
                 // test knight activation
-                var cards = player.getCards('hand','development','knight');
-                console.log(cards);
-                player.activateKnight(cards[0],this.robber,this.terrain[1],self.checkForLargestArmy.bind(self));
-                player.activateKnight(cards[1],this.robber,this.terrain[2],self.checkForLargestArmy.bind(self));
-                player.activateKnight(cards[2],this.robber,this.terrain[3],self.checkForLargestArmy.bind(self));
+//                var cards = player.getCards('hand','development','knight');
+//                console.log(cards);
+//                player.activateKnight(cards[0],this.robber,this.terrain[1],self.checkForLargestArmy.bind(self));
+//                player.activateKnight(cards[1],this.robber,this.terrain[2],self.checkForLargestArmy.bind(self));
+//                player.activateKnight(cards[2],this.robber,this.terrain[3],self.checkForLargestArmy.bind(self));
 
+
+                //test road building
+                var cards = player.getCards('hand','development','road');
+                var locations = [this.terrain[10].getEdge(1),this.terrain[10].getEdge(2)];
+                player.activateRoadBuilding(cards[0],locations,this.checkForLongestRoad.bind(this));
 
                 //test badges
                 //player.addBadge('largestArmy',self.badges['largestArmy']);
@@ -401,27 +407,6 @@ ig.module(
                 console.log(this);
 
                 this.checkLeader('largestArmy',2,'countKnights');
-
-//                var self = this;
-//                var leader = null;
-//                var bestCount = this.leaders['largestArmy'] ? this.leaders['largestArmy'].countKnights() : 2;
-//
-//                _.each(this.players,function(player){
-//                   var count = player.countKnights();
-//                    if (count>bestCount) {
-//                       leader = player;
-//                    }
-//                });
-//
-//                if (leader!==null && self.leaders['largestArmy']!==leader){ //new leader
-//
-//                    if (this.leaders['largestArmy']){ //previous leader
-//                        this.leaders['largestArmy'].removeBadge('largestArmy')
-//                    }
-//
-//                    leader.addBadge('largestArmy',self.badges['largestArmy']);
-//                    self.leaders['largestArmy'] = leader;
-//                }
             },
 
             checkForLongestRoad: function(){ //TODO must run after every road built !!!

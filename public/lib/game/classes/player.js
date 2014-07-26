@@ -477,12 +477,12 @@ ig.module('game.classes.player')
                 playCard: function(card, activation, callback){
                     //remove card from hand
                     _cards['hand'] = _.without(_cards['hand'],card);
+                    //remove card from inventory
+                    _inventory[card.inventory] = _.without(_inventory[card.inventory],card);
+                    this.sortCards('hand');
 
                     card.setActivation(activation);
                     card.play();
-
-                    //remove card from inventory
-                    _inventory = _.without(_inventory[card.inventory],card);
 
                     //move card to field
                     this.resolveCard(card);

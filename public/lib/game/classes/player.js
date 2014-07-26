@@ -86,12 +86,16 @@ ig.module('game.classes.player')
                 setOrientation: function(orientation) {
                     _orientation = orientation;
                 },
-                setLimits: function( limitMap ){
-                    //_limits[key] = limit;
-                    _.extend( _limits, limitMap );
-                },
-                getLimit: function(key) {
-                    return _limits[key];
+//                setLimits: function( limitMap ){
+//                    //_limits[key] = limit;
+//                    _.extend( _limits, limitMap );
+//                },
+//                getLimit: function(key) {
+//                    return _limits[key];
+//                },
+
+                getTrades: function(){
+                    return _trades;
                 },
 
                 addBadge: function( key, badge ){
@@ -625,6 +629,14 @@ ig.module('game.classes.player')
                     terrain.placeRobber( robber );
                 },
 
+                stealFromPlayer: function(player) {
+                    //randomly pull card from target player
+
+                    //remove
+
+                    //add
+                },
+
                 updateMaritimeTrades: function(){
                     console.log('updateMaritimeTrades');
 
@@ -668,9 +680,7 @@ ig.module('game.classes.player')
                     });
                     console.log(_trades);
                 },
-                makeMaritimeTrade: function( givenType, receivedType, tradeRatio ){
 
-                },
                 initiateTrade: function( player ){
 
                 },

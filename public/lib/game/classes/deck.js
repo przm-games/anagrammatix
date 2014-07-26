@@ -5,38 +5,31 @@ ig.module('game.classes.deck')
     .defines(function() {
 
 
-        Deck = function( cardList, cardTypes, classes, entities, actions, type ){
+        Deck = function( cardList, cardTypes, classes, entities, type ){
 
             var _cards = [];
             var _origin = {x:0,y:0};
 
             var _classes = classes || {};
             var _entities = entities || {};
-            var _actions = actions || {};
 
             var _cardList = cardList || [];
             var _cardTypes = cardTypes || {};
             var _type = type || null;
 
-
-            //set card types
-
-            //set quantity of card type
-
-            //shuffle
-
-            //draw X cards
-
             return {
                 setOrigin: function( x, y ){
-                    _origin.x = x;
-                    _origin.y = y;
+                    console.log('setOrigin');
+                    console.log(x);
+                    console.log(y);
+                    _origin = {x:x,y:y};
+                    console.log(_origin);
                 },
                 populate: function() {
                     var self = this;
 
-                    console.log('entities:');
-                    console.log(_entities);
+//                    console.log('entities:');
+//                    console.log(_entities);
 
                     _.each(_cardList, function(quantity, key){
                         console.log(quantity);
@@ -63,15 +56,22 @@ ig.module('game.classes.deck')
                             card.entity.reveal();
                             card.entity.hide();
 
-                            console.log('new card:');
-                            console.log(_cardTypes[key].title);
+//                            console.log('new card:');
+//                            console.log(_cardTypes[key].title);
                         }
 
                     });
                     //new entityClass
                 },
+                receiveCards: function(cards){
+                    _.each(cards,this.addCard.bind(this));
+                },
                 addCard: function( card ){
+                    //console.log(_origin);
                     _cards.push(card);
+                    card.entity.pos.x = _origin.x;
+                    card.entity.pos.y = _origin.y;
+                    console.log(card.entity.pos);
                 },
 //                generateCard: function( cardGenerator, quantity ) {
 //                    for (var i=0; i<quantity; i++) {
@@ -82,8 +82,8 @@ ig.module('game.classes.deck')
                 shuffle: function( count ) {
                     for (var i=0;i<count;i++){
                         _cards = _.shuffle(_cards);
-                        console.log('shuffled cards');
-                        console.log(_cards);
+//                        console.log('shuffled cards');
+//                        console.log(_cards);
                     }
                 },
                 draw: function( quantity ) {

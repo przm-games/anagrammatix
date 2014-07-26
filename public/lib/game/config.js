@@ -2,6 +2,9 @@ ig.module('game.config')
     .defines(function() {
 
         defaultOrigin = {x:0,y:0};
+        POSITIONS = {
+            default: {x:0,y:0}
+        }
 
         xSpacing = Atlas.global.gridSpacing.x;
         ySpacing = Atlas.global.gridSpacing.y;
@@ -78,6 +81,12 @@ ig.module('game.config')
                     plenty: 2
                 },
                 origin: {x:100,y:175}
+            },
+            {
+                name: "bank",
+                type: "resource",
+                cards: null,
+                origin: {x:1000,y:1000}
             }
         ];
 

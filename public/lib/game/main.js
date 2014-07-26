@@ -103,9 +103,7 @@ ig.module(
             numberTokens: [],
             ports: [],
 
-            decks: {
-                discard: []
-            },
+            decks: {},
 
             badges: {},
 
@@ -276,8 +274,6 @@ ig.module(
                     }
                 });
 
-                //test maritime trade
-                player.updateMaritimeTrades();
 
                 //player.buildCity(player.getPieces("settlement")[0]);
 
@@ -293,19 +289,25 @@ ig.module(
 //        this.produceResources(3);
 
                 //seed player inventory
-//                _.each(this.players,function(player){
-//
-//                    var payouts = [
-//                        { player: player, count:2, type:'brick', origin:player.getLocation('origin') },
-//                        { player: player, count:2, type:'ore', origin:player.getLocation('origin') },
-//                        { player: player, count:2, type:'wheat', origin:player.getLocation('origin') },
-//                        { player: player, count:2, type:'sheep', origin:player.getLocation('origin') },
-//                        { player: player, count:2, type:'wood', origin:player.getLocation('origin') }
-//                    ];
-//
-//                    self.dealResourceCards(payouts);
-//
-//                });
+                _.each(this.players,function(player){
+
+                    var payouts = [
+                        { player: player, count:2, type:'brick', origin:player.getLocation('origin') },
+                        { player: player, count:4, type:'ore', origin:player.getLocation('origin') },
+                        { player: player, count:2, type:'wheat', origin:player.getLocation('origin') },
+                        { player: player, count:2, type:'sheep', origin:player.getLocation('origin') },
+                        { player: player, count:2, type:'wood', origin:player.getLocation('origin') }
+                    ];
+
+                    self.dealResourceCards(payouts);
+
+                });
+
+
+                //test maritime trade
+                //player.updateMaritimeTrades();
+                //this.makeMaritimeTrade(player,'brick','wheat');
+                this.makeMaritimeTrade(player,'ore','brick');
 
 
 
@@ -474,6 +476,23 @@ ig.module(
                 }
             },
 
+            makeMaritimeTrade: function( player, givenType, receivedType ){
+                console.log('makeMaritimeTrade');
+                //get ratio
+                var ratio = player.getTrades()[givenType];
+                console.log(givenType);
+                console.log(ratio);
+                console.log(receivedType);
+
+                //consume given
+                var given = player.consumeInventory(ratio,givenType);
+                this.decks['bank'].receiveCards(given);
+
+                //add received
+                var resource = this.createResourceCard(receivedType,POSITIONS.default);
+                player.receiveCards([resource],'hand');
+            },
+
             makeTrade: function( exchanges ){
 
                 var a = exchanges[0];
@@ -518,16 +537,26 @@ ig.module(
 
             setupDecks: function(decks) {
                 var self = this;
+                console.log('setupDecks');
 
                 _.each( decks, function( deckConfig ){
+
+                    var deck;
                     var cardList = deckConfig.cards;
-                    var cardTypes = library[deckConfig.type];
 
-                    var deck = new Deck( cardList, cardTypes, self.classMap, self.entityMap, self.actionMap, deckConfig.type );
-                    deck.setOrigin(deckConfig.origin.x, deckConfig.origin.y);
-                    deck.populate();
+                    console.log(deckConfig.origin);
 
-                    deck.shuffle(3);
+                    if (cardList!==null){
+                        var cardTypes = library[deckConfig.type];
+
+                        deck = new Deck( cardList, cardTypes, self.classMap, self.entityMap, deckConfig.type );
+                        deck.setOrigin(deckConfig.origin.x, deckConfig.origin.y);
+                        deck.populate();
+                        deck.shuffle(3);
+                    } else {
+                        deck = new Deck();
+                        deck.setOrigin(deckConfig.origin.x, deckConfig.origin.y);
+                    }
 
                     self.decks[deckConfig.name] = deck;
                 });

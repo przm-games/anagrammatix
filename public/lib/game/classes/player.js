@@ -311,6 +311,26 @@ ig.module('game.classes.player')
 
                     return matches;
                 },
+                getRandomCards: function(quantity,locationKey){
+
+                    var taken = [];
+                    var cardTarget = _cards[locationKey];
+
+                    for (var i=0;i<quantity;i++){
+                        var index = Math.floor(Math.random()*cardTarget.length);
+                        var card = cardTarget[index];
+
+                        this.removeCard(card,'hand');
+                        taken.push(card);
+                    }
+
+                    return taken;
+                },
+                removeCard: function(card, locationKey) {
+                    _cards[locationKey] = _.without(_cards[locationKey],card);
+                    _inventory[card.inventoryKey] = _.without(_inventory[card.inventoryKey],card);
+                    this.sortCards(locationKey);
+                },
                 resolveCard: function( card ) {
                     console.log('card.resolve');
 
@@ -631,10 +651,10 @@ ig.module('game.classes.player')
 
                 stealFromPlayer: function(player) {
                     //randomly pull card from target player
-
-                    //remove
+                    var cards = player.getRandomCards(1,'hand');
 
                     //add
+                    this.receiveCards(cards,'hand');
                 },
 
                 updateMaritimeTrades: function(){

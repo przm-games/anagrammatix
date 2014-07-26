@@ -310,6 +310,9 @@ ig.module(
                 this.makeMaritimeTrade(player,'ore','brick');
 
 
+                //test stealing
+                player.stealFromPlayer(this.players[0]);
+
 
                 //test road building
 //        var locations = player.getEligibleBuildingLocations('road');

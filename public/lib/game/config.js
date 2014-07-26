@@ -24,15 +24,15 @@ ig.module('game.config')
         ZONES = {
             hand: {
                 size: { h:50, w:400 },
-                offset:  {x:25,y:-50}
+                offset:  {x:0,y:-50}
             },
             field: {
                 size: { h:50, w:300 },
-                offset:  {x:475,y:-50}
+                offset:  {x:500,y:-50}
             },
             badges: {
                 size: { h:50, w:100 },
-                offset: {x:850,y:-50}
+                offset: {x:875,y:-50}
             }
         }
 
@@ -52,15 +52,15 @@ ig.module('game.config')
                 title: "Largest Army",
                 description: "This card goes to the player with the longest unbroken road of at least 5 segments. Another player who builds a longer roads takes this card.",
                 bonus: 2,
-                origin: {x:100,y:275}
+                origin: {x:100,y:325}
             },
             longestRoad: {
                 title: "Longest Road",
                 description: "The first player to play 3 Knight cards gets this card. Another player who plays more Knight cards takes this card.",
                 bonus: 2,
-                origin: {x:100,y:350}
+                origin: {x:100,y:400}
             }
-        }
+        };
 
         DECKS = [
             {
@@ -77,7 +77,7 @@ ig.module('game.config')
                     roadBuilding: 2,
                     plenty: 2
                 },
-                origin: {x:100,y:200}
+                origin: {x:100,y:175}
             }
         ];
 
@@ -118,7 +118,7 @@ ig.module('game.config')
                 chapel: {
                     title: "Chapel",
                     animation: "chapel",
-                    class: "autopoint",
+                    class: "chapel",
                     description: "1 Victory Point!",
                     activation: "earnVictoryPoint",
                     resolution: 'field'
@@ -126,7 +126,7 @@ ig.module('game.config')
                 palace: {
                     title: "Palace",
                     animation: "palace",
-                    class: "autopoint",
+                    class: "palace",
                     description: "1 Victory Point!",
                     activation: "earnVictoryPoint",
                     resolution: 'field'
@@ -134,7 +134,7 @@ ig.module('game.config')
                 market: {
                     title: "Market",
                     animation: "market",
-                    class: "autopoint",
+                    class: "market",
                     description: "1 Victory Point!",
                     activation: "earnVictoryPoint",
                     resolution: 'field'
@@ -142,7 +142,7 @@ ig.module('game.config')
                 library: {
                     title: "Library",
                     animation: "library",
-                    class: "autopoint",
+                    class: "library",
                     description: "1 Victory Point!",
                     activation: "earnVictoryPoint",
                     resolution: 'field'
@@ -150,7 +150,7 @@ ig.module('game.config')
                 university: {
                     title: "University",
                     animation: "university",
-                    class: "autopoint",
+                    class: "university",
                     description: "1 Victory Point!",
                     activation: "earnVictoryPoint",
                     resolution: 'field'

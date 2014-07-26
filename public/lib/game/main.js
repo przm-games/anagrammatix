@@ -318,9 +318,11 @@ ig.module(
 
                 var payouts = [
                     {player:player,count:3,subClass:"knight",location:"hand"},
-                    {player:player,count:1,subClass:"plenty",location:"hand"},
-                    {player:player,count:1,subClass:"monopoly",location:"hand"},
-                    {player:player,count:1,subClass:"road",location:"hand"}
+                    //{player:player,count:1,subClass:"plenty",location:"hand"},
+                    //{player:player,count:1,subClass:"monopoly",location:"hand"},
+                    //{player:player,count:1,subClass:"road",location:"hand"},
+                    {player:player,count:1,subClass:"chapel",location:"hand"},
+                    {player:player,count:1,subClass:"palace",location:"hand"}
                 ];
 
                 this.setDevelopmentCards(payouts);
@@ -331,18 +333,26 @@ ig.module(
 //        console.log(resourceCards);
 //        console.log(developmentCards);
 
-                // test knight activation
-//                var cards = player.getCards('hand','development','knight');
-//                console.log(cards);
-//                player.activateKnight(cards[0],this.robber,this.terrain[1],self.checkForLargestArmy.bind(self));
-//                player.activateKnight(cards[1],this.robber,this.terrain[2],self.checkForLargestArmy.bind(self));
-//                player.activateKnight(cards[2],this.robber,this.terrain[3],self.checkForLargestArmy.bind(self));
+                //test victory point cards
+                var cards = player.getCards('hand','development','chapel');
+                console.log(cards);
+                player.activateVictoryPoint(cards[0]);
 
+                // test knight activation
+                var cards = player.getCards('hand','development','knight');
+                console.log(cards);
+                player.activateKnight(cards[0],this.robber,this.terrain[1],self.checkForLargestArmy.bind(self));
+                player.activateKnight(cards[1],this.robber,this.terrain[2],self.checkForLargestArmy.bind(self));
+                player.activateKnight(cards[2],this.robber,this.terrain[3],self.checkForLargestArmy.bind(self));
+
+
+                var points = player.countVictoryPoints();
+                console.log(points);
 
                 //test road building
-                var cards = player.getCards('hand','development','road');
-                var locations = [this.terrain[10].getEdge(1),this.terrain[10].getEdge(2)];
-                player.activateRoadBuilding(cards[0],locations,this.checkForLongestRoad.bind(this));
+//                var cards = player.getCards('hand','development','road');
+//                var locations = [this.terrain[10].getEdge(1),this.terrain[10].getEdge(2)];
+//                player.activateRoadBuilding(cards[0],locations,this.checkForLongestRoad.bind(this));
 
                 //test badges
                 //player.addBadge('largestArmy',self.badges['largestArmy']);

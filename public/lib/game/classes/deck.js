@@ -59,8 +59,7 @@ ig.module('game.classes.deck')
 
                             _cards.push(card);
 
-                            //TODO
-                            //animate card going into deck
+                            //TODO animate card going into deck
                             card.entity.reveal();
                             card.entity.hide();
 

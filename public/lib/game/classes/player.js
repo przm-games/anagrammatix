@@ -119,14 +119,18 @@ ig.module('game.classes.player')
                     return maxLength;
                 },
                 countVictoryPoints: function(){
-
+                    console.log('countVictoryPoints');
                     var total = 0;
-
 
                     total+=this.getPieces('settlement').length; //count settlements
                     total+=2*this.getPieces('city').length; //count cities
 
-                    total+=this.getCards('field','development','autopoint').length;
+                    //count victory point cards
+                    total+=this.getCards('field','development','chapel').length;
+                    total+=this.getCards('field','development','palace').length;
+                    total+=this.getCards('field','development','market').length;
+                    total+=this.getCards('field','development','library').length;
+                    total+=this.getCards('field','development','university').length;
 
                     //count badges
                     _.each(_badges,function(badge,key){
@@ -137,9 +141,7 @@ ig.module('game.classes.player')
                                 break;
                         }
                     });
-                    //longest road
-                    //largest army
-                    //single victory point cards
+
                     return total;
                 },
 
@@ -488,7 +490,9 @@ ig.module('game.classes.player')
                     this.resolveCard(card);
 
                     //return control to Game
-                    callback();
+                    if (callback) {
+                        callback();
+                    }
                 },
 
                 buyDevelopmentCard: function( developmentCardDeck ) {
@@ -595,10 +599,13 @@ ig.module('game.classes.player')
 
                     this.playCard(card, activation);
                 },
-                earnVictoryPoint: function( card ){
+                activateVictoryPoint: function( card ){
 
+                    var activation = function(){
+                        console.log('victory point animation');
+                    }
 
-                    //check victory points
+                    this.playCard(card, activation);
                 },
 
 

@@ -482,7 +482,7 @@ ig.module(
             makeMaritimeTrade: function( player, givenType, receivedType ){
                 console.log('makeMaritimeTrade');
                 //get ratio
-                var ratio = player.getTrades()[givenType];
+                var ratio = Math.min(player.getTrades()[givenType],player.getTrades()['any']);
                 console.log(givenType);
                 console.log(ratio);
                 console.log(receivedType);
@@ -647,9 +647,6 @@ ig.module(
                         payouts = payouts.concat(terrain.generateResources());
                     }
                 });
-
-                //console.log(payouts);
-                //alert('payouts on '+dieValue);
 
                 this.dealResourceCards(payouts);
             },

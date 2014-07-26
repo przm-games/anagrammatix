@@ -81,6 +81,47 @@ ig.module('game.config')
             }
         ];
 
+        //4 player setup
+        //---------------------------------------------------
+        //i = terrainIndex, e = outer edges
+
+        EDGE_MAP = [
+            {i:0,e:[4,5,0]},
+            {i:1,e:[5,0]},
+            {i:2,e:[5,0,1]},
+            {i:6,e:[0,1]},
+            {i:11,e:[0,1,2]},
+            {i:15,e:[1,2]},
+            {i:18,e:[1,2,3]},
+            {i:17,e:[2,3]},
+            {i:16,e:[2,3,4]},
+            {i:12,e:[3,4]},
+            {i:7,e:[3,4,5]},
+            {i:3,e:[4,5]}
+        ];
+
+        TERRAIN_MAP = {
+            desert: 1,
+            hills: 3,
+            mountains: 3,
+            fields: 4,
+            pasture: 4,
+            forest: 4
+        };
+
+        //9 ports
+        //# of edges between ports
+        //2,2,3,2,2,3,2,2,3
+        HARBOR_EDGE_INDEX = [0,3,6,10,13,16,20,23,26];
+
+        PORT_LIST = ['brick','sheep','ore','wheat','wood','any','any','any','any'];
+
+        NUMBER_TOKENS = [5,2,6,3,8,10,9,12,11,4,8,10,9,4,5,6,3,11];
+
+        //5-6 player setup
+        //---------------------------------------------------
+        //NUMBER_TOKENS = [2,5,4,6,3,9,8,11,11,10,6,3,8,4,8,10,11,12,10,5,4,9,5,9,12,3,2,6];
+
         library = {
             development: {
                 knight: {

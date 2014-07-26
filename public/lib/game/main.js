@@ -469,16 +469,16 @@ ig.module(
 
             setupNewGame: function( playerConfig ) {
 
-                this.setupTerrain();
+                this.setupTerrain(TERRAIN_MAP);
                 this.placeTerrain(this.origins);
 
-                this.setupNumberTokens();
+                this.setupNumberTokens(NUMBER_TOKENS);
                 this.placeNumberTokens(this.origins);
 
                 this.setupLocations(this.origins);
 
-                this.setupPorts();
-                this.placePorts();
+                this.setupPorts(PORT_LIST, HARBOR_EDGE_INDEX);
+                this.placePorts(EDGE_MAP);
 
                 this.setupPlayers(gameState.players);
 
@@ -543,8 +543,7 @@ ig.module(
                     var entity = ig.game.spawnEntity(PlayerMarker, position.x, position.y);
                     entity.setIdentifier(playerData.color);
 
-                    //TODO
-                    // set player info: name
+                    //TODO set player info: name
 
                     //player.setLimits(limits);
                     player.setLocation('origin',position.x,position.y);
@@ -652,54 +651,24 @@ ig.module(
                 return resourceCard;
             },
 
-            setupPorts: function() {
-                var self = this;
-
-                spawnPort('brick');
-                spawnPort('sheep');
-                spawnPort('ore');
-                spawnPort('wheat');
-                spawnPort('wood');
-                spawnPort('any');
-                spawnPort('any');
-                spawnPort('any');
-                spawnPort('any');
-
-                function spawnPort(type) {
-                    var entity = ig.game.spawnEntity(EntityPort, defaultOrigin.x, defaultOrigin.y);
-                    var pieceId = 0;
-                    var port = new Piece("port",pieceId,entity);
-                    port.entity.setResourceType(type);
-
-                    self.ports.push(port);
-                }
+            setupPorts: function(portList) {
+                _.each(portList,this.spawnPort.bind(this));
             },
+            spawnPort: function(type) {
+                var entity = ig.game.spawnEntity(EntityPort, defaultOrigin.x, defaultOrigin.y);
+                var pieceId = 0;
+                var port = new Piece("port",pieceId,entity);
+                port.entity.setResourceType(type);
 
-            placePorts: function() {
+                this.ports.push(port);
+            },
+            placePorts: function(edgeMap,portEdgeIndex) {
                 var self = this;
 
                 //create ordered list of outer edges
-
-                //4 player
-                //i = terrainIndex, e = outer edges
-                var allEdges = [
-                    {i:0,e:[4,5,0]},
-                    {i:1,e:[5,0]},
-                    {i:2,e:[5,0,1]},
-                    {i:6,e:[0,1]},
-                    {i:11,e:[0,1,2]},
-                    {i:15,e:[1,2]},
-                    {i:18,e:[1,2,3]},
-                    {i:17,e:[2,3]},
-                    {i:16,e:[2,3,4]},
-                    {i:12,e:[3,4]},
-                    {i:7,e:[3,4,5]},
-                    {i:3,e:[4,5]}
-                ];
-
                 var outerEdges = [];
 
-                _.each(allEdges,function(edgeList){
+                _.each(edgeMap,function(edgeList){
                     var terrain = self.terrain[edgeList.i];
 
                     _.each(edgeList.e,function(edgeIndex){
@@ -707,40 +676,25 @@ ig.module(
                     });
                 });
 
-                //console.log('outer edges:');
-                //console.log(outerEdges);
-
-                //9 ports
-                //# of edges between ports
-                //2,2,3,2,2,3,2,2,3
-                var portEdgeIndex = [0,3,6,10,13,16,20,23,26];
-
                 var portEdges = [];
 
                 _.each(portEdgeIndex,function(edgeIndex){
                     portEdges.push(outerEdges[edgeIndex]);
                 });
 
-                //console.log('port edges:');
-                //console.log(portEdges);
-
                 //shuffle ports
                 self.ports = _.shuffle(self.ports);
 
                 _.each(portEdges,function(location,index){
-                    location.show();
+                    //location.show();
 
                     //rotate port entity to line up with edge
-                    var egdePosition = location.getIndex();
-
-                    console.log('location index:');
-                    console.log(egdePosition);
-
+                    var edgePosition = location.getIndex();
                     var port = self.ports[index];
 
                     port.entity.pos.x = location.position.x;
                     port.entity.pos.y = location.position.y;
-                    port.entity.alignToEdge(egdePosition);
+                    port.entity.alignToEdge(edgePosition);
 
                     var neighbors = location.getNeighbors();
                     _.each(neighbors,function(neighbor){
@@ -749,16 +703,10 @@ ig.module(
                 });
             },
 
-            setupNumberTokens: function() {
-                //4 player
-                var numberOrder = [5,2,6,3,8,10,9,12,11,4,8,10,9,4,5,6,3,11];
-
-                //5-6 player
-                //var tokenOrder = [2,5,4,6,3,9,8,11,11,10,6,3,8,4,8,10,11,12,10,5,4,9,5,9,12,3,2,6];
-
+            setupNumberTokens: function(numberTokens) {
                 // generate numberToken entities
-                for (var i=0;i<numberOrder.length;i++) {
-                    var numberToken = ig.game.spawnEntity(EntityResourceCounter, 100+40*i, 200, {number:numberOrder[i]});
+                for (var i=0;i<numberTokens.length;i++) {
+                    var numberToken = ig.game.spawnEntity(EntityResourceCounter, 100+40*i, 200, {number:numberTokens[i]});
                     //this.numberTokens.push(numberToken);
                 }
 
@@ -928,7 +876,7 @@ ig.module(
 
             },
 
-            setupTerrain: function() {
+            setupTerrain: function(terrainMap) {
                 var self = this;
 
                 var origin = {x:offsets.boardCenter.x+3*xSpacing,y:offsets.boardCenter.y+xSpacing};
@@ -948,63 +896,8 @@ ig.module(
                     origin = {x:newX,y:newY};
                 });
 
+                _.each(terrainMap,this.spawnTerrain.bind(this));
 
-                generateTerrain();
-
-
-                function generateTerrain() {
-
-                    spawnTerrain("desert",1);
-                    spawnTerrain("hills",3);
-                    spawnTerrain("mountains",3);
-                    spawnTerrain("fields",4);
-                    spawnTerrain("pasture",4);
-                    spawnTerrain("forest",4);
-                }
-
-                function spawnTerrain(type,count) {
-                    for (var i=0;i<count;i++) {
-                        //ig.log(type);
-
-                        var terrainClass;
-
-                        switch(type) {
-                            case "desert":
-                                terrainClass = EntityTerrainDesert;
-                                break;
-                            case "hills":
-                                terrainClass = EntityTerrainHills;
-                                break;
-                            case "mountains":
-                                terrainClass = EntityTerrainMountains;
-                                break;
-                            case "fields":
-                                terrainClass = EntityTerrainFields;
-                                break;
-                            case "pasture":
-                                terrainClass = EntityTerrainPasture;
-                                break;
-                            case "forest":
-                                terrainClass = EntityTerrainForest;
-                                break;
-                        }
-
-
-                        var entity = ig.game.spawnEntity(terrainClass, defaultOrigin.x, defaultOrigin.y);
-
-                        // new Terrain model
-                        var terrain = new Terrain(i,type,entity);
-
-                        // cache desert tile for other setup
-                        if (type=="desert") {
-                            self.desert = terrain;
-                            console.log('desert tile!');
-                            console.log(terrain);
-                        }
-
-                        self.terrain.push(terrain);
-                    }
-                }
 
                 function generateTerrainOrigins(rowOrigin,rowLength){
 
@@ -1017,6 +910,51 @@ ig.module(
                     return origins;
                 }
 
+            },
+
+            spawnTerrain: function (count,type) {
+                var self = this;
+
+                for (var i=0;i<count;i++) {
+
+                    var terrainClass;
+
+                    switch(type) {
+                        case "desert":
+                            terrainClass = EntityTerrainDesert;
+                            break;
+                        case "hills":
+                            terrainClass = EntityTerrainHills;
+                            break;
+                        case "mountains":
+                            terrainClass = EntityTerrainMountains;
+                            break;
+                        case "fields":
+                            terrainClass = EntityTerrainFields;
+                            break;
+                        case "pasture":
+                            terrainClass = EntityTerrainPasture;
+                            break;
+                        case "forest":
+                            terrainClass = EntityTerrainForest;
+                            break;
+                    }
+
+
+                    var entity = ig.game.spawnEntity(terrainClass, defaultOrigin.x, defaultOrigin.y);
+
+                    // new Terrain model
+                    var terrain = new Terrain(i,type,entity);
+
+                    // cache desert tile for other setup
+                    if (type=="desert") {
+                        self.desert = terrain;
+                        console.log('desert tile!');
+                        console.log(terrain);
+                    }
+
+                    self.terrain.push(terrain);
+                }
             },
 
             placeTerrain: function(origins) {

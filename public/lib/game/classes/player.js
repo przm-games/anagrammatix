@@ -36,6 +36,14 @@ ig.module('game.classes.player')
             var _orientation = 0;
             var _limits = {};
 
+            var _trades = {
+                wheat: 4,
+                brick: 4,
+                wood: 4,
+                sheep: 4,
+                ore: 4
+            }
+
             return {
 
                 roll: function( dice ){
@@ -613,6 +621,25 @@ ig.module('game.classes.player')
                     terrain.placeRobber( robber );
                 },
 
+                updateMaritimeTrades: function( portLocations, portLocationMap ){
+
+                    //9 pairs of port locations
+
+                    //update 3 any for 1
+
+
+                    //update 2 <resourceType> for 1
+
+                    var currentLocations = [];
+
+                    _.each(portLocations,function(portLocation){
+
+                    });
+
+                },
+                makeMaritimeTrade: function( givenType, receivedType, tradeRatio ){
+
+                },
                 initiateTrade: function( player ){
 
                 },

@@ -15,6 +15,8 @@ ig.module('game.classes.pieceLocation')
 
         var _orientation = 0;
 
+        var _links = {};
+
         return {
             id: _id,
             type: _type,
@@ -91,6 +93,13 @@ ig.module('game.classes.pieceLocation')
             },
             getOwners: function(){
                 return _owners;
+            },
+
+            addLink: function(key,object){
+                _links[key] = object;
+            },
+            getLink: function(key){
+                return _links[key];
             },
 
             addNeighbor: function(neighbor){

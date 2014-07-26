@@ -27,6 +27,7 @@ ig.module('game.entities.port')
             this.currentAnim.angle = angle;
         },
         setResourceType: function(type) {
+            console.log(type);
             this.currentAnim = this.anims[type];
         },
         alignToEdge: function(edgeIndex) {

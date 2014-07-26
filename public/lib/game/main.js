@@ -34,6 +34,7 @@ ig.module(
         'game.classes.resourceCard',
         'game.classes.developmentCard',
         'game.classes.badge',
+        'game.classes.harbor',
         'game.classes.pieceLocation',
         'game.classes.player',
         'game.classes.deck',
@@ -121,6 +122,25 @@ ig.module(
                 // Initialize your game here; bind keys etc.
 
 
+            },
+
+            update: function() {
+                // Update all entities and backgroundMaps
+                this.parent();
+
+                // Add your own, additional update code here
+            },
+
+            draw: function() {
+                // Draw all entities and backgroundMaps
+                this.parent();
+
+
+                // Add your own drawing code here
+                var x = ig.system.width/2,
+                    y = ig.system.height/2;
+
+                this.font.draw( 'It Works!', x, y, ig.Font.ALIGN.CENTER );
             },
 
             startGame: function() {
@@ -216,11 +236,7 @@ ig.module(
                 };
 
 
-                var location = this.desert.getOrigin();
-                var entity = ig.game.spawnEntity(EntityRobber, location.x, location.y);
-                var robber = new Robber(pieceId,entity);
 
-                this.robber = robber;
 
                 //player.moveRobber(this.robber,this.terrain[5]);
 
@@ -228,7 +244,6 @@ ig.module(
                 //player.buildRoad(terrain.getEdge(0));
 
                 _.each(boardState.pieces,function(piece){
-
                     var player = self.players[piece.owner];
 
                     switch(piece.type){
@@ -239,8 +254,6 @@ ig.module(
                             player.buildSettlement(piece.location);
                             break;
                     }
-
-
                 });
 
 
@@ -259,19 +272,19 @@ ig.module(
 //        this.produceResources(3);
 
                 //seed player inventory
-                _.each(this.players,function(player){
-
-                    var payouts = [
-                        { player: player, count:2, type:'brick', origin:player.getLocation('origin') },
-                        { player: player, count:2, type:'ore', origin:player.getLocation('origin') },
-                        { player: player, count:2, type:'wheat', origin:player.getLocation('origin') },
-                        { player: player, count:2, type:'sheep', origin:player.getLocation('origin') },
-                        { player: player, count:2, type:'wood', origin:player.getLocation('origin') }
-                    ];
-
-                    self.dealResourceCards(payouts);
-
-                });
+//                _.each(this.players,function(player){
+//
+//                    var payouts = [
+//                        { player: player, count:2, type:'brick', origin:player.getLocation('origin') },
+//                        { player: player, count:2, type:'ore', origin:player.getLocation('origin') },
+//                        { player: player, count:2, type:'wheat', origin:player.getLocation('origin') },
+//                        { player: player, count:2, type:'sheep', origin:player.getLocation('origin') },
+//                        { player: player, count:2, type:'wood', origin:player.getLocation('origin') }
+//                    ];
+//
+//                    self.dealResourceCards(payouts);
+//
+//                });
 
 
 
@@ -284,25 +297,19 @@ ig.module(
 //           player.buildRoad(location);
 //        });
 
-                console.log(player.getPieces('road').length);
-
-                //test settlement building
-                //var location = terrain.getVertex(0);
-                locations = player.getEligibleBuildingLocations('settlement');
-                console.log('getEligibleBuildingLocations for settlement');
-                console.log(locations.length);
-                console.log(locations);
-
-                _.each(locations,function(location){
-                    player.buildSettlement(location);
-                });
-
-                console.log(player.getPieces('settlement').length);
-
-                var points = player.countVictoryPoints();
-                console.log('points:');
-                console.log(points);
-
+//                console.log(player.getPieces('road').length);
+//
+//                //test settlement building
+//                locations = player.getEligibleBuildingLocations('settlement');
+//                console.log('getEligibleBuildingLocations for settlement');
+//                console.log(locations.length);
+//                console.log(locations);
+//
+//                _.each(locations,function(location){
+//                    player.buildSettlement(location);
+//                });
+//
+//                console.log(player.getPieces('settlement').length);
 
 
                 //test degrees of separation
@@ -316,16 +323,16 @@ ig.module(
                 //test development cards
                 //this.dealDevelopmentCards(1,player);
 
-                var payouts = [
-                    {player:player,count:3,subClass:"knight",location:"hand"},
-                    //{player:player,count:1,subClass:"plenty",location:"hand"},
-                    //{player:player,count:1,subClass:"monopoly",location:"hand"},
-                    //{player:player,count:1,subClass:"road",location:"hand"},
-                    {player:player,count:1,subClass:"chapel",location:"hand"},
-                    {player:player,count:1,subClass:"palace",location:"hand"}
-                ];
-
-                this.setDevelopmentCards(payouts);
+//                var payouts = [
+//                    {player:player,count:3,subClass:"knight",location:"hand"},
+//                    //{player:player,count:1,subClass:"plenty",location:"hand"},
+//                    //{player:player,count:1,subClass:"monopoly",location:"hand"},
+//                    //{player:player,count:1,subClass:"road",location:"hand"},
+//                    {player:player,count:1,subClass:"chapel",location:"hand"},
+//                    {player:player,count:1,subClass:"palace",location:"hand"}
+//                ];
+//
+//                this.setDevelopmentCards(payouts);
 
 //        console.log('check player cards');
 //        var resourceCards = player.getCards('hand','resource');
@@ -334,20 +341,20 @@ ig.module(
 //        console.log(developmentCards);
 
                 //test victory point cards
-                var cards = player.getCards('hand','development','chapel');
-                console.log(cards);
-                player.activateVictoryPoint(cards[0]);
-
-                // test knight activation
-                var cards = player.getCards('hand','development','knight');
-                console.log(cards);
-                player.activateKnight(cards[0],this.robber,this.terrain[1],self.checkForLargestArmy.bind(self));
-                player.activateKnight(cards[1],this.robber,this.terrain[2],self.checkForLargestArmy.bind(self));
-                player.activateKnight(cards[2],this.robber,this.terrain[3],self.checkForLargestArmy.bind(self));
-
-
-                var points = player.countVictoryPoints();
-                console.log(points);
+//                var cards = player.getCards('hand','development','chapel');
+//                console.log(cards);
+//                player.activateVictoryPoint(cards[0]);
+//
+//                // test knight activation
+//                var cards = player.getCards('hand','development','knight');
+//                console.log(cards);
+//                player.activateKnight(cards[0],this.robber,this.terrain[1],self.checkForLargestArmy.bind(self));
+//                player.activateKnight(cards[1],this.robber,this.terrain[2],self.checkForLargestArmy.bind(self));
+//                player.activateKnight(cards[2],this.robber,this.terrain[3],self.checkForLargestArmy.bind(self));
+//
+//
+//                var points = player.countVictoryPoints();
+//                console.log(points);
 
                 //test road building
 //                var cards = player.getCards('hand','development','road');
@@ -411,17 +418,13 @@ ig.module(
             },
 
             checkForLargestArmy: function(){ //must run after every knight activation!!!
-
                 console.log('checkForLargestArmy');
-
                 console.log(this);
-
                 this.checkLeader('largestArmy',2,'countKnights');
             },
 
             checkForLongestRoad: function(){ //TODO must run after every road built !!!
                 console.log('checkForLongestRoad');
-
                 console.log(this);
                 this.checkLeader('longestRoad',6,'countLongestRoad');
             },
@@ -477,13 +480,19 @@ ig.module(
 
                 this.setupLocations(this.origins);
 
-                this.setupPorts(PORT_LIST, HARBOR_EDGE_INDEX);
-                this.placePorts(EDGE_MAP);
+                this.setupPorts(PORT_LIST);
+                this.placePorts(EDGE_MAP, HARBOR_EDGE_INDEX);
 
                 this.setupPlayers(gameState.players);
 
                 this.setupDecks(DECKS);
                 this.setupBadges(BADGES);
+
+                var location = this.desert.getOrigin();
+                var entity = ig.game.spawnEntity(EntityRobber, location.x, location.y);
+                var robber = new Robber(pieceId,entity);
+
+                this.robber = robber;
             },
 
             setupDecks: function(decks) {
@@ -654,15 +663,15 @@ ig.module(
             setupPorts: function(portList) {
                 _.each(portList,this.spawnPort.bind(this));
             },
-            spawnPort: function(type) {
+            spawnPort: function(resourceType) {
+
                 var entity = ig.game.spawnEntity(EntityPort, defaultOrigin.x, defaultOrigin.y);
-                var pieceId = 0;
-                var port = new Piece("port",pieceId,entity);
-                port.entity.setResourceType(type);
+                var port = new Harbor(pieceId,entity,resourceType);
 
                 this.ports.push(port);
             },
             placePorts: function(edgeMap,portEdgeIndex) {
+                console.log('placePorts');
                 var self = this;
 
                 //create ordered list of outer edges
@@ -687,19 +696,8 @@ ig.module(
 
                 _.each(portEdges,function(location,index){
                     //location.show();
-
-                    //rotate port entity to line up with edge
-                    var edgePosition = location.getIndex();
                     var port = self.ports[index];
-
-                    port.entity.pos.x = location.position.x;
-                    port.entity.pos.y = location.position.y;
-                    port.entity.alignToEdge(edgePosition);
-
-                    var neighbors = location.getNeighbors();
-                    _.each(neighbors,function(neighbor){
-                        neighbor.show();
-                    });
+                    port.setEdge(location);
                 });
             },
 
@@ -731,25 +729,6 @@ ig.module(
                     var numberToken = numberTokens[orderIndex];
                     self.terrain[terrainIndex].placeNumberToken(numberToken);
                 });
-            },
-
-            update: function() {
-                // Update all entities and backgroundMaps
-                this.parent();
-
-                // Add your own, additional update code here
-            },
-
-            draw: function() {
-                // Draw all entities and backgroundMaps
-                this.parent();
-
-
-                // Add your own drawing code here
-                var x = ig.system.width/2,
-                    y = ig.system.height/2;
-
-                this.font.draw( 'It Works!', x, y, ig.Font.ALIGN.CENTER );
             },
 
             setupLocations: function() {

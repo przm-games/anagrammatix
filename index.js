@@ -8,7 +8,7 @@ var path = require('path');
 var app = express();
 
 // Import the Anagrammatix game file.
-var server = require('./agxgame');
+var gameServer = require('./server.js');
 
 // Create a simple Express application
 app.configure(function() {
@@ -20,10 +20,10 @@ app.configure(function() {
 });
 
 // Create a Node.js based http server on port 7070
-var server = require('http').createServer(app).listen(7070);
+var webServer = require('http').createServer(app).listen(7070);
 
 // Create a Socket.IO server and attach it to the http server
-var io = require('socket.io').listen(server);
+var io = require('socket.io').listen(webServer);
 
 // Reduce the logging output of Socket.IO
 io.set('log level',1);
@@ -31,7 +31,7 @@ io.set('log level',1);
 // Listen for Socket.IO Connections. Once connected, start the game logic.
 io.sockets.on('connection', function (socket) {
     //console.log('client connected');
-    server.initGame(io, socket);
+    gameServer.initGame(io, socket);
 });
 
 

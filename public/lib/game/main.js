@@ -115,7 +115,7 @@ ig.module(
             players: [],
 
             leaders: {}, //for largest army and longest road
-
+//IMPACT JS OVERRIDES
             init: function() {
                 // Initialize your game here; bind keys etc.
 
@@ -133,7 +133,7 @@ ig.module(
                 // Draw all entities and backgroundMaps
                 this.parent();
             },
-
+//CUSTOM FUNCTIONS
             startGame: function() {
 
             },

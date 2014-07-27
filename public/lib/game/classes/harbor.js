@@ -23,7 +23,7 @@ ig.module('game.classes.harbor')
 
             piece.locations = location.getNeighbors();
             _.each(piece.locations,function(location){
-                location.show();
+                //location.show();
                 location.addLink('harbor',piece);
             });
         }

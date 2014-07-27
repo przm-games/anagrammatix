@@ -117,7 +117,7 @@ ig.module('game.classes.player')
                     var maxLength = 0;
                     //TODO acyclic walk!!!
 
-                    //find all open edges
+                    //find all open edges, roads without neighbors
 
                     //construct tree
 

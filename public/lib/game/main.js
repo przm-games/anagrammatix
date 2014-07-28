@@ -98,23 +98,29 @@ ig.module(
             origins: [],
             locationOrigins: [],
 
+            configuration: {
+                players: {
+                    positions: [],
+                    orientations: []
+                }
+            }, //player positions
+
+            players: [],
+
             locations: [],
             terrain: [],
             numberTokens: [],
             ports: [],
 
             decks: {},
-
             badges: {},
-
             bank: {},
 
             desert: null,
             robber: null,
 
-            players: [],
-
             leaders: {}, //for largest army and longest road
+
 //IMPACT JS OVERRIDES
             init: function() {
                 // Initialize your game here; bind keys etc.
@@ -151,6 +157,41 @@ ig.module(
                 //for each player
                 //cache pieces
                 //cache inventory
+
+            },
+
+            addPlayer: function( playerData ){
+                var self = this;
+
+                //_.each(playerConfig,function(playerData,n){
+                var n = self.players.length;
+
+                var player = new Player(n);
+                var position = self.configuration.players.positions[n];
+
+                var entity = ig.game.spawnEntity(PlayerMarker, position.x, position.y);
+                entity.setIdentifier(playerData.color);
+
+                console.log('addPlayer');
+                console.log(playerData);
+
+                //player.setLimits(limits);
+                player.setLocation('origin',position.x,position.y);
+                player.setEntity('base',entity);
+                player.setOrientation(self.configuration.players.orientations[n]);
+                player.setColor(playerData.color);
+                player.setName(playerData.name);
+
+                player.generateCardPositions(16, 'hand', ZONES.hand );
+                player.showCardPositions('hand');
+
+                player.generateCardPositions(8, 'field',ZONES.field );
+                player.showCardPositions('field');
+
+                player.generateCardPositions(2, 'badges',ZONES.badges );
+                player.showCardPositions('badges');
+
+                self.players.push(player);
 
             },
 
@@ -283,6 +324,8 @@ ig.module(
                 this.setupDecks(DECKS);
                 this.setupBadges(BADGES);
 
+                this.setupPlayers({playerCount:4});
+
                 var location = this.desert.getOrigin();
                 var entity = ig.game.spawnEntity(EntityRobber, location.x, location.y);
                 var robber = new Robber(pieceId,entity);
@@ -318,7 +361,7 @@ ig.module(
 
             },
 
-            setupPlayers: function(playerConfig) {
+            setupPlayers: function( gameConfig ) {
                 var self = this;
 
                 console.log(playerConfig.length);
@@ -326,19 +369,19 @@ ig.module(
 
                 //1 position at each of 4 corners
                 var cornerOffset = offsets.playerCorner;
-                var positions = [];
-                var orientations = [];
+                //var positions = [];
+                //var orientations = [];
 
-                if (playerConfig.length<=4) {
+                if (gameConfig.playerCount<=4) {
                     //starting top right, placing clockwise
-                    positions = [
+                    self.configuration.players.positions = [
                         {x:cornerOffset.x,y:cornerOffset.y},
                         {x:zones.board.w-cornerOffset.y,y:cornerOffset.x},
                         {x:zones.board.w-cornerOffset.x,y:zones.board.w-cornerOffset.y},
                         {x:cornerOffset.y,y:zones.board.w-cornerOffset.x}
                     ];
 
-                    orientations = [
+                    self.configuration.players.orientations = [
                         Math.PI, Math.PI*3/2, 0, Math.PI/2
                     ];
 
@@ -349,43 +392,34 @@ ig.module(
                 }
 
 
-                _.each(playerConfig,function(playerData,n){
-
-                    var player = new Player(n);
-                    var position = positions[n];
-
-                    var entity = ig.game.spawnEntity(PlayerMarker, position.x, position.y);
-                    entity.setIdentifier(playerData.color);
-
-                    //TODO set player info: name
-
-                    //player.setLimits(limits);
-                    player.setLocation('origin',position.x,position.y);
-                    player.setEntity('base',entity);
-                    player.setOrientation(orientations[n]);
-                    player.setColor(playerData.color);
-                    player.setName(playerData.name);
-
-                    player.generateCardPositions(16, 'hand', ZONES.hand );
-                    player.showCardPositions('hand');
-
-                    player.generateCardPositions(8, 'field',ZONES.field );
-                    player.showCardPositions('field');
-
-                    player.generateCardPositions(2, 'badges',ZONES.badges );
-                    player.showCardPositions('badges');
-
-                    self.players.push(player);
-
-                    //TODO
-                    //setup pieces
-
-
-                    //TODO
-                    //setup inventory
-                });
-
-
+//                _.each(playerConfig,function(playerData,n){
+//
+//                    var player = new Player(n);
+//                    var position = positions[n];
+//
+//                    var entity = ig.game.spawnEntity(PlayerMarker, position.x, position.y);
+//                    entity.setIdentifier(playerData.color);
+//
+//                    //TODO set player info: name
+//
+//                    //player.setLimits(limits);
+//                    player.setLocation('origin',position.x,position.y);
+//                    player.setEntity('base',entity);
+//                    player.setOrientation(orientations[n]);
+//                    player.setColor(playerData.color);
+//                    player.setName(playerData.name);
+//
+//                    player.generateCardPositions(16, 'hand', ZONES.hand );
+//                    player.showCardPositions('hand');
+//
+//                    player.generateCardPositions(8, 'field',ZONES.field );
+//                    player.showCardPositions('field');
+//
+//                    player.generateCardPositions(2, 'badges',ZONES.badges );
+//                    player.showCardPositions('badges');
+//
+//                    self.players.push(player);
+//                });
             },
 
             produceResources: function( dieValue ) {
